@@ -1,0 +1,22 @@
+@using System.Xml
+@using OpenTabletDriver.Web.Core.Contracts
+@using OpenTabletDriver.Web.Utilities
+@model OpenTabletDriver.Web.Core.Contracts.IRelease
+
+@{
+    string id = UniqueIdentifierGenerator.RandomString(6);
+}
+
+<div class="card">
+    <btn class="card-header text-center py-3 bg-light"
+         data-toggle="collapse" data-target="#@(id)"
+         aria-expanded="false" aria-controls="@(id)">
+        <h4 class="my-0 fw-normal align-middle">OpenTabletDriver @Model.Tag</h4>
+    </btn>
+    <div class="card-body">
+        <div class="collapse" id="@(id)">
+            @Html.Raw(Markdown.ToHtml(Model.Body))
+            @* <partial name="Release/_ReleaseAssetList" model="await Model.GetReleaseAssets()"/> *@
+        </div>
+    </div>
+</div>

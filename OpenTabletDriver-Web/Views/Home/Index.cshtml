@@ -1,0 +1,32 @@
+﻿@using OpenTabletDriver.Web.Core.Contracts
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@model IEnumerable<IRelease>
+
+<div class="container">
+
+    <div class="row row-cols-2 row-cols-md-2">
+        <div class="col p-2">
+            @{
+                var primaryRelease = Model.First();
+            }
+            <partial name="Release/_SmallCardPrimary" model="@primaryRelease"/>
+        </div>
+        @foreach (IRelease release in Model.Take(3).Skip(1))
+        {
+            <div class="col p-2">
+                <partial name="Release/_SmallCard" model="@release"/>
+            </div>
+        }
+    </div>
+    <div class="pt-2">
+        <partial name="Release/_ReleaseAssetList" model="@await primaryRelease.GetReleaseAssets()"/>
+    </div>
+
+    @* <div class="text-center"> *@
+    @*     <img src="~/images/opentabletdriver-gui-gnome40.png" width="50%"/> *@
+    @* </div> *@
+</div>

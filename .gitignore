@@ -1,0 +1,12 @@
+# Build Artifacts
+[Bb]in/
+[Oo]bj/
+[Bb]uild/
+
+# IDE
+.vscode/
+.idea/
+.apikey
+
+# Libraries
+*/wwwroot/lib/

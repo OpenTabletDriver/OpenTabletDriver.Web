@@ -1,0 +1,16 @@
+@model OpenTabletDriver.Web.Core.Contracts.IRelease
+
+<div class="card rounded-3 shadow-sm">
+    <div class="card-header py-3">
+        <h4 class="my-0 fw-normal">@Model.Tag</h4>
+    </div>
+    <div class="card-body text-center">
+        <img class="p-1" width="250" style="opacity:0.4" src="otd.png"/>
+        <div class="mt-1 mb-1">
+            <button class="btn btn-primary" onclick="location.href='@Model.Url'">Download</button>
+        </div>
+    </div>
+    <div class="card-footer">
+        <small class="text-muted">Released @Model.Date.ToLocalTime().ToString("MM/dd/yyyy")</small>
+    </div>
+</div>

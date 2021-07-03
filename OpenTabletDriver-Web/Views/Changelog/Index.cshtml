@@ -1,0 +1,24 @@
+@using OpenTabletDriver.Web.Core.Contracts
+@using Microsoft.AspNetCore.Http.Extensions
+@using System.Net.Cache
+
+@model IEnumerable<IRelease>
+@{
+    ViewData["Title"] = "Changelog";
+}
+
+<div class="container">
+    <div class="row row-cols-2 row-cols-md-2">
+        <div class="col p-2">
+            <partial name="Release/_LargeCardPrimary" model="@Model.FirstOrDefault()"/>
+        </div>
+    </div>
+    @foreach (IRelease release in Model.Skip(1))
+    {
+        <div class="row row-cols-2 row-cols-md-2">
+            <div class="col p-2">
+                <partial name="Release/_LargeCard" model="@release"/>
+            </div>
+        </div>
+    }
+</div>
