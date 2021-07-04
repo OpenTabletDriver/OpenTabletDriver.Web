@@ -1,32 +1,28 @@
 ﻿@using OpenTabletDriver.Web.Core.Contracts
+@using OpenTabletDriver.Web.Controllers
+@using OpenTabletDriver.Web.Utilities
 
 @{
     ViewData["Title"] = "Home Page";
+    int index = 0;
 }
 
 @model IEnumerable<IRelease>
 
 <div class="container">
-
+    <section class="py-5 text-center">
+        <h1 class="col-lg-6 col-md-8 mx-auto">OpenTabletDriver</h1>
+        <p class="lead text-muted">
+            OpenTabletDriver is an open source, cross-platform, low latency, user-mode tablet driver.
+        </p>
+    </section>
     <div class="row row-cols-2 row-cols-md-2">
-        <div class="col p-2">
-            @{
-                var primaryRelease = Model.First();
-            }
-            <partial name="Release/_SmallCardPrimary" model="@primaryRelease"/>
-        </div>
-        @foreach (IRelease release in Model.Take(3).Skip(1))
+        @foreach (IRelease release in Model.Take(3))
         {
             <div class="col p-2">
-                <partial name="Release/_SmallCard" model="@release"/>
+                <partial name="Release/_ReleaseCard" model="@release" view-data="@ViewData.With(d => d.Add("Primary", index == 0))"/>
             </div>
+            index++;
         }
     </div>
-    <div class="pt-2">
-        <partial name="Release/_ReleaseAssetList" model="@await primaryRelease.GetReleaseAssets()"/>
-    </div>
-
-    @* <div class="text-center"> *@
-    @*     <img src="~/images/opentabletdriver-gui-gnome40.png" width="50%"/> *@
-    @* </div> *@
 </div>

@@ -5,16 +5,17 @@
 
 @{
     string id = UniqueIdentifierGenerator.RandomString(6);
+    bool isPrimary = ViewData["Primary"] as bool? ?? false;
 }
 
-<div class="card border-primary">
-    <btn class="card-header text-center py-3 bg-primary text-light"
+<div class="card rounded-3 shadow-sm">
+    <btn class="card-header text-center py-3 @(isPrimary ? "bg-primary text-light" : "bg-light")"
          data-toggle="collapse" data-target="#@(id)"
          aria-expanded="false" aria-controls="@(id)">
         <h4 class="my-0 fw-normal align-middle">OpenTabletDriver @Model.Tag</h4>
     </btn>
     <div class="card-body">
-        <div class="collapse show" id="@(id)">
+        <div class="collapse @(isPrimary ? "show" : string.Empty)" id="@(id)">
             @Html.Raw(Markdown.ToHtml(Model.Body))
         </div>
     </div>

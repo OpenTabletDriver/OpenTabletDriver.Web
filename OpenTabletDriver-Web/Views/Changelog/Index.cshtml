@@ -1,24 +1,22 @@
 @using OpenTabletDriver.Web.Core.Contracts
 @using Microsoft.AspNetCore.Http.Extensions
 @using System.Net.Cache
+@using OpenTabletDriver.Web.Utilities
 
 @model IEnumerable<IRelease>
 @{
     ViewData["Title"] = "Changelog";
+    int index = 0;
 }
 
 <div class="container">
-    <div class="row row-cols-2 row-cols-md-2">
-        <div class="col p-2">
-            <partial name="Release/_LargeCardPrimary" model="@Model.FirstOrDefault()"/>
-        </div>
-    </div>
-    @foreach (IRelease release in Model.Skip(1))
+    @foreach (IRelease release in Model)
     {
         <div class="row row-cols-2 row-cols-md-2">
             <div class="col p-2">
-                <partial name="Release/_LargeCard" model="@release"/>
+                <partial name="Release/_ChangelogCard" model="@release" view-data="@ViewData.With(d => d.Add("Primary", index == 0))"/>
             </div>
         </div>
+        index++;
     }
 </div>

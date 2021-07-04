@@ -1,0 +1,28 @@
+@using OpenTabletDriver.Web.Core.Contracts
+
+@model IRelease
+
+@{
+    bool isPrimary = ViewData["Primary"] as bool? ?? false;
+}
+
+<ul class="list-group rounded-3 shadow-sm @(isPrimary ? "border-primary" : "border-light")">
+    <li class="list-group-item py-3 @(isPrimary ? "bg-primary text-white" : "bg-light")">
+        <h4 class="my-0 fw-normal">@Model.Tag</h4>
+    </li>
+    <li class="list-group-item text-center">
+        <img class="p-1" width="250" style="@(isPrimary ? string.Empty : "opacity:0.4")" src="otd.png"/>
+        <div class="mt-1 mb-1">
+            <button class="btn @(isPrimary ? "btn-primary" : "btn-secondary")" onclick="location.href='@Model.Url'">View On GitHub</button>
+        </div>
+    </li>
+    @foreach (IReleaseAsset asset in await Model.GetReleaseAssets())
+    {
+        <li class="list-group-item text-center d-none d-lg-block">
+            <a class="@(isPrimary ? string.Empty : "text-secondary")" href="@asset.Url">@asset.FileName</a>
+        </li>
+    }
+    <li class="list-group-item bg-light">
+        <small class="text-muted">Released @Model.Date.ToLocalTime().ToString("MM/dd/yyyy")</small>
+    </li>
+</ul>

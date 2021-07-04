@@ -26,15 +26,12 @@ namespace OpenTabletDriver.Web.Controllers
 
         private IEnumerable<IRelease> releases;
 
+        public const string REPOSITORY_URL = "https://www.github.com/OpenTabletDriver/OpenTabletDriver";
+
         [ResponseCache(Duration = 300)]
         public async Task<IActionResult> Index()
         {
             return View(releases ??= await releaseService.GetAllReleases());
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
