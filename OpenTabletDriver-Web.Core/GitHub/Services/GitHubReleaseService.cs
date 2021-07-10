@@ -50,5 +50,13 @@ namespace OpenTabletDriver.Web.Core.GitHub.Services
 
             throw new NotImplementedException(); // TODO: implement
         }
+
+        public async Task<IRelease> GetRelease(string tag)
+        {
+            var repo = await GitHubCore.GetRepository();
+            var client = await GitHubCore.GetClient();
+            var release = await client.Repository.Release.Get(repo.Id, tag);
+            return new GitHubRelease(release);
+        }
     }
 }

@@ -4,25 +4,29 @@
 
 @{
     bool isPrimary = ViewData["Primary"] as bool? ?? false;
+    string border = isPrimary ? "border-primary" : string.Empty;
+    string headerBackground = isPrimary ? "bg-primary text-white" : "bg-light";
+    string buttonColor = isPrimary ? "btn-primary" : "btn-secondary";
+    string linkColor = isPrimary ? string.Empty : "text-secondary";
 }
 
-<ul class="list-group rounded-3 shadow-sm @(isPrimary ? "border-primary" : "border-light")">
-    <li class="list-group-item py-3 @(isPrimary ? "bg-primary text-white" : "bg-light")">
+<ul class="list-group rounded-3 shadow-sm @border">
+    <li class="list-group-item py-3 @headerBackground @border">
         <h4 class="my-0 fw-normal">@Model.Tag</h4>
     </li>
-    <li class="list-group-item text-center">
+    <li class="list-group-item text-center @border">
         <img class="p-1" width="250" style="@(isPrimary ? string.Empty : "opacity:0.4")" src="otd.png"/>
         <div class="mt-1 mb-1">
-            <button class="btn @(isPrimary ? "btn-primary" : "btn-secondary")" onclick="location.href='@Model.Url'">View On GitHub</button>
+            <button class="btn @buttonColor" onclick="location.href='@Model.Url'">View On GitHub</button>
         </div>
     </li>
     @foreach (IReleaseAsset asset in await Model.GetReleaseAssets())
     {
-        <li class="list-group-item text-center d-none d-lg-block">
-            <a class="@(isPrimary ? string.Empty : "text-secondary")" href="@asset.Url">@asset.FileName</a>
+        <li class="list-group-item text-center d-none d-lg-block @border">
+            <a class="@linkColor" href="@asset.Url">@asset.FileName</a>
         </li>
     }
-    <li class="list-group-item bg-light">
+    <li class="list-group-item bg-light @border">
         <small class="text-muted">Released @Model.Date.ToLocalTime().ToString("MM/dd/yyyy")</small>
     </li>
 </ul>

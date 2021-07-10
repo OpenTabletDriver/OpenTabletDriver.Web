@@ -1,0 +1,12 @@
+@using OpenTabletDriver.Web.Core.Contracts
+@using OpenTabletDriver.Web.Utilities
+
+@model IRelease
+
+@{
+    string id = UniqueIdentifierGenerator.RandomString(6);
+    bool isPrimary = ViewData["Primary"] as bool? ?? false;
+}
+
+<h4 class="my-0 fw-normal align-middle">OpenTabletDriver @Model.Tag</h4>
+@Html.Raw(Markdown.ToHtml(Model.Body))

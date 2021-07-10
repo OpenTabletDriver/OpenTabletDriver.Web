@@ -13,5 +13,7 @@ namespace OpenTabletDriver.Web.Core.Services
         Task<IRelease> GetLatestRelease();
 
         Task<IRelease> GetLatestWorkflowRun();
+
+        Task<IRelease> GetRelease(string tag);
     }
 }

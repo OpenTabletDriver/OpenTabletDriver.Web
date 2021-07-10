@@ -10,8 +10,6 @@
   </ItemGroup>
 
   <ItemGroup Label="NuGet Packages">
-    <PackageReference Include="bootstrap" Version="5.0.2" />
-    <PackageReference Include="bootstrap.sass" Version="5.0.2" />
     <PackageReference Include="Markdig" Version="0.25.0" />
   </ItemGroup>
 

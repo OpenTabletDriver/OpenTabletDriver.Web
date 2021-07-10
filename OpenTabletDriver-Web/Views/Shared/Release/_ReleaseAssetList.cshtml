@@ -1,0 +1,15 @@
+@using OpenTabletDriver.Web.Core.Contracts
+
+@model IEnumerable<IReleaseAsset>
+
+<ul class="list-group">
+    <li class="list-group-item bg-light">
+        Downloads
+    </li>
+    @foreach (IReleaseAsset asset in Model)
+    {
+        <li class="list-group-item">
+            <a href="@asset.Url">@asset.FileName</a>
+        </li>
+    }
+</ul>

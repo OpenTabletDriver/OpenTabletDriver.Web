@@ -1,4 +1,6 @@
 using Markdig;
+using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace OpenTabletDriver.Web
 {
@@ -10,6 +12,11 @@ namespace OpenTabletDriver.Web
                 .UseAdvancedExtensions()
                 .Build();
             return Markdig.Markdown.ToHtml(markdown, pipeline);
+        }
+
+        public static IHtmlContent Render(string markdown)
+        {
+            return new HtmlString(ToHtml(markdown));
         }
     }
 }

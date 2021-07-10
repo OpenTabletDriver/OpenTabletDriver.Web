@@ -1,22 +1,72 @@
 @using OpenTabletDriver.Web.Core.Contracts
-@using Microsoft.AspNetCore.Http.Extensions
-@using System.Net.Cache
-@using OpenTabletDriver.Web.Utilities
+@using Octokit
 
 @model IEnumerable<IRelease>
 @{
     ViewData["Title"] = "Changelog";
-    int index = 0;
 }
 
-<div class="container">
-    @foreach (IRelease release in Model)
-    {
-        <div class="row row-cols-2 row-cols-md-2">
-            <div class="col p-2">
-                <partial name="Release/_ChangelogCard" model="@release" view-data="@ViewData.With(d => d.Add("Primary", index == 0))"/>
+<div class="d-flex align-items-start">
+    <aside>
+        <div class="nav flex-column nav-pills me-3" id="tab" role="tablist" aria-orientation="vertical">
+            <div>
+                Release
             </div>
+            @{
+                int tabIndex = 0;
+                foreach (IRelease release in Model)
+                {
+                    string tag = release.Tag.Replace('.', '-');
+                    string tab = $"{tag}-tab";
+                    string selected = (tabIndex == 0).ToString().ToLower();
+                    <a class="nav-link @(tabIndex == 0 ? "active" : string.Empty)" id="@(tab)"
+                       data-bs-toggle="pill" data-bs-target="#@(tag)"
+                       type="button" role="tab"
+                       aria-controls="@(tag)" aria-selected="@(selected)">
+                        @release.Name
+                    </a>
+                    tabIndex++;
+                }
+            }
         </div>
-        index++;
-    }
+    </aside>
+    <div class="tab-content" id="tabContent">
+        @{
+            int contentIndex = 0;
+            foreach (IRelease release in Model)
+            {
+                string tag = release.Tag.Replace('.', '-');
+                string tab = $"{tag}-tab";
+                <div class="tab-pane @(contentIndex == 0 ? "show active" : string.Empty)"
+                     id="@(tag)" role="tabpanel"
+                     aria-labelledby="@(tab)">
+                    @Markdown.Render(release.Body)
+                </div>
+                contentIndex++;
+            }
+        }
+    </div>
 </div>
+
+<script type="text/javascript">
+    // var selectedItemContent = document.getElementById('selected-item-content');
+    // document.querySelectorAll('.item-release').forEach(function (element) {
+    //     element.onclick = function () {
+    //         loadChangelog(element);
+    //     };
+    // });
+
+    function loadChangelog(element) {
+        var tag = element.getAttribute('data-tag');
+        var data = new FormData();
+        data.set('tag', tag);
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                selectedItemContent.innerHTML = xhr.response;
+            }
+        };
+        xhr.open('POST', '@Url.Action("GetChangelog", "Changelog")');
+        xhr.send(data);
+    };
+</script>
