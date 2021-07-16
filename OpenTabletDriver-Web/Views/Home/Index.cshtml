@@ -16,10 +16,10 @@
             OpenTabletDriver is an open source, cross-platform, low latency, user-mode tablet driver.
         </p>
     </section>
-    <div class="row row-cols-3 row-cols-md-3">
+    <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3">
         @foreach (IRelease release in Model.Take(3))
         {
-            <div class="col p-2">
+            <div class="col p-2 @(index >= 2 ? "d-md-none d-lg-block" : string.Empty)">
                 <partial name="Release/_ReleaseCard" model="@release" view-data="@ViewData.With(d => d.Add("Primary", index == 0))"/>
             </div>
             index++;

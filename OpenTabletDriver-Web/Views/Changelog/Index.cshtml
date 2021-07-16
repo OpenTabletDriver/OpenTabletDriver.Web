@@ -9,9 +9,6 @@
 <div class="d-flex align-items-start">
     <aside>
         <div class="nav flex-column nav-pills me-3" id="tab" role="tablist" aria-orientation="vertical">
-            <div>
-                Release
-            </div>
             @{
                 int tabIndex = 0;
                 foreach (IRelease release in Model)
@@ -19,7 +16,7 @@
                     string tag = release.Tag.Replace('.', '-');
                     string tab = $"{tag}-tab";
                     string selected = (tabIndex == 0).ToString().ToLower();
-                    <a class="nav-link @(tabIndex == 0 ? "active" : string.Empty)" id="@(tab)"
+                    <a class="nav-link mb-1 @(tabIndex == 0 ? "active" : string.Empty)" id="@(tab)"
                        data-bs-toggle="pill" data-bs-target="#@(tag)"
                        type="button" role="tab"
                        aria-controls="@(tag)" aria-selected="@(selected)">
@@ -30,7 +27,7 @@
             }
         </div>
     </aside>
-    <div class="tab-content" id="tabContent">
+    <div class="tab-content w-100" id="tabContent">
         @{
             int contentIndex = 0;
             foreach (IRelease release in Model)
@@ -40,33 +37,10 @@
                 <div class="tab-pane @(contentIndex == 0 ? "show active" : string.Empty)"
                      id="@(tag)" role="tabpanel"
                      aria-labelledby="@(tab)">
-                    @Markdown.Render(release.Body)
+                    <partial name="Release/_Changelog" model="@release"/>
                 </div>
                 contentIndex++;
             }
         }
     </div>
 </div>
-
-<script type="text/javascript">
-    // var selectedItemContent = document.getElementById('selected-item-content');
-    // document.querySelectorAll('.item-release').forEach(function (element) {
-    //     element.onclick = function () {
-    //         loadChangelog(element);
-    //     };
-    // });
-
-    function loadChangelog(element) {
-        var tag = element.getAttribute('data-tag');
-        var data = new FormData();
-        data.set('tag', tag);
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                selectedItemContent.innerHTML = xhr.response;
-            }
-        };
-        xhr.open('POST', '@Url.Action("GetChangelog", "Changelog")');
-        xhr.send(data);
-    };
-</script>

@@ -4,9 +4,15 @@
 @model IRelease
 
 @{
-    string id = UniqueIdentifierGenerator.RandomString(6);
-    bool isPrimary = ViewData["Primary"] as bool? ?? false;
+    string title = $"OpenTabletDriver {Model.Tag}";
+    string markdown = Model.Body.Replace(title, string.Empty);
 }
 
-<h4 class="my-0 fw-normal align-middle">OpenTabletDriver @Model.Tag</h4>
-@Html.Raw(Markdown.ToHtml(Model.Body))
+<div class="card">
+    <div class="card-header py-3 text-center">
+        <h4 class="my-0 fw-normal align-middle">@title</h4>
+    </div>
+    <div class="card-body">
+        @Markdown.Render(markdown)
+    </div>
+</div>

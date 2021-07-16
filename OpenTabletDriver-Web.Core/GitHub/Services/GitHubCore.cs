@@ -26,7 +26,7 @@ namespace OpenTabletDriver.Web.Core.GitHub.Services
 
         private static Credentials GetCredentials()
         {
-            var apiKey = File.ReadAllText(".apikey").Trim();
+            var apiKey = Environment.GetEnvironmentVariable("GITHUB_API");
             return string.IsNullOrWhiteSpace(apiKey) ? Credentials.Anonymous : new Credentials(apiKey);
         }
 
