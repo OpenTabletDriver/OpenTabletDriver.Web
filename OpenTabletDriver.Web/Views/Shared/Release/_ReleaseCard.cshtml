@@ -5,13 +5,13 @@
 @{
     bool isPrimary = ViewData["Primary"] as bool? ?? false;
     string border = isPrimary ? "border-primary" : string.Empty;
-    string background = isPrimary ? "bg-primary" : string.Empty;
+    string background = isPrimary ? "bg-primary" : "bg-secondary";
     string buttonColor = isPrimary ? "btn-primary" : "btn-secondary";
-    string linkColor = isPrimary ? string.Empty : "text-muted";
+    string textColor = isPrimary ? "text-white" : "text-muted";
 }
 
-<ul class="list-group rounded-3 shadow-sm @border">
-    <li class="list-group-item py-3 @background @border">
+<ul class="list-group rounded-3 shadow @border">
+    <li class="list-group-item py-3 text-center @background @border">
         <h4 class="my-0 fw-normal">@Model.Tag</h4>
     </li>
     <li class="list-group-item text-center @border">
@@ -23,10 +23,10 @@
     @foreach (IReleaseAsset asset in await Model.GetReleaseAssets())
     {
         <li class="list-group-item text-center d-none d-lg-block @border">
-            <a class="@linkColor" href="@asset.Url">@asset.FileName</a>
+            <a class="stretched-link text-muted" href="@asset.Url">@asset.FileName</a>
         </li>
     }
     <li class="list-group-item @background @border">
-        <small class="text-muted">Released @Model.Date.ToLocalTime().ToString("MM/dd/yyyy")</small>
+        <small class="@textColor">Released @Model.Date.ToLocalTime().ToString("MM/dd/yyyy")</small>
     </li>
 </ul>
