@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>OpenTabletDriver.Web</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup Label="Project References">
+    <ProjectReference Include="..\OpenTabletDriver.Web.Core\OpenTabletDriver.Web.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Label="NuGet Packages">
+    <PackageReference Include="Markdig" Version="0.25.0" />
+  </ItemGroup>
+
+</Project>
