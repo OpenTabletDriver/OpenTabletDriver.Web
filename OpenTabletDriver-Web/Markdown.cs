@@ -1,3 +1,4 @@
+using System.Reflection.Metadata;
 using Markdig;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -8,6 +9,9 @@ namespace OpenTabletDriver.Web
     {
         public static string ToHtml(string markdown)
         {
+            if (string.IsNullOrWhiteSpace(markdown))
+                return string.Empty;
+
             var pipeline = new MarkdownPipelineBuilder()
                 .UseAdvancedExtensions()
                 .Build();
@@ -16,6 +20,9 @@ namespace OpenTabletDriver.Web
 
         public static IHtmlContent Render(string markdown)
         {
+            if (string.IsNullOrWhiteSpace(markdown))
+                return HtmlString.Empty;
+
             return new HtmlString(ToHtml(markdown));
         }
     }
