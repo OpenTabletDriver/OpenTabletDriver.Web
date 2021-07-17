@@ -1,10 +1,16 @@
 ﻿@using OpenTabletDriver.Web.Controllers
+
+@{
+    string subTitle = @ViewData["Title"] as string;
+    string pageTitle = subTitle != null ? $"{subTitle} - OpenTabletDriver" : "OpenTabletDriver";
+}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - OpenTabletDriver</title>
+    <title>@pageTitle</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.0.2/dist/darkly/bootstrap.min.css" integrity="sha256-IzD7YgcFC7mrH3sadY/G75Gc49OgfS5IVOgFlxtdoUI=" crossorigin="anonymous"></link>
     <link rel="stylesheet" href="~/css/site.css"></link>
 </head>
