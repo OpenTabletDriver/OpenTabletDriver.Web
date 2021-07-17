@@ -1,0 +1,39 @@
+@{
+    ViewData["Title"] = "Tablets";
+}
+
+@model string
+
+<div class="container">
+    <div class="form-floating m-2">
+        <input type="text" class="form-control" id="searchInput" onkeyup="search()"/>
+        <label for="searchInput">Search</label>
+    </div>
+    @Html.Raw(Model)
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        function search() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("tablets");
+            tr = table.getElementsByTagName("tr");
+
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+}
