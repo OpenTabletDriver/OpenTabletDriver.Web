@@ -3,7 +3,7 @@
 
 // Write your JavaScript code.
 
-function ajaxGet(url, data, callback) {
+function ajaxPost(url, data, callback) {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
