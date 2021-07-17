@@ -1,14 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Net;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using OpenTabletDriver.Web.Core.Contracts;
 using OpenTabletDriver.Web.Core.GitHub.Services;
 using OpenTabletDriver.Web.Core.Services;
 
@@ -28,6 +24,10 @@ namespace OpenTabletDriver.Web
         {
             services.AddControllersWithViews();
             services.Add(new ServiceDescriptor(typeof(IReleaseService), new GitHubReleaseService()));
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.KnownProxies.Add(IPAddress.Parse("10.0.0.100"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,6 +47,12 @@ namespace OpenTabletDriver.Web
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
