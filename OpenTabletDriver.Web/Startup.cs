@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using OpenTabletDriver.Web.Controllers;
+using OpenTabletDriver.Web.Core.Framework;
 using OpenTabletDriver.Web.Core.GitHub.Services;
 using OpenTabletDriver.Web.Core.Services;
 
@@ -24,6 +26,7 @@ namespace OpenTabletDriver.Web
         {
             services.AddControllersWithViews();
             services.Add(new ServiceDescriptor(typeof(IReleaseService), new GitHubReleaseService()));
+            services.Add(new ServiceDescriptor(typeof(IFrameworkService), new DotnetCoreService()));
             services.Configure<ForwardedHeadersOptions>(options =>
             {
                 options.KnownProxies.Add(IPAddress.Parse("10.0.0.100"));
@@ -43,6 +46,7 @@ namespace OpenTabletDriver.Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -60,7 +64,8 @@ namespace OpenTabletDriver.Web
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}"
+                );
             });
         }
     }

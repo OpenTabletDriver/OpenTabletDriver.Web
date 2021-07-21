@@ -13,4 +13,8 @@
     <PackageReference Include="Markdig" Version="0.25.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Wiki\Index.cshtml" />
+  </ItemGroup>
+
 </Project>
