@@ -4,6 +4,6 @@ namespace OpenTabletDriver.Web.Core.Services
 {
     public interface IFrameworkService
     {
-        string GetLatestVersionUrl(FrameworkPlatform platform, string archetecture);
+        string GetLatestVersionUrl(FrameworkPlatform platform, FrameworkArchetecture archetecture);
     }
 }

@@ -15,24 +15,21 @@ namespace OpenTabletDriver.Web.Core.Framework
         private const string CHANNEL = "current";
         private const string VERSION = "LATEST";
 
-        public string GetLatestVersionUrl(FrameworkPlatform platform, string archetecture)
-        {
-            return ConstructDownloadUrl(platform, archetecture);
-        }
-
-        private string ConstructDownloadUrl(FrameworkPlatform platform, string archetecture)
+        public string GetLatestVersionUrl(FrameworkPlatform platform, FrameworkArchetecture archetecture)
         {
             string product = GetProduct(platform);
             string extension = GetExtension(platform);
             string os = GetNormalizedOS(platform);
+            string arch = GetNormalizedArchitecture(archetecture);
 
             switch (platform)
             {
                 case FrameworkPlatform.Linux:
+                    // Link to package manager instructions instead of binaries or an installer.
                     return "https://docs.microsoft.com/en-us/dotnet/core/install/linux";
                 case FrameworkPlatform.Windows:
                 case FrameworkPlatform.MacOS:
-                    return $"{AKA_MS}/{CHANNEL}/{product}-{os}-{archetecture}.{extension}";
+                    return $"{AKA_MS}/{CHANNEL}/{product}-{os}-{arch}.{extension}";
                 default:
                     throw new Exception("Unsupported platform.");
             }
@@ -57,10 +54,11 @@ namespace OpenTabletDriver.Web.Core.Framework
             switch (platform)
             {
                 case FrameworkPlatform.Linux:
-                case FrameworkPlatform.MacOS:
                     return "tar.gz";
+                case FrameworkPlatform.MacOS:
+                    return "pkg";
                 case FrameworkPlatform.Windows:
-                    return "zip";
+                    return "exe";
                 default:
                     return null;
             }
@@ -73,6 +71,17 @@ namespace OpenTabletDriver.Web.Core.Framework
                 FrameworkPlatform.Windows => "win",
                 FrameworkPlatform.Linux => "linux",
                 FrameworkPlatform.MacOS => "osx",
+                _ => null
+            };
+        }
+
+        private string GetNormalizedArchitecture(FrameworkArchetecture archetecture)
+        {
+            return archetecture switch
+            {
+                FrameworkArchetecture.x64 => "x64",
+                FrameworkArchetecture.x86 => "x86",
+                FrameworkArchetecture.ARM64 => "arm64",
                 _ => null
             };
         }
