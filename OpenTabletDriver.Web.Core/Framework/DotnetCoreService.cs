@@ -10,10 +10,8 @@ namespace OpenTabletDriver.Web.Core.Framework
 {
     public class DotnetCoreService : IFrameworkService
     {
-        private const string FEED = @"https://dotnetcli.azureedge.net/dotnet";
         private const string AKA_MS = @"https://aka.ms/dotnet";
         private const string CHANNEL = "current";
-        private const string VERSION = "LATEST";
 
         public string GetLatestVersionUrl(FrameworkPlatform platform, FrameworkArchetecture archetecture)
         {
