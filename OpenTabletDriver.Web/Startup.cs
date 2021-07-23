@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using OpenTabletDriver.Web.Controllers;
 using OpenTabletDriver.Web.Core.Framework;
 using OpenTabletDriver.Web.Core.GitHub.Services;
+using OpenTabletDriver.Web.Core.Plugins;
 using OpenTabletDriver.Web.Core.Services;
 
 namespace OpenTabletDriver.Web
@@ -27,6 +28,7 @@ namespace OpenTabletDriver.Web
             services.AddControllersWithViews();
             services.Add(new ServiceDescriptor(typeof(IReleaseService), new GitHubReleaseService()));
             services.Add(new ServiceDescriptor(typeof(IFrameworkService), new DotnetCoreService()));
+            services.Add(new ServiceDescriptor(typeof(IPluginMetadataService), new GitHubPluginMetadataService()));
             services.Configure<ForwardedHeadersOptions>(options =>
             {
                 options.KnownProxies.Add(IPAddress.Parse("10.0.0.100"));

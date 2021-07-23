@@ -1,0 +1,98 @@
+@using OpenTabletDriver.Web.Core.Plugins
+@using System.Data.Common
+
+@model IEnumerable<PluginMetadata>
+
+@{
+    ViewBag.Title = "Plugins";
+    var pluginVersions = Model.Select(m => m.SupportedDriverVersion)
+        .Distinct()
+        .OrderByDescending(v => v.ToString());
+}
+
+<div class="container">
+    <div class="d-flex mb-3">
+        <div class="flex-fill">
+            <div class="form-floating me-3">
+                <input type="text" class="form-control" id="searchInput" placeholder="Search" onkeyup="filter()"/>
+                <label for="searchInput">Search</label>
+            </div>
+        </div>
+        <div class="flex-fill">
+            <div class="form-floating">
+                <select class="form-select" id="pluginVersionSelector" onchange="filter()">
+                    <option value="">All Versions</option>
+                    @foreach (var version in pluginVersions)
+                    {
+                        <option value="@version">@version</option>
+                    }
+                </select>
+                <label class="form-label" for="pluginVersionSelector">Driver Version</label>
+            </div>
+        </div>
+    </div>
+
+    <div id="metadataList">
+        @foreach (var metadata in Model)
+        {
+            <div class="card mb-2 plugin-metadata-card"
+                 data-name="@metadata.Name" data-version="@metadata.SupportedDriverVersion">
+                <div class="card-body d-flex flex-sm-row flex-column">
+                    <div class="flex-sm-fill p-2">
+                        <span class="h4">@metadata.Name</span>
+                        <span class="text-sm text-muted"> - @metadata.Owner - @metadata.PluginVersion</span><br/>
+                        <div class="mt-2 ms-2">
+                            @metadata.Description
+                        </div>
+                    </div>
+                    <div class="mt-auto text-center">
+                        <button type="button" class="btn-sm btn-primary me-1"
+                                @(string.IsNullOrWhiteSpace(metadata.DownloadUrl) ? "disabled" : string.Empty)
+                                onclick="location.href='@metadata.DownloadUrl'">
+                            Download
+                        </button>
+                        <button type="button" class="btn-sm btn-info me-1"
+                                @(string.IsNullOrWhiteSpace(metadata.RepositoryUrl) ? "disabled" : string.Empty)
+                                onclick="location.href='@metadata.WikiUrl'">
+                            Wiki
+                        </button>
+                        <button type="button" class="btn-sm btn-info"
+                                @(string.IsNullOrWhiteSpace(metadata.RepositoryUrl) ? "disabled" : string.Empty)
+                                onclick="location.href='@metadata.RepositoryUrl'">
+                            Source
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        filter();
+
+        function filter() {
+            let selector = document.getElementById('pluginVersionSelector');
+            let targetVersion = selector.value;
+
+            let searchInput = document.getElementById('searchInput');
+            let searchFilter = searchInput.value.toUpperCase();
+
+            let container = document.getElementById('metadataList');
+            let cards = container.getElementsByClassName('plugin-metadata-card');
+
+            for (let i = 0; i < cards.length; i++) {
+                let card = cards[i];
+                let name = card.getAttribute('data-name').toUpperCase();
+                let version = card.getAttribute('data-version');
+
+                let searchMatches = name.indexOf(searchFilter) >= 0;
+                let versionMatches = targetVersion == '' || targetVersion == version;
+
+                card.style.display = searchMatches && versionMatches ? '' : 'none';
+            }
+        }
+    </script>
+}
