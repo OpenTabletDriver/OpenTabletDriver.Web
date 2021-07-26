@@ -1,9 +1,4 @@
 using System;
-using System.Data.SqlTypes;
-using System.Diagnostics;
-using System.IO;
-using System.Net.Http;
-using System.Threading.Tasks;
 using OpenTabletDriver.Web.Core.Services;
 
 namespace OpenTabletDriver.Web.Core.Framework
@@ -13,12 +8,17 @@ namespace OpenTabletDriver.Web.Core.Framework
         private const string AKA_MS = @"https://aka.ms/dotnet";
         private const string CHANNEL = "current";
 
-        public string GetLatestVersionUrl(FrameworkPlatform platform, FrameworkArchetecture archetecture)
+        public string GetLatestVersionUrl(FrameworkPlatform platform, FrameworkArchitecture architecture)
         {
+            if (platform == default)
+                throw new ArgumentException("Platform cannot be default.");
+            if (architecture == default)
+                throw new ArgumentException("Architecture cannot be default.");
+
             string product = GetProduct(platform);
             string extension = GetExtension(platform);
             string os = GetNormalizedOS(platform);
-            string arch = GetNormalizedArchitecture(archetecture);
+            string arch = GetNormalizedArchitecture(architecture);
 
             switch (platform)
             {
@@ -73,13 +73,13 @@ namespace OpenTabletDriver.Web.Core.Framework
             };
         }
 
-        private string GetNormalizedArchitecture(FrameworkArchetecture archetecture)
+        private string GetNormalizedArchitecture(FrameworkArchitecture architecture)
         {
-            return archetecture switch
+            return architecture switch
             {
-                FrameworkArchetecture.x64 => "x64",
-                FrameworkArchetecture.x86 => "x86",
-                FrameworkArchetecture.ARM64 => "arm64",
+                FrameworkArchitecture.x64 => "x64",
+                FrameworkArchitecture.x86 => "x86",
+                FrameworkArchitecture.ARM64 => "arm64",
                 _ => null
             };
         }

@@ -1,6 +1,6 @@
 namespace OpenTabletDriver.Web.Core
 {
-    public enum FrameworkArchetecture
+    public enum FrameworkArchitecture
     {
         Unknown = 0,
         x86 = 1 << 0,
