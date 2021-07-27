@@ -1,7 +1,4 @@
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure;
-using Octokit;
 using OpenTabletDriver.Web.Core;
 using OpenTabletDriver.Web.Core.Services;
 
@@ -21,7 +18,7 @@ namespace OpenTabletDriver.Web.Controllers
             string userAgentHeader = Request.Headers["User-Agent"];
             string userAgent = userAgentHeader.ToLower();
             FrameworkPlatform platform = FrameworkPlatform.Unknown;
-            FrameworkArchetecture archetecture = FrameworkArchetecture.Unknown;
+            FrameworkArchitecture architecture = FrameworkArchitecture.x64;
 
             if (userAgent.Contains("windows"))
                 platform = FrameworkPlatform.Windows;
@@ -31,13 +28,13 @@ namespace OpenTabletDriver.Web.Controllers
                 platform = FrameworkPlatform.MacOS;
 
             if (platform == FrameworkPlatform.MacOS || userAgent.Contains("x86_64") || userAgent.Contains("x64"))
-                archetecture = FrameworkArchetecture.x64;
+                architecture = FrameworkArchitecture.x64;
             else if (userAgent.Contains("x86"))
-                archetecture = FrameworkArchetecture.x86;
+                architecture = FrameworkArchitecture.x86;
             else if (userAgent.Contains("arm64"))
-                archetecture = FrameworkArchetecture.ARM64;
+                architecture = FrameworkArchitecture.ARM64;
 
-            string url = frameworkService.GetLatestVersionUrl(platform, archetecture);
+            string url = frameworkService.GetLatestVersionUrl(platform, architecture);
             return Redirect(url);
         }
     }
