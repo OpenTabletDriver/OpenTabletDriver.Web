@@ -137,21 +137,29 @@
             <h4>Wayland <small class="text-muted">(systemd)</small></h4>
             <div class="mx-3">
                 <ol>
-                    <li>Create an override file</li>
-                    <codeblock class="mt-2" language="sh">
-                        # Opens with whatever program is set to $EDITOR
-                        systemctl --user edit opentabletdriver.service
-                    </codeblock>
-                    <li>Add this block below the first 2 lines of the file, then save and exit</li>
-                    <codeblock class="mt-2">
-                        [Service]
-                        Environment=WAYLAND_DISPLAY=:0
-                    </codeblock>
-                    <li>Finally, run the following commands</li>
-                    <codeblock class="mt-2">
-                        systemctl --user daemon-reload
-                        systemctl --user restart opentabletdriver.service
-                    </codeblock>
+                    <li>
+                        Create an override file
+                        <codeblock class="mt-2" language="sh">
+                            # Opens with whatever program is set to $EDITOR
+                            systemctl --user edit opentabletdriver.service
+                        </codeblock>
+                    </li>
+                    <li>
+                        Add this block below the first 2 lines of the file, then save and exit
+                        <codeblock class="mt-2" language="ini">
+                            [Service]
+                            Environment=WAYLAND_DISPLAY=:0
+                        </codeblock>
+                    </li>
+                    <li>
+                        Finally, run the following commands
+                        <codeblock class="mt-2" language="sh">
+                            # Reload the systemd user daemon
+                            systemctl --user daemon-reload
+                            # Start the OpenTabletDriver daemon service (restarts if already running)
+                            systemctl --user restart opentabletdriver.service
+                        </codeblock>
+                    </li>
                 </ol>
             </div>
         </div>
