@@ -8,5 +8,8 @@
 .idea/
 .apikey
 
+# IDE User Files
+*.[Dd]ot[Ss]ettings.[Uu]ser
+
 # Libraries
 */wwwroot/lib/
