@@ -1,0 +1,25 @@
+<div class="ms-4 w-15" style="width: 15%">
+    <div class="card">
+        <div class="card-header text-center">
+            <h6 class="mt-2">Navigation</h6>
+        </div>
+        <ul class="list-group list-group-flush text-muted text-center" id="wiki-navigation"></ul>
+    </div>
+</div>
+
+<script type="text/javascript">
+    document.onreadystatechange = function () {
+        if (document.readyState == 'complete') {
+            let navList = document.getElementById('wiki-navigation');
+            let navItems = document.querySelectorAll('.wiki-nav-item');
+            navItems.forEach(function (item) {
+                let itemName = item.textContent;
+                let id = item.id;
+                navList.innerHTML +=
+                    '<li class=\'list-group-item\'>' +
+                        '<a class=\' link-light\' href=\'#' + id + '\'>' + itemName + '</a>' +
+                    '</li>';
+            });
+        }
+    }
+</script>

@@ -13,6 +13,7 @@ namespace OpenTabletDriver.Web.Controllers
 
         private IPluginMetadataService pluginMetadataService;
 
+        [ResponseCache(Duration = 300)]
         public async Task<IActionResult> Index()
         {
             var metadata = await pluginMetadataService.GetPlugins();

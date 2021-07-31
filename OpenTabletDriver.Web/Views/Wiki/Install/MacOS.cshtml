@@ -1,0 +1,29 @@
+@{
+    ViewBag.Title = "MacOS Installation Guide";
+}
+
+<partial name="Wiki/_Header"/>
+
+<div class="d-flex">
+    <div class="flex-fill">
+        <h3 class="wiki-nav-item" id="app">
+            App
+        </h3>
+        <ol>
+            <li>
+                Install the <a href="@Url.Action("Index", "Framework")">.NET 5 Runtime</a>
+            </li>
+            <li>
+                Download the <a href="https://github.com/OpenTabletDriver/OpenTabletDriver/releases/latest">latest release</a>
+                <small class="text-muted">(OpenTabletDriver-osx-x64.tar.gz)</small>
+            </li>
+            <li>
+                Extract it and drag <code>OpenTabletDriver.app</code> into your Applications folder
+            </li>
+            <li>
+                Run the OpenTabletDriver app.
+            </li>
+        </ol>
+    </div>
+    <partial name="Wiki/_Navigation"/>
+</div>
