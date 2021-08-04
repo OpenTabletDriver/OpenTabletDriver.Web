@@ -17,7 +17,7 @@
     <li class="list-group-item text-center @border">
         <img class="p-1" width="250" style="@(isPrimary ? string.Empty : "opacity:0.4")" src="otd.png"/>
         <div class="mt-1 mb-1">
-            <button class="btn @buttonColor" onclick="location.href='@Model.Url'">View On GitHub</button>
+            <a role="button" class="btn @buttonColor" href="@Model.Url">View On GitHub</a>
         </div>
     </li>
     @foreach (IReleaseAsset asset in await Model.GetReleaseAssets())
