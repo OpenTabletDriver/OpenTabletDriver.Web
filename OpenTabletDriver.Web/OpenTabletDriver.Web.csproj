@@ -11,10 +11,7 @@
 
   <ItemGroup Label="NuGet Packages">
     <PackageReference Include="Markdig" Version="0.25.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Views\Wiki\Index.cshtml" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.8" />
   </ItemGroup>
 
 </Project>
