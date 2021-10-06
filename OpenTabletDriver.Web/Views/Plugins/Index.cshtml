@@ -1,11 +1,11 @@
 @using OpenTabletDriver.Web.Core.Plugins
 @using System.Data.Common
 
-@model IEnumerable<PluginMetadata>
+@model EnumerableSearchViewModel<PluginMetadata>
 
 @{
     ViewBag.Title = "Plugins";
-    var pluginVersions = Model.Select(m => m.SupportedDriverVersion)
+    var pluginVersions = Model.Items.Select(m => m.SupportedDriverVersion)
         .Distinct()
         .OrderByDescending(v => v.ToString());
 }
@@ -14,13 +14,14 @@
     <div class="d-flex mb-3">
         <div class="flex-fill">
             <div class="form-floating me-3">
-                <input type="text" class="form-control" id="searchInput" placeholder="Search" onkeyup="filter()"/>
+                <input type="text" class="form-control" id="searchInput" placeholder="Search" onkeyup="filterInput()"
+                       value="@Model.Search"/>
                 <label for="searchInput">Search</label>
             </div>
         </div>
         <div class="flex-fill">
             <div class="form-floating">
-                <select class="form-select" id="pluginVersionSelector" onchange="filter()">
+                <select class="form-select" id="pluginVersionSelector" onchange="filterInput()">
                     <option value="">All Versions</option>
                     @foreach (var version in pluginVersions)
                     {
@@ -33,7 +34,7 @@
     </div>
 
     <div id="metadataList">
-        @foreach (var metadata in Model)
+        @foreach (var metadata in Model.Items)
         {
             <div class="card mb-2 plugin-metadata-card"
                  data-name="@metadata.Name" data-version="@metadata.SupportedDriverVersion">
@@ -74,7 +75,22 @@
 @section Scripts
 {
     <script type="text/javascript">
-        filter();
+        document.onreadystatechange = function () {
+            if (document.readyState == "complete") {
+                filter();
+            }
+        };
+
+        function filterInput() {
+            let searchInput = document.getElementById('searchInput');
+            let text = searchInput.value;
+            let action = 'Plugins';
+            if (text.length > 0) {
+                action += '?search=' + encodeURIComponent(text);
+            }
+            window.history.replaceState('', '', action);
+            filter();
+        }
 
         function filter() {
             let selector = document.getElementById('pluginVersionSelector');

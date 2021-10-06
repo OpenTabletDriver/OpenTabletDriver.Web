@@ -2,8 +2,10 @@ using System.IO;
 using System.Net.Http;
 using System.Runtime.Versioning;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc;
 using OpenTabletDriver.Web.Core.Services;
+using OpenTabletDriver.Web.Models;
 
 namespace OpenTabletDriver.Web.Controllers
 {
@@ -13,7 +15,7 @@ namespace OpenTabletDriver.Web.Controllers
             "https://github.com/OpenTabletDriver/OpenTabletDriver/raw/master/TABLETS.md";
 
         [ResponseCache(Duration = 300)]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string search = null)
         {
             using (var client = new HttpClient())
             using (var httpStream = await client.GetStreamAsync(TABLETS_MARKDOWN_URL))
@@ -25,7 +27,13 @@ namespace OpenTabletDriver.Web.Controllers
                     "<table>",
                     "<table id=\"tablets\" class=\"table table-hover\">"
                 );
-                return View(model: patchedHtml);
+
+                var model = new ContentSearchViewModel
+                {
+                    Content = new HtmlString(patchedHtml),
+                    Search = search
+                };
+                return View(model);
             }
         }
     }
