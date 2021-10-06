@@ -1,6 +1,9 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using OpenTabletDriver.Web.Core.Plugins;
 using OpenTabletDriver.Web.Core.Services;
+using OpenTabletDriver.Web.Models;
 
 namespace OpenTabletDriver.Web.Controllers
 {
@@ -14,10 +17,14 @@ namespace OpenTabletDriver.Web.Controllers
         private IPluginMetadataService pluginMetadataService;
 
         [ResponseCache(Duration = 300)]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string search = null)
         {
-            var metadata = await pluginMetadataService.GetPlugins();
-            return View(metadata);
+            var model = new EnumerableSearchViewModel<PluginMetadata>()
+            {
+                Items = await pluginMetadataService.GetPlugins(),
+                Search = search
+            };
+            return View(model);
         }
     }
 }

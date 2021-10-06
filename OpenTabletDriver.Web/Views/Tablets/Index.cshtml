@@ -2,19 +2,37 @@
     ViewData["Title"] = "Tablets";
 }
 
-@model string
+@model ContentSearchViewModel
 
 <div class="container">
     <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="searchInput" placeholder="Search" onkeyup="search()"/>
+        <input id="searchInput" type="text" class="form-control" onkeyup="searchInput()" placeholder="Search"
+               value="@Model.Search"/>
         <label for="searchInput">Search</label>
     </div>
-    @Html.Raw(Model)
+    @Model.Content
 </div>
 
 @section Scripts
 {
     <script type="text/javascript">
+        document.onreadystatechange = function () {
+            if (document.readyState == "complete") {
+                search();
+            }
+        };
+
+        function searchInput() {
+            let input = document.getElementById('searchInput');
+            let text = input.value;
+            let action = 'Tablets'
+            if (text.length > 0) {
+                action += '?search=' + encodeURIComponent(text);
+            }
+            window.history.replaceState('', '', action);
+            search();
+        }
+
         function search() {
             let input = document.getElementById('searchInput');
             let filter = input.value.toUpperCase();
