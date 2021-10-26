@@ -44,22 +44,21 @@
                 </codeblock>
             </p>
             <p>
-                Otherwise, perform the following
+                If this does not work, run the following commands
             </p>
-            <ol>
-                <li>
-                    Download the latest udev rules from the GitHub CI<br/>
-                    <small class="ms-3 text-muted">
-                        Note: You must be logged into GitHub to see these builds, otherwise you will get a 404.
-                    </small>
-                </li>
-                <li>
-                    Run the following commands, replacing <code class="bg-">&lt;file&gt;</code> with the extracted file
-                    <codeblock class="mt-2">
-                        sudo mv &lt;file&gt; /etc/udev/rules.d/99-opentabletdriver.rules
-                    </codeblock>
-                </li>
-            </ol>
+            <codeblock class="mt-2" language="sh">
+                # Clone the repository, change current directory to the repository
+                git clone https://github.com/OpenTabletDriver/OpenTabletDriver.git
+                cd ./OpenTabletDriver
+                # Generate rules, moves them to the udev rules directory
+                ./generate-rules.sh
+                sudo mv ./build/99-opentabletdriver.rules /etc/udev/rules.d/99-opentabletdriver.rules
+                # Reload udev rules
+                sudo udevadm control --reload-rules
+                # Clean up leftovers
+                cd ..
+                rm -rf OpenTabletDriver
+            </codeblock>
         </div>
 
         <hr/>
