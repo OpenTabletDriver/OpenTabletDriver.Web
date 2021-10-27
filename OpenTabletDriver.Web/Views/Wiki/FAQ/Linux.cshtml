@@ -52,7 +52,7 @@
                 cd ./OpenTabletDriver
                 # Generate rules, moves them to the udev rules directory
                 ./generate-rules.sh
-                sudo mv ./build/99-opentabletdriver.rules /etc/udev/rules.d/99-opentabletdriver.rules
+                sudo mv ./bin/99-opentabletdriver.rules /etc/udev/rules.d/99-opentabletdriver.rules
                 # Reload udev rules
                 sudo udevadm control --reload-rules
                 # Clean up leftovers
