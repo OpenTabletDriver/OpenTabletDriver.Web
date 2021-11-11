@@ -2,139 +2,132 @@
     ViewBag.Title = "FAQ";
 }
 
-<partial name="Wiki/_Header"/>
+<h3 class="wiki-nav-item pb-2" id="appdata">
+    Application Data Directory
+</h3>
+<table class="table">
+    <tr>
+        <th class="text-center">Operating System</th>
+        <th>Path</th>
+    </tr>
+    <tr>
+        <td class="text-center">Windows</td>
+        <td>
+            <code class="user-select-all">%localappdata%\OpenTabletDriver</code>
+        </td>
+    </tr>
+    <tr>
+        <td class="text-center">Linux</td>
+        <td>
+            <code class="user-select-all">~/.config/OpenTabletDriver</code>
+        </td>
+    </tr>
+    <tr>
+        <td class="text-center">macOS</td>
+        <td>
+            <code class="user-select-all">~/Library/Application Support/OpenTabletDriver</code>
+        </td>
+    </tr>
+</table>
 
-<div class="d-flex px-4">
-    <div class="flex-fill">
-        <h3 class="wiki-nav-item pb-2" id="appdata">
-            Application Data Directory
-        </h3>
-        <table class="table">
-            <tr>
-                <th class="text-center">Operating System</th>
-                <th>Path</th>
-            </tr>
-            <tr>
-                <td class="text-center">Windows</td>
-                <td>
-                    <code class="user-select-all">%localappdata%\OpenTabletDriver</code>
-                </td>
-            </tr>
-            <tr>
-                <td class="text-center">Linux</td>
-                <td>
-                    <code class="user-select-all">~/.config/OpenTabletDriver</code>
-                </td>
-            </tr>
-            <tr>
-                <td class="text-center">macOS</td>
-                <td>
-                    <code class="user-select-all">~/Library/Application Support/OpenTabletDriver</code>
-                </td>
-            </tr>
-        </table>
+<hr/>
 
-        <hr/>
+<h3 class="wiki-nav-item pb-2" id="command-line-args">
+    Command Line Arguments
+</h3>
+<h4>
+    UI
+</h4>
+<table class="table">
+    <tr>
+        <th>Argument</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><code class="user-select-all">--minimized</code> or <code class="user-select-all">-m</code></td>
+        <td>Starts the application in a minimized state.</td>
+    </tr>
+</table>
+<h4>
+    Daemon
+</h4>
+<table class="table">
+    <tr>
+        <th>Argument</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><code class="user-select-all">--appdata</code> or <code class="user-select-all">-a</code></td>
+        <td>Specifies the application data directory.</td>
+    </tr>
+    <tr>
+        <td><code class="user-select-all">--config</code> or <code class="user-select-all">-c</code></td>
+        <td>Specifies the configurations directory.</td>
+    </tr>
+</table>
 
-        <h3 class="wiki-nav-item pb-2" id="command-line-args">
-            Command Line Arguments
-        </h3>
-        <h4>
-            UI
-        </h4>
-        <table class="table">
-            <tr>
-                <th>Argument</th>
-                <th>Description</th>
-            </tr>
-            <tr>
-                <td><code class="user-select-all">--minimized</code> or <code class="user-select-all">-m</code></td>
-                <td>Starts the application in a minimized state.</td>
-            </tr>
-        </table>
-        <h4>
-            Daemon
-        </h4>
-        <table class="table">
-            <tr>
-                <th>Argument</th>
-                <th>Description</th>
-            </tr>
-            <tr>
-                <td><code class="user-select-all">--appdata</code> or <code class="user-select-all">-a</code></td>
-                <td>Specifies the application data directory.</td>
-            </tr>
-            <tr>
-                <td><code class="user-select-all">--config</code> or <code class="user-select-all">-c</code></td>
-                <td>Specifies the configurations directory.</td>
-            </tr>
-        </table>
+<hr/>
 
-        <hr/>
-
-        <h3 class="wiki-nav-item pb-2" id="area-conversion">
-            Proprietary Driver Area Conversions
-        </h3>
-        <p>
-            This can be performed from the UI or calculated manually.
-        </p>
-        <h4>
-            OpenTabletDriver UI
-        </h4>
-        <ol>
-            <li>Right click the tablet area editor</li>
-            <li>Click the <code>convert item</code> menu item</li>
-            <li>Select the OEM driver and insert your area values</li>
-        </ol>
-        <h4>
-            Manual Area Conversion
-        </h4>
-        <p class="mb-2">
-            Check the configuration file for your tablet
-            <a href="https://github.com/OpenTabletDriver/OpenTabletDriver/tree/master/OpenTabletDriver/Configurations">here</a>
-            or within the driver for properly calculated digitizer dimensions in millimeters.
-        </p>
-        <div class="text-muted px-3 mb-3">
-            <small>
-                <strong>Note:</strong> Huion and Gaomon areas use a &quot;percentage area&quot;, which uses a percentage
-                of the tablet&#39;s maximum area to calculate the area.<br/>
-                You must know your tablet&#39;s digitizer dimensions in millimeters in order to properly convert these areas.<br/>
-                This is automatically handled in the UI, for the best results it is recommended to use it for converting from these proprietary drivers.<br/>
-            </small>
-        </div>
-        <table class="table">
-            <tr>
-                <th class="text-center">Driver</th>
-                <th>Formulas</th>
-            </tr>
-            <tr>
-                <td class="text-center">Wacom, VEIKK</td>
-                <td>
-                    <code>Width = (Right - Left) / 100</code><br/>
-                    <code>Height = (Bottom - Top) / 100</code><br/>
-                    <code>X Offset = (Left / 100) + (Width / 2)</code><br/>
-                    <code>Y Offset = (Top / 100) + (Height / 2)</code>
-                </td>
-            </tr>
-            <tr>
-                <td class="text-center">XP-Pen</td>
-                <td>
-                    <code>Width = W / 3.937</code><br/>
-                    <code>Height = H / 3.937</code><br/>
-                    <code>X Offset = (Width / 2) + (X / 3.937)</code><br/>
-                    <code>Y Offset = (Height / 2) + (Y / 3.937)</code>
-                </td>
-            </tr>
-            <tr>
-                <td class="text-center">Huion, Gaomon</td>
-                <td>
-                    <code>Width = (Right - Left) * tabletWidth</code><br/>
-                    <code>Height = (Bottom - Top) * tabletHeight</code><br/>
-                    <code>X Offset = (Width / 2) + (Left * tabletWidth)</code><br/>
-                    <code>Y Offset = (Height / 2) + (Top * tabletHeight)</code>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <partial name="Wiki/_Navigation"/>
+<h3 class="wiki-nav-item pb-2" id="area-conversion">
+    Proprietary Driver Area Conversions
+</h3>
+<p>
+    This can be performed from the UI or calculated manually.
+</p>
+<h4>
+    OpenTabletDriver UI
+</h4>
+<ol>
+    <li>Right click the tablet area editor</li>
+    <li>Click the <code>convert item</code> menu item</li>
+    <li>Select the OEM driver and insert your area values</li>
+</ol>
+<h4>
+    Manual Area Conversion
+</h4>
+<p class="mb-2">
+    Check the configuration file for your tablet
+    <a href="https://github.com/OpenTabletDriver/OpenTabletDriver/tree/master/OpenTabletDriver/Configurations">here</a>
+    or within the driver for properly calculated digitizer dimensions in millimeters.
+</p>
+<div class="text-muted px-3 mb-3">
+    <small>
+        <strong>Note:</strong> Huion and Gaomon areas use a &quot;percentage area&quot;, which uses a percentage
+        of the tablet&#39;s maximum area to calculate the area.<br/>
+        You must know your tablet&#39;s digitizer dimensions in millimeters in order to properly convert these areas.<br/>
+        This is automatically handled in the UI, for the best results it is recommended to use it for converting from these proprietary drivers.<br/>
+    </small>
 </div>
+<table class="table">
+    <tr>
+        <th class="text-center">Driver</th>
+        <th>Formulas</th>
+    </tr>
+    <tr>
+        <td class="text-center">Wacom, VEIKK</td>
+        <td>
+            <code>Width = (Right - Left) / 100</code><br/>
+            <code>Height = (Bottom - Top) / 100</code><br/>
+            <code>X Offset = (Left / 100) + (Width / 2)</code><br/>
+            <code>Y Offset = (Top / 100) + (Height / 2)</code>
+        </td>
+    </tr>
+    <tr>
+        <td class="text-center">XP-Pen</td>
+        <td>
+            <code>Width = W / 3.937</code><br/>
+            <code>Height = H / 3.937</code><br/>
+            <code>X Offset = (Width / 2) + (X / 3.937)</code><br/>
+            <code>Y Offset = (Height / 2) + (Y / 3.937)</code>
+        </td>
+    </tr>
+    <tr>
+        <td class="text-center">Huion, Gaomon</td>
+        <td>
+            <code>Width = (Right - Left) * tabletWidth</code><br/>
+            <code>Height = (Bottom - Top) * tabletHeight</code><br/>
+            <code>X Offset = (Width / 2) + (Left * tabletWidth)</code><br/>
+            <code>Y Offset = (Height / 2) + (Top * tabletHeight)</code>
+        </td>
+    </tr>
+</table>

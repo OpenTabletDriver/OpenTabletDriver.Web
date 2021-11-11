@@ -2,97 +2,90 @@
     ViewBag.Title = "Windows Installation Guide";
 }
 
-<partial name="Wiki/_Header"/>
+<p>
+    Installation on Windows can be either portable or installed with the installer/auto-updater.<br/>
+    <small class="ms-3 text-muted">
+        Note: The installer will be deprecated in v0.6, as it will have self-updating capabilities.
+    </small>
+</p>
 
-<div class="d-flex">
-    <div class="flex-fill">
-        <p>
-            Installation on Windows can be either portable or installed with the installer/auto-updater.<br/>
+<h3 class="wiki-nav-item" id="dependencies">
+    Dependencies
+</h3>
+<ol>
+    <li>
+        Install the <a href="@Url.Action("Index", "Framework")">.NET 5 Desktop Runtime x64</a>
+    </li>
+</ol>
+
+<hr/>
+
+<h3 class="wiki-nav-item" id="installer">
+    Installer
+</h3>
+<div class="ms-3">
+    <p class="text-muted">
+        <small>
+            Note: This method will be deprecated in v0.6 onwards, as self-updating will be implemented.
+        </small>
+    </p>
+    <ol>
+        <li>
+            Download the
+            <a href="https://github.com/OpenTabletDriver/OpenTabletDriver.Installer/releases">
+                latest installer executable
+            </a>
+        </li>
+        <li>
+            Extract the zip file anywhere, just don't forget where it is<br/>
             <small class="ms-3 text-muted">
-                Note: The installer will be deprecated in v0.6, as it will have self-updating capabilities.
+                You will be using the installer to launch OpenTabletDriver and keep up to date.
             </small>
-        </p>
+        </li>
+        <li>
+            Run <code>OpenTabletDriver.Installer.exe</code> and click <code>Install</code>.
+        </li>
+        <li>
+            Once installation is complete, click <code>Start</code> to run OpenTabletDriver.
+        </li>
+    </ol>
+</div>
 
-        <h3 class="wiki-nav-item" id="dependencies">
-            Dependencies
-        </h3>
-        <ol>
-            <li>
-                Install the <a href="@Url.Action("Index", "Framework")">.NET 5 Desktop Runtime x64</a>
-            </li>
-        </ol>
+<hr/>
 
-        <hr/>
-
-        <h3 class="wiki-nav-item" id="installer">
-            Installer
-        </h3>
-        <div class="ms-3">
-            <p class="text-muted">
-                <small>
-                    Note: This method will be deprecated in v0.6 onwards, as self-updating will be implemented.
-                </small>
-            </p>
-            <ol>
-                <li>
-                    Download the
-                    <a href="https://github.com/OpenTabletDriver/OpenTabletDriver.Installer/releases">
-                        latest installer executable
-                    </a>
-                </li>
-                <li>
-                    Extract the zip file anywhere, just don't forget where it is<br/>
-                    <small class="ms-3 text-muted">
-                        You will be using the installer to launch OpenTabletDriver and keep up to date.
-                    </small>
-                </li>
-                <li>
-                    Run <code>OpenTabletDriver.Installer.exe</code> and click <code>Install</code>.
-                </li>
-                <li>
-                    Once installation is complete, click <code>Start</code> to run OpenTabletDriver.
-                </li>
-            </ol>
-        </div>
-
-        <hr/>
-
-        <h3 class="wiki-nav-item" id="portable">
-            Portable
-        </h3>
-        <div class="ms-3">
-            <p class="text-muted">
-                <small>
-                    Note 1: You will not be notified of driver updates on versions prior to v0.6
-                </small><br/>
-                <small>
-                    Note 2: Do not launch OpenTabletDriver from the start menu on versions prior to v0.6
-                </small>
-            </p>
-            <ol>
-                <li>
-                    Download the
-                    <a href="https://github.com/OpenTabletDriver/OpenTabletDriver/releases/latest">latest release</a>
-                    <small class="text-muted">(OpenTabletDriver-win-x64.zip)</small>
-                </li>
-                <li>
-                    Extract the downloaded file into a folder of its own<br/>
-                    <small class="ms-3 text-muted">
-                        Replace <code>&lt;username&gt;</code> with your username in this example
-                    </small>
-                    <codeblock class="mt-2">
-                        C:\Users\&lt;username&gt;\OpenTabletDriver
-                    </codeblock>
-                </li>
-                <li>
-                    Run <code>OpenTabletDriver.UX.Wpf.exe</code> in the extracted directory.<br/>
-                    <small class="ms-3 text-muted">
-                        Note: You can create a shortcut to this file, just make sure that the working directory points
-                        to the extracted directory.
-                    </small>
-                </li>
-            </ol>
-        </div>
-    </div>
-    <partial name="Wiki/_Navigation"/>
+<h3 class="wiki-nav-item" id="portable">
+    Portable
+</h3>
+<div class="ms-3">
+    <p class="text-muted">
+        <small>
+            Note 1: You will not be notified of driver updates on versions prior to v0.6
+        </small><br/>
+        <small>
+            Note 2: Do not launch OpenTabletDriver from the start menu on versions prior to v0.6
+        </small>
+    </p>
+    <ol>
+        <li>
+            Download the
+            <a href="https://github.com/OpenTabletDriver/OpenTabletDriver/releases/latest">latest release</a>
+            <small class="text-muted">(OpenTabletDriver-win-x64.zip)</small>
+        </li>
+        <li>
+            Extract the downloaded file into a folder of its own<br/>
+            <small class="ms-3 text-muted">
+                Replace <code>&lt;username&gt;</code> with your username in this example
+            </small>
+            <codeblock class="mt-2">
+                C:\Users\&lt;username&gt;\OpenTabletDriver
+            </codeblock>
+        </li>
+        <li>
+            Run <code>OpenTabletDriver.UX.Wpf.exe</code> in the extracted directory.<br/>
+            <small class="ms-3 text-muted">
+                Note: You can create a shortcut to this file, just make sure that the working directory points
+                to the extracted directory.
+            </small>
+        </li>
+    </ol>
 </div>

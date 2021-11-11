@@ -2,125 +2,118 @@
     ViewBag.Title = "Linux Installation Guide";
 }
 
-<partial name="Wiki/_Header"/>
+<h3 class="wiki-nav-item" id="debian">
+    Ubuntu / Debian
+</h3>
+<ol>
+    <li>
+        Download the <a href="https://github.com/OpenTabletDriver/OpenTabletDriver/releases/latest">latest release</a>
+        <small class="text-muted">(OpenTabletDriver.deb)</small>
+    </li>
+    <li>
+        Download the <a href="https://packages.microsoft.com/config/">Microsoft repository package</a>
+        <small class="text-muted">(packages-microsoft-prod.deb)</small>
+        for your distribution
+    </li>
+    <li>
+        Run the following commands in a terminal<br/>
+        <small class="ms-3 text-muted">
+            This assumes that you are in the directory in which you download these files to.
+        </small>
+        <codeblock class="mt-2" language="sh">
+            # Add the Microsoft Packages repository, use the URL related to your distribution
+            sudo dpkg -i packages-microsoft-prod.deb
 
-<div class="d-flex">
-    <div class="flex-fill">
-        <h3 class="wiki-nav-item" id="debian">
-            Ubuntu / Debian
-        </h3>
-        <ol>
-            <li>
-                Download the <a href="https://github.com/OpenTabletDriver/OpenTabletDriver/releases/latest">latest release</a>
-                <small class="text-muted">(OpenTabletDriver.deb)</small>
-            </li>
-            <li>
-                Download the <a href="https://packages.microsoft.com/config/">Microsoft repository package</a>
-                <small class="text-muted">(packages-microsoft-prod.deb)</small>
-                for your distribution
-            </li>
-            <li>
-                Run the following commands in a terminal<br/>
-                <small class="ms-3 text-muted">
-                    This assumes that you are in the directory in which you download these files to.
-                </small>
-                <codeblock class="mt-2" language="sh">
-                    # Add the Microsoft Packages repository, use the URL related to your distribution
-                    sudo dpkg -i packages-microsoft-prod.deb
+            # Install the .NET runtime
+            sudo apt update
+            sudo apt install -y apt-transport-https
+            sudo apt update
+            sudo apt install -y dotnet-sdk-5.0
 
-                    # Install the .NET runtime
-                    sudo apt update
-                    sudo apt install -y apt-transport-https
-                    sudo apt update
-                    sudo apt install -y dotnet-sdk-5.0
+            # This will install the package, assuming you are in the correct directory
+            sudo apt install ./OpenTabletDriver.deb
 
-                    # This will install the package, assuming you are in the correct directory
-                    sudo apt install ./OpenTabletDriver.deb
+            # Reload the systemd user unit daemon
+            systemctl --user daemon-reload
 
-                    # Reload the systemd user unit daemon
-                    systemctl --user daemon-reload
+            # Enable and start the user service
+            systemctl --user enable opentabletdriver --now
+        </codeblock>
+    </li>
+</ol>
 
-                    # Enable and start the user service
-                    systemctl --user enable opentabletdriver --now
-                </codeblock>
-            </li>
-        </ol>
+<hr/>
 
-        <hr/>
+<h3 class="wiki-nav-item" id="arch">
+    Arch Linux
+</h3>
+<ol>
+    <li>
+        Use an AUR helper to install the <code>opentabletdriver</code> AUR package.
+    </li>
+    <li>
+        Run the following commands in a terminal
+        <codeblock class="mt-2" language="sh">
+            # Reload the systemd user unit daemon
+            systemctl --user daemon-reload
+            # Enable and start the user service
+            systemctl --user enable opentabletdriver --now
+        </codeblock>
+    </li>
+</ol>
 
-        <h3 class="wiki-nav-item" id="arch">
-            Arch Linux
-        </h3>
-        <ol>
-            <li>
-                Use an AUR helper to install the <code>opentabletdriver</code> AUR package.
-            </li>
-            <li>
-                Run the following commands in a terminal
-                <codeblock class="mt-2" language="sh">
-                    # Reload the systemd user unit daemon
-                    systemctl --user daemon-reload
-                    # Enable and start the user service
-                    systemctl --user enable opentabletdriver --now
-                </codeblock>
-            </li>
-        </ol>
+<hr/>
 
-        <hr/>
+<h3 class="wiki-nav-item" id="gentoo">
+    Gentoo
+</h3>
+<ol>
+    <li>
+        Add Guru overlay<br/>
+        <small class="ms-3 text-muted">
+            This is only required if you don't already have the Guru overlay configured
+        </small>
+        <codeblock class="mt-2" language="sh">
+            # Add guru repository
+            sudo layman -L
+            sudo layman -a guru
+            sudo layman -s guru
 
-        <h3 class="wiki-nav-item" id="gentoo">
-            Gentoo
-        </h3>
-        <ol>
-            <li>
-                Add Guru overlay<br/>
-                <small class="ms-3 text-muted">
-                    This is only required if you don't already have the Guru overlay configured
-                </small>
-                <codeblock class="mt-2" language="sh">
-                    # Add guru repository
-                    sudo layman -L
-                    sudo layman -a guru
-                    sudo layman -s guru
+            # Enable guru repository
+            sudo eselect repository enable guru
+            sudo emerge --sync guru
+        </codeblock>
+    </li>
+    <li>
+        Edit <code>/etc/portage/package.accept_keywords</code> and add this line
+        <codeblock class="mt-2">
+            x11-drivers/OpenTabletDriver-bin ~amd64
+        </codeblock>
+    </li>
+    <li>
+        Run the following command
+        <codeblock class="mt-2" language="sh">
+            # Install the OpenTabletDriver package
+            sudo emerge OpenTabletDriver-bin
+        </codeblock>
+    </li>
+</ol>
 
-                    # Enable guru repository
-                    sudo eselect repository enable guru
-                    sudo emerge --sync guru
-                </codeblock>
-            </li>
-            <li>
-                Edit <code>/etc/portage/package.accept_keywords</code> and add this line
-                <codeblock class="mt-2">
-                    x11-drivers/OpenTabletDriver-bin ~amd64
-                </codeblock>
-            </li>
-            <li>
-                Run the following command
-                <codeblock class="mt-2" language="sh">
-                    # Install the OpenTabletDriver package
-                    sudo emerge OpenTabletDriver-bin
-                </codeblock>
-            </li>
-        </ol>
+<hr/>
 
-        <hr/>
-
-        <h3 class="wiki-nav-item" id="nixos">
-            NixOS
-        </h3>
-        <ol>
-            <li>
-                Edit <code>/etc/nixos/configuration.nix</code> and add this in your configuration<br/>
-                <small class="ms-3 text-muted">
-                    More configuration options can be found
-                    <a href="https://search.nixos.org/options?query=opentabletdriver">here</a>
-                </small>
-                <codeblock class="mt-2" language="nix">
-                    # Enable OpenTabletDriver
-                    hardware.opentabletdriver.enable = true;
-                </codeblock>
-            </li>
-        </ol>
-    </div>
-    <partial name="Wiki/_Navigation"/>
-</div>
+<h3 class="wiki-nav-item" id="nixos">
+    NixOS
+</h3>
+<ol>
+    <li>
+        Edit <code>/etc/nixos/configuration.nix</code> and add this in your configuration<br/>
+        <small class="ms-3 text-muted">
+            More configuration options can be found
+            <a href="https://search.nixos.org/options?query=opentabletdriver">here</a>
+        </small>
+        <codeblock class="mt-2" language="nix">
+            # Enable OpenTabletDriver
+            hardware.opentabletdriver.enable = true;
+        </codeblock>
+    </li>
+</ol>

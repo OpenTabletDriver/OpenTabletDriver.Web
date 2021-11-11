@@ -2,64 +2,57 @@
     ViewBag.Title = "Windows FAQ";
 }
 
-<partial name="Wiki/_Header"/>
+<h3 class="wiki-nav-item pb-2" id="uclogic-supported-undetected">
+    Supported tablet not detected
+</h3>
+<div class="ms-3">
+    <p>
+        This is most commonly the result of manufacturer driver leftovers.<br/>
+    </p>
+    <ol>
+        <li>
+            Uninstall any tablet drivers that are currently installed.<br/>
+            <em class="ms-3 text-danger">
+                Deleting files is not a proper method to uninstall drivers,
+                <strong>it will cause issues</strong>.
+                Use the <strong>Settings</strong> app or <strong>Control Panel</strong> instead.
+            </em>
+        </li>
+        <li>
+            Use the <a href="https://github.com/X9VoiD/WinUSBCleanup/releases/latest">WinUSBCleanup</a>
+            script to automatically clean up any leftovers that uninstallers failed to clean up.
+        </li>
+    </ol>
+</div>
 
-<div class="d-flex">
-    <div class="flex-fill">
-        <h3 class="wiki-nav-item pb-2" id="uclogic-supported-undetected">
-            Supported tablet not detected
-        </h3>
-        <div class="ms-3">
-            <p>
-                This is most commonly the result of manufacturer driver leftovers.<br/>
-            </p>
-            <ol>
-                <li>
-                    Uninstall any tablet drivers that are currently installed.<br/>
-                    <em class="ms-3 text-danger">
-                        Deleting files is not a proper method to uninstall drivers,
-                        <strong>it will cause issues</strong>.
-                        Use the <strong>Settings</strong> app or <strong>Control Panel</strong> instead.
-                    </em>
-                </li>
-                <li>
-                    Use the <a href="https://github.com/X9VoiD/WinUSBCleanup/releases/latest">WinUSBCleanup</a>
-                    script to automatically clean up any leftovers that uninstallers failed to clean up.
-                </li>
-            </ol>
-        </div>
+<hr/>
 
-        <hr/>
+<h3 class="wiki-nav-item pb-2" id="map-raw-input">
+    Input does not work in osu!
+</h3>
+<div class="ms-3">
+    <p>
+        OpenTabletDriver uses the Windows SendInput API to position the cursor from user level permissions.<br/>
+        It does not move the cursor in a method that raw input accepts as standard cursor movement.
+    </p>
+    <ol>
+        <li>Disable <code>Map raw input to osu! window</code> in the ingame settings.</li>
+    </ol>
+</div>
 
-        <h3 class="wiki-nav-item pb-2" id="map-raw-input">
-            Input does not work in osu!
-        </h3>
-        <div class="ms-3">
-            <p>
-                OpenTabletDriver uses the Windows SendInput API to position the cursor from user level permissions.<br/>
-                It does not move the cursor in a method that raw input accepts as standard cursor movement.
-            </p>
-            <ol>
-                <li>Disable <code>Map raw input to osu! window</code> in the ingame settings.</li>
-            </ol>
-        </div>
+<hr/>
 
-        <hr/>
-
-        <h3 class="wiki-nav-item pb-2" id="startup">
-            Open at startup
-        </h3>
-        <div class="ms-3">
-            <p>
-                Starting OpenTabletDriver at login can be performed quite easily. This can be done for nearly any
-                program, although there may be better ways to do it for those programs.
-            </p>
-            <ol>
-                <li>Right click <code>OpenTabletDriver.UX.Wpf.exe</code> and create a shortcut.</li>
-                <li>Press <kbd>Win</kbd> + <kbd>R</kbd> and type in <code>shell:startup</code></li>
-                <li>Move the shortcut into the folder that opened.</li>
-            </ol>
-        </div>
-    </div>
-    <partial name="Wiki/_Navigation"/>
+<h3 class="wiki-nav-item pb-2" id="startup">
+    Open at startup
+</h3>
+<div class="ms-3">
+    <p>
+        Starting OpenTabletDriver at login can be performed quite easily. This can be done for nearly any
+        program, although there may be better ways to do it for those programs.
+    </p>
+    <ol>
+        <li>Right click <code>OpenTabletDriver.UX.Wpf.exe</code> and create a shortcut.</li>
+        <li>Press <kbd>Win</kbd> + <kbd>R</kbd> and type in <code>shell:startup</code></li>
+        <li>Move the shortcut into the folder that opened.</li>
+    </ol>
 </div>
