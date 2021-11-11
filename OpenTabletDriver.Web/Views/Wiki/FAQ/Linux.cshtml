@@ -2,166 +2,159 @@
     ViewBag.Title = "Linux FAQ";
 }
 
-<partial name="Wiki/_Header"/>
-
-<div class="d-flex px-4">
-    <div class="flex-fill">
-        <h3 class="wiki-nav-item pb-2" id="ghost-cursor">
-            Teleporting Cursor Position
-        </h3>
-        <div class="ms-3">
-            <p>
-                This occurs because another program is reading the tablet at the same time as OpenTabletDriver.
-                <small>
-                    <a class="link-light" href="https://github.com/InfinityGhost/OpenTabletDriver/issues/68">#68</a>
-                </small>
-                <ol>
-                    <li>
-                        Perform the following commands in a terminal
-                        <codeblock class="mt-2">
-                            echo "blacklist wacom" | sudo tee -a /etc/modprobe.d/blacklist.conf
-                            sudo rmmod wacom
-                        </codeblock>
-                    </li>
-                </ol>
-            </p>
-        </div>
-
-        <hr/>
-
-        <h3 class="wiki-nav-item pb-2" id="fail-device-streams">
-            Failed to open device streams / ArgumentOutOfRangeException
-        </h3>
-        <div class="ms-3">
-            <p>
-                This occurs due to a lack of permissions to open a device stream.
-                It is resolved by creating udev rules that give these permissions.
-                <br/>
-                If you installed OpenTabletDriver via your package manager,
-                you may need to run the following command then replug your tablet.
+<h3 class="wiki-nav-item pb-2" id="ghost-cursor">
+    Teleporting Cursor Position
+</h3>
+<div class="ms-3">
+    <p>
+        This occurs because another program is reading the tablet at the same time as OpenTabletDriver.
+        <small>
+            <a class="link-light" href="https://github.com/InfinityGhost/OpenTabletDriver/issues/68">#68</a>
+        </small>
+        <ol>
+            <li>
+                Perform the following commands in a terminal
                 <codeblock class="mt-2">
-                    sudo udevadm control --reload-rules
+                    echo "blacklist wacom" | sudo tee -a /etc/modprobe.d/blacklist.conf
+                    sudo rmmod wacom
                 </codeblock>
-            </p>
-            <p>
-                If this does not work, run the following commands
-            </p>
-            <codeblock class="mt-2" language="sh">
-                # Clone the repository, change current directory to the repository
-                git clone https://github.com/OpenTabletDriver/OpenTabletDriver.git
-                cd ./OpenTabletDriver
-                # Generate rules, moves them to the udev rules directory
-                ./generate-rules.sh
-                sudo mv ./bin/99-opentabletdriver.rules /etc/udev/rules.d/99-opentabletdriver.rules
-                # Reload udev rules
-                sudo udevadm control --reload-rules
-                # Clean up leftovers
-                cd ..
-                rm -rf OpenTabletDriver
-            </codeblock>
-        </div>
+            </li>
+        </ol>
+    </p>
+</div>
 
-        <hr/>
+<hr/>
 
-        <h3>Failed to initialize virtual device</h3>
-        <div class="ms-3">
-            <h4>EACCESS</h4>
-            <codeblock class="mt-2">
-                sudo chmod 0666 /dev/uinput
-            </codeblock>
+<h3 class="wiki-nav-item pb-2" id="fail-device-streams">
+    Failed to open device streams / ArgumentOutOfRangeException
+</h3>
+<div class="ms-3">
+    <p>
+        This occurs due to a lack of permissions to open a device stream.
+        It is resolved by creating udev rules that give these permissions.
+        <br/>
+        If you installed OpenTabletDriver via your package manager,
+        you may need to run the following command then replug your tablet.
+        <codeblock class="mt-2">
+            sudo udevadm control --reload-rules
+        </codeblock>
+    </p>
+    <p>
+        If this does not work, run the following commands
+    </p>
+    <codeblock class="mt-2" language="sh">
+        # Clone the repository, change current directory to the repository
+        git clone https://github.com/OpenTabletDriver/OpenTabletDriver.git
+        cd ./OpenTabletDriver
+        # Generate rules, moves them to the udev rules directory
+        ./generate-rules.sh
+        sudo mv ./bin/99-opentabletdriver.rules /etc/udev/rules.d/99-opentabletdriver.rules
+        # Reload udev rules
+        sudo udevadm control --reload-rules
+        # Clean up leftovers
+        cd ..
+        rm -rf OpenTabletDriver
+    </codeblock>
+</div>
 
-            <h4>ENODEV</h4>
-            <p>
-                Rebooting is the only option here. Your kernel was very likely updated, or some component of
-                uinput was modified which requires a reboot to resolve.
-            </p>
-        </div>
+<hr/>
 
-        <hr/>
+<h3>Failed to initialize virtual device</h3>
+<div class="ms-3">
+    <h4>EACCESS</h4>
+    <codeblock class="mt-2">
+        sudo chmod 0666 /dev/uinput
+    </codeblock>
 
-        <h3 class="wiki-nav-item pb-2" id="performance-nvidia">
-            Poor performance with NVIDIA
-        </h3>
-        <div class="ms-3">
-            <ol>
-                <li>Disable <code>Force full composition pipeline</code> in the NVIDIA settings panel.</li>
-            </ol>
-        </div>
+    <h4>ENODEV</h4>
+    <p>
+        Rebooting is the only option here. Your kernel was very likely updated, or some component of
+        uinput was modified which requires a reboot to resolve.
+    </p>
+</div>
 
-        <hr/>
+<hr/>
 
-        <h3 class="wiki-nav-item pb-2" id="display-session-not-detected">
-            X11/Wayland Session not detected
-        </h3>
-        <div class="ms-3">
-            <h4>X11 <small class="text-muted">(systemd)</small></h4>
-            <div class="mx-3">
-                <p>
-                    Your <code>.xinitrc</code> is likely configured improperly and the <code>DISPLAY</code> environment
-                    variable isn't set for systemd.<br/>
-                    Proper configuration for the <code>.xinitrc</code> file can be found
-                    <a href="https://wiki.archlinux.org/index.php/Xinit#Configuration">here</a>.<br/>
-                    <small class="ms-3 text-muted">
-                        Note: The fix below is just a quick and dirty fix to get OpenTabletDriver running and should
-                        instead be resolved as above.
-                    </small>
-                </p>
-                <ol>
-                    <li>
-                        Create an override file
-                        <codeblock class="mt-2" language="sh">
-                            # Opens with whatever program is set to $EDITOR
-                            systemctl --user edit opentabletdriver.service
-                        </codeblock>
-                    </li>
-                    <li>
-                        Add this block below the first 2 lines of the file, then save and exit
-                        <codeblock class="mt-2" language="ini">
-                            [Service]
-                            Environment=DISPLAY=:0
-                        </codeblock>
-                    </li>
-                    <li>
-                        Finally, run the following commands
-                        <codeblock class="mt-2" language="sh">
-                            # Reload the systemd user daemon
-                            systemctl --user daemon-reload
-                            # Start the OpenTabletDriver daemon service (restarts if already running)
-                            systemctl --user restart opentabletdriver.service
-                        </codeblock>
-                    </li>
-                </ol>
-            </div>
+<h3 class="wiki-nav-item pb-2" id="performance-nvidia">
+    Poor performance with NVIDIA
+</h3>
+<div class="ms-3">
+    <ol>
+        <li>Disable <code>Force full composition pipeline</code> in the NVIDIA settings panel.</li>
+    </ol>
+</div>
 
-            <h4>Wayland <small class="text-muted">(systemd)</small></h4>
-            <div class="mx-3">
-                <ol>
-                    <li>
-                        Create an override file
-                        <codeblock class="mt-2" language="sh">
-                            # Opens with whatever program is set to $EDITOR
-                            systemctl --user edit opentabletdriver.service
-                        </codeblock>
-                    </li>
-                    <li>
-                        Add this block below the first 2 lines of the file, then save and exit
-                        <codeblock class="mt-2" language="ini">
-                            [Service]
-                            Environment=WAYLAND_DISPLAY=:0
-                        </codeblock>
-                    </li>
-                    <li>
-                        Finally, run the following commands
-                        <codeblock class="mt-2" language="sh">
-                            # Reload the systemd user daemon
-                            systemctl --user daemon-reload
-                            # Start the OpenTabletDriver daemon service (restarts if already running)
-                            systemctl --user restart opentabletdriver.service
-                        </codeblock>
-                    </li>
-                </ol>
-            </div>
-        </div>
+<hr/>
+
+<h3 class="wiki-nav-item pb-2" id="display-session-not-detected">
+    X11/Wayland Session not detected
+</h3>
+<div class="ms-3">
+    <h4>X11 <small class="text-muted">(systemd)</small></h4>
+    <div class="mx-3">
+        <p>
+            Your <code>.xinitrc</code> is likely configured improperly and the <code>DISPLAY</code> environment
+            variable isn't set for systemd.<br/>
+            Proper configuration for the <code>.xinitrc</code> file can be found
+            <a href="https://wiki.archlinux.org/index.php/Xinit#Configuration">here</a>.<br/>
+            <small class="ms-3 text-muted">
+                Note: The fix below is just a quick and dirty fix to get OpenTabletDriver running and should
+                instead be resolved as above.
+            </small>
+        </p>
+        <ol>
+            <li>
+                Create an override file
+                <codeblock class="mt-2" language="sh">
+                    # Opens with whatever program is set to $EDITOR
+                    systemctl --user edit opentabletdriver.service
+                </codeblock>
+            </li>
+            <li>
+                Add this block below the first 2 lines of the file, then save and exit
+                <codeblock class="mt-2" language="ini">
+                    [Service]
+                    Environment=DISPLAY=:0
+                </codeblock>
+            </li>
+            <li>
+                Finally, run the following commands
+                <codeblock class="mt-2" language="sh">
+                    # Reload the systemd user daemon
+                    systemctl --user daemon-reload
+                    # Start the OpenTabletDriver daemon service (restarts if already running)
+                    systemctl --user restart opentabletdriver.service
+                </codeblock>
+            </li>
+        </ol>
     </div>
-    <partial name="Wiki/_Navigation"/>
+
+    <h4>Wayland <small class="text-muted">(systemd)</small></h4>
+    <div class="mx-3">
+        <ol>
+            <li>
+                Create an override file
+                <codeblock class="mt-2" language="sh">
+                    # Opens with whatever program is set to $EDITOR
+                    systemctl --user edit opentabletdriver.service
+                </codeblock>
+            </li>
+            <li>
+                Add this block below the first 2 lines of the file, then save and exit
+                <codeblock class="mt-2" language="ini">
+                    [Service]
+                    Environment=WAYLAND_DISPLAY=:0
+                </codeblock>
+            </li>
+            <li>
+                Finally, run the following commands
+                <codeblock class="mt-2" language="sh">
+                    # Reload the systemd user daemon
+                    systemctl --user daemon-reload
+                    # Start the OpenTabletDriver daemon service (restarts if already running)
+                    systemctl --user restart opentabletdriver.service
+                </codeblock>
+            </li>
+        </ol>
+    </div>
 </div>

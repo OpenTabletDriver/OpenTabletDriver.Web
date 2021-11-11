@@ -1,4 +1,4 @@
-﻿@using OpenTabletDriver.Web.Controllers
+@using OpenTabletDriver.Web.Controllers
 
 @{
     string subTitle = @ViewData["Title"] as string;
@@ -55,11 +55,38 @@
 </header>
 <div class="container">
     <main role="main" class="pb-3">
-        @RenderBody()
+        <partial name="Wiki/_Header"/>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-auto">
+                    <strong>Contents</strong>
+                    <ul id="wiki-navigation"></ul>
+                </div>
+                <div class="col">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
     </main>
 </div>
 
 <partial name="_Scripts"/>
+<script type="text/javascript">
+    document.onreadystatechange = function () {
+        if (document.readyState == 'complete') {
+            let navList = document.getElementById('wiki-navigation');
+            let navItems = document.querySelectorAll('.wiki-nav-item');
+            navItems.forEach(function (item) {
+                let itemName = item.textContent;
+                let id = item.id;
+                navList.innerHTML +=
+                    '<li>' +
+                        '<a class=\'link-light text-bold\' href=\'#' + id + '\'>' + itemName + '</a>' +
+                    '</li>';
+            });
+        }
+    }
+</script>
 @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
