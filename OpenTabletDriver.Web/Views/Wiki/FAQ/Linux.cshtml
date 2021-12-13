@@ -104,6 +104,21 @@
 
 <hr/>
 
+<h3 class="wiki-nav-item pb-2" id="osu-lazer-broken-input-wayland">
+    Stuck cursor in osu!lazer (Wayland)
+</h3>
+<div class="ms-3">
+    <ol>
+        <li>Make sure you set the <code>SDL_VIDEODRIVER</code> to <code>wayland</code>.</li>
+    </ol>
+    <codeblock language="sh">
+        # Export the environment variable
+        export SDL_VIDEODRIVER=wayland
+        # Start osu! lazer via the AppImage assuming its in the working directory
+        ./osu.AppImage
+    </codeblock>
+</div>
+
 <h3 class="wiki-nav-item pb-2" id="display-session-not-detected">
     X11/Wayland Session not detected
 </h3>
