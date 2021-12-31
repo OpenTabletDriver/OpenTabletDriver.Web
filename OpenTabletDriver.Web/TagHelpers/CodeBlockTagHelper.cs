@@ -60,7 +60,7 @@ namespace OpenTabletDriver.Web.TagHelpers
                         {
                             var nextLine = lines[i + 1];
                             const string tag = "span";
-                            yield return $"<{tag} class=\"text-muted\">{line}</{tag}>{nextLine}";
+                            yield return $"<{tag} class=\"text-muted\">{line}{Environment.NewLine}</{tag}>{nextLine}";
                             i++;
                         }
                         else
@@ -80,7 +80,7 @@ namespace OpenTabletDriver.Web.TagHelpers
                         {
                             var nextLine = lines[i + 1];
                             const string tag = "span";
-                            yield return $"<{tag} class=\"text-info\">{line}</{tag}>{nextLine}";
+                            yield return $"<{tag} class=\"text-info\">{line}{Environment.NewLine}</{tag}>{nextLine}";
                             i++;
                         }
                         else
