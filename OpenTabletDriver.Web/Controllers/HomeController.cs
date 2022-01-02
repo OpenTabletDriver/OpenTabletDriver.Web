@@ -24,15 +24,14 @@ namespace OpenTabletDriver.Web.Controllers
             this.releaseService = releaseService;
         }
 
-        private IEnumerable<IRelease> releases;
-
         public const string REPOSITORY_URL = "https://www.github.com/OpenTabletDriver/OpenTabletDriver";
         public const string DISCORD_INVITE_URL = "https://discord.gg/9bcMaPkVAR";
 
         [ResponseCache(Duration = 300)]
         public async Task<IActionResult> Index()
         {
-            return View(releases ??= await releaseService.GetAllReleases());
+            var release = await releaseService.GetLatestRelease();
+            return View(release);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
