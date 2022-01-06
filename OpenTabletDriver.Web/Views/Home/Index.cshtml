@@ -1,12 +1,6 @@
 ﻿@using OpenTabletDriver.Web.Core.Contracts
-@using OpenTabletDriver.Web.Controllers
-@using OpenTabletDriver.Web.Utilities
 
-@{
-    int index = 0;
-}
-
-@model IEnumerable<IRelease>
+@model IRelease
 
 <div class="container">
     <section class="py-5 text-center">
@@ -15,13 +9,10 @@
             OpenTabletDriver is an open source, cross-platform, low latency, user-mode tablet driver.
         </p>
     </section>
-    <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3">
-        @foreach (IRelease release in Model.Take(3))
-        {
-            <div class="col p-2 @(index >= 2 ? "d-md-none d-lg-block" : string.Empty)">
-                <partial name="Release/_ReleaseCard" model="@release" view-data="@ViewData.With(d => d.Add("Primary", index == 0))"/>
-            </div>
-            index++;
-        }
+    <div class="row row-cols-sm-1 row-cols-lg-3">
+        <div class="col d-none d-sm-block"></div>
+        <div class="col">
+            <partial name="Release/_ReleaseCard" model="@Model"/>
+        </div>
     </div>
 </div>
