@@ -42,6 +42,30 @@
         </li>
     </ol>
 </div>
+<div class="ms-3">
+    <h3>
+        This doesn't work after rebooting?
+    </h3>
+    <p>
+        The solution to this is to rebuild the initramfs. This process varies distro to distro.
+    </p>
+    <h3>
+        Arch
+    </h3>
+        <ol>
+            <codeblock class="mt-2" language="sh">
+                sudo mkinitcpio -P
+            </codeblock>
+        </ol>
+    <h3>
+        Debian / Ubuntu
+    </h3>
+        <ol>
+            <codeblock class="mt-2" language="sh">
+                sudo update-initramfs -u
+            </codeblock>
+        </ol>
+</div>
 
 <h3 class="wiki-nav-item pb-2" id="fail-device-streams">
     Failed to open device streams
@@ -91,6 +115,14 @@
     </p>
 </div>
 
+<h3>This doesn't work after rebooting?</h3>
+<div class="ms-3">
+    <p>
+    This is probably due to your kernel not having uinput built in, either build your kernel with uinput
+    support or use a different kernel.
+    </p>
+</div>
+
 <hr/>
 
 <h3 class="wiki-nav-item pb-2" id="performance-nvidia">
@@ -118,6 +150,22 @@
         ./osu.AppImage
     </codeblock>
 </div>
+
+<hr/>
+
+<h3 class="wiki-nav-item pb-2" id="CTL-x100 Android Mode">
+    Wacom CTL-x100 Android Mode
+</h3>
+<div class="ms-3">
+<p>
+    Sometimes the Ctl-x100s can be left in Android mode instead of PC mode, to fix this press
+    the outer 2 express keys for 3-4 seconds until they blink, this will change the mode between
+    PC and Android.
+</p>
+
+</div>
+
+<hr/>
 
 <h3 class="wiki-nav-item pb-2" id="display-session-not-detected">
     X11/Wayland Session not detected
