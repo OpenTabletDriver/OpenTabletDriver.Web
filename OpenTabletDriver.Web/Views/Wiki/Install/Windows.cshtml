@@ -1,7 +1,13 @@
+@using OpenTabletDriver.Web.Core.Services
+
+@inject IReleaseService releaseService
+
 @{
     ViewBag.Title = "Windows Installation Guide";
+    var release = await releaseService.GetLatestRelease();
+    var assets = await release.GetReleaseAssets();
+    var winzip = assets.FirstOrDefault(a => a.FileName == "OpenTabletDriver.win-x64.zip")!;
 }
-
 
 <h3 class="wiki-nav-item" id="dependencies">
     Dependencies
@@ -29,7 +35,7 @@
     <ol>
         <li>
             Download the
-            <a href="https://github.com/OpenTabletDriver/OpenTabletDriver/releases/latest">latest release</a>
+            <a href="@(winzip.Url)">latest release</a>
             <small class="text-muted">(OpenTabletDriver-win-x64.zip)</small>
         </li>
         <li>
