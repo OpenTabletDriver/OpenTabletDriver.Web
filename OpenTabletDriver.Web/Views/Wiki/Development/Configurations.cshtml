@@ -65,7 +65,7 @@
                 </td>
                 <td>mm</td>
                 <td class="text-start">
-                    The width of the digitizer in millimeters.
+                    The physical width of the digitizer in millimeters.
                 </td>
             </tr>
             <tr>
@@ -75,7 +75,7 @@
                 </td>
                 <td>mm</td>
                 <td class="text-start">
-                    The height of the digitizer in millimeters.
+                    The physical height of the digitizer in millimeters.
                 </td>
             </tr>
             <tr>
@@ -132,9 +132,8 @@
                     <code>uint</code>
                 </td>
                 <td class="text-start">
-                    The amount of buttons on the pen. This does not include the eraser, as the eraser is just
-                    reported as a flag for the device. If there are more than one pens supported by this tablet, use
-                    the number of buttons on the pen with the most.
+                    The amount of buttons on the pen. This does not include the eraser, if applicable. If there are more
+                    than one pens supported by this tablet, use the number of buttons on the pen with the most.
                 </td>
             </tr>
         </table>
@@ -321,6 +320,5 @@
 <div class="ms-3">
     <p>
         Attributes are used as platform specific properties to be used within utilties or tools.
-        These aren't typically required for functionality.
     </p>
 </div>
