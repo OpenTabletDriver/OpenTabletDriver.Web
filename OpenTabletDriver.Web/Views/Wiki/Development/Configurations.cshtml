@@ -121,8 +121,9 @@
                     <code>uint</code>
                 </td>
                 <td class="text-start">
-                    The maximum pressure reported by the pen in device pressure units.
-                    This is used to calculate a percentage of pressure.
+                    The maximum pressure reported by the pen in device pressure units. This is used to calculate a
+                    percentage of pressure. If there are more than pens supported by this tablet, the pen with the
+                    highest pressure value is used.
                 </td>
             </tr>
             <tr>
@@ -132,7 +133,8 @@
                 </td>
                 <td class="text-start">
                     The amount of buttons on the pen. This does not include the eraser, as the eraser is just
-                    reported as a flag for the device.
+                    reported as a flag for the device. If there are more than one pens supported by this tablet, use
+                    the number of buttons on the pen with the most.
                 </td>
             </tr>
         </table>
@@ -288,9 +290,9 @@
                 <code>Dictionary&lt;byte, string&gt;</code>
             </td>
             <td class="text-start">
-                A list of regular expressions for specific indexes of device strings contained within the device's
-                firmware. This is optional however is used commonly to improve detection precision. Device strings
-                can be retreived using the device string reader.
+                A list of regular expressions to be matched against specific indexes of strings contained within the
+                device's firmware. They can be retrieved via the device string reader. This is optional, however it is
+                commonly used to improve detection precision.
             </td>
         </tr>
         <tr>
