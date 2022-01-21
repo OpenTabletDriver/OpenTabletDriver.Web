@@ -1,5 +1,11 @@
+@using OpenTabletDriver.Web.Core.Services
+@inject IReleaseService releaseService
+
 @{
-    ViewBag.Title = "MacOS Installation Guide";
+    ViewBag.Title = "macOS Installation Guide";
+    var release = await releaseService.GetLatestRelease();
+    var assets = await release.GetReleaseAssets();
+    var asset = assets.First(a => a.FileName.Contains("osx-x64"));
 }
 
 <h3 class="wiki-nav-item" id="app">
@@ -7,10 +13,7 @@
 </h3>
 <ol>
     <li>
-        Install the <a href="@Url.Action("Index", "Framework")">.NET 5 Runtime</a>
-    </li>
-    <li>
-        Download the <a href="https://github.com/OpenTabletDriver/OpenTabletDriver/releases/latest">latest release</a>
+        Download the <a href="@asset.Url">latest release</a>
         <small class="text-muted">(OpenTabletDriver-osx-x64.tar.gz)</small>
     </li>
     <li>
