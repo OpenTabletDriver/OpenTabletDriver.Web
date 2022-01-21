@@ -42,12 +42,16 @@
                 </a>
             </li>
         </ol>
-        <div class="text-center">
-            <a role="button" class="btn @buttonColor" href="@Model.Url">View On GitHub</a>
-        </div>
     </div>
     <div class="card-footer @background">
-        <small class="@textColor">Released @Model.Date.ToLocalTime().ToString("MM/dd/yyyy")</small>
+        <div class="row align-items-center">
+            <div class="col">
+                <small class="@textColor">Released @Model.Date.ToLocalTime().ToString("MM/dd/yyyy")</small>
+            </div>
+            <div class="col text-end">
+                <a role="button" class="btn btn-sm @buttonColor" href="@Model.Url">View On GitHub</a>
+            </div>
+        </div>
 
     </div>
 </div>
