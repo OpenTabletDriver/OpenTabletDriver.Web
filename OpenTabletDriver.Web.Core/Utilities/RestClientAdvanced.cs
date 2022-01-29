@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
-namespace OpenTabletDriver_Web.Core.Utilities
+namespace OpenTabletDriver.Web.Core.Utilities
 {
     public class RestClientAdvanced
     {

@@ -1,15 +1,22 @@
+using System;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Octokit;
 using OpenTabletDriver.Web.Controllers;
+using OpenTabletDriver.Web.Core;
+using OpenTabletDriver.Web.Core.Contracts;
 using OpenTabletDriver.Web.Core.Framework;
 using OpenTabletDriver.Web.Core.GitHub.Services;
 using OpenTabletDriver.Web.Core.Plugins;
 using OpenTabletDriver.Web.Core.Services;
+using ProductHeaderValue = Octokit.ProductHeaderValue;
 
 namespace OpenTabletDriver.Web
 {
@@ -26,9 +33,18 @@ namespace OpenTabletDriver.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.Add(new ServiceDescriptor(typeof(IReleaseService), new GitHubReleaseService()));
-            services.Add(new ServiceDescriptor(typeof(IFrameworkService), new DotnetCoreService()));
-            services.Add(new ServiceDescriptor(typeof(IPluginMetadataService), new GitHubPluginMetadataService()));
+
+            services.AddSingleton<IRepositoryService, GitHubRepositoryService>()
+                .AddSingleton<IReleaseService, GitHubReleaseService>()
+                .AddSingleton<IGitHubClient, GitHubClient>(AuthenticateGitHub)
+                .AddSingleton<ITabletService, GitHubTabletService>()
+                .AddSingleton<IPluginMetadataService, GitHubPluginMetadataService>()
+                .AddSingleton<IFrameworkService, DotnetCoreService>();
+
+            services.AddHttpClient<IRepositoryService, GitHubRepositoryService>(SetupHttpClient);
+
+            services.AddMemoryCache();
+
             services.Configure<ForwardedHeadersOptions>(options =>
             {
                 options.KnownProxies.Add(IPAddress.Parse("10.0.0.100"));
@@ -51,6 +67,7 @@ namespace OpenTabletDriver.Web
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseResponseCaching();
 
             app.UseRouting();
             app.UseForwardedHeaders(new ForwardedHeadersOptions
@@ -69,6 +86,23 @@ namespace OpenTabletDriver.Web
                     pattern: "{controller=Home}/{action=Index}/{id?}"
                 );
             });
+        }
+
+        private GitHubClient AuthenticateGitHub(IServiceProvider serviceProvider)
+        {
+            const string productHeader = "OpenTabletDriver-Web";
+            string apiKey = Environment.GetEnvironmentVariable("GITHUB_TOKEN");
+
+            var clientHeader = ProductHeaderValue.Parse(productHeader);
+            return new GitHubClient(clientHeader)
+            {
+                Credentials = string.IsNullOrWhiteSpace(apiKey) ? Credentials.Anonymous : new Credentials(apiKey)
+            };
+        }
+
+        private void SetupHttpClient(HttpClient client)
+        {
+            client.DefaultRequestHeaders.Add("User-Agent", "OpenTabletDriver-Web");
         }
     }
 }
