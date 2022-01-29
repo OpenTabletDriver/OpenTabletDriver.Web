@@ -67,6 +67,7 @@ namespace OpenTabletDriver.Web
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseResponseCaching();
 
             app.UseRouting();
             app.UseForwardedHeaders(new ForwardedHeadersOptions
