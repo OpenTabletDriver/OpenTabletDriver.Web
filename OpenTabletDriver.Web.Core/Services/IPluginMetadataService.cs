@@ -6,6 +6,6 @@ namespace OpenTabletDriver.Web.Core.Services
 {
     public interface IPluginMetadataService
     {
-        Task<IEnumerable<PluginMetadata>> GetPlugins();
+        Task<IReadOnlyList<PluginMetadata>> GetPlugins();
     }
 }
