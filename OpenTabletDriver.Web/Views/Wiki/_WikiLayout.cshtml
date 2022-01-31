@@ -1,7 +1,5 @@
-@using OpenTabletDriver.Web.Controllers
-
 @{
-    string subTitle = @ViewData["Title"] as string;
+    string subTitle = @ViewBag.Title;
     string pageTitle = subTitle != null ? $"{subTitle} - OpenTabletDriver" : "OpenTabletDriver";
 }
 
@@ -11,48 +9,11 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@pageTitle</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.0.2/dist/darkly/bootstrap.min.css" integrity="sha256-IzD7YgcFC7mrH3sadY/G75Gc49OgfS5IVOgFlxtdoUI=" crossorigin="anonymous"></link>
-    <link rel="stylesheet" href="~/css/site.css"></link>
+    <partial name="_Styles"/>
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
-<header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom border-dark box-shadow mb-3">
-        <div class="container">
-            <img class="pr-3" src="~/otd.png" height="64">
-            <a class="navbar-brand text-white ms-3" asp-area="" asp-controller="Home" asp-action="Index">OpenTabletDriver</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-light" asp-area="" asp-controller="Tablets" asp-action="Index">Tablets</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-light" asp-area="" asp-controller="Plugins" asp-action="Index">Plugins</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-light" asp-area="" asp-controller="Wiki" asp-action="Index">Wiki</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-light" asp-area="" asp-controller="Changelog" asp-action="Index">Changelog</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-light" href="@HomeController.REPOSITORY_URL">GitHub</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-light" href="@HomeController.DISCORD_INVITE_URL">Discord</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-</header>
+<partial name="_LayoutHeader"/>
 <div class="container">
     <main role="main" class="pb-3">
         <partial name="Wiki/_Header"/>

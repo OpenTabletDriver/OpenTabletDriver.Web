@@ -24,9 +24,6 @@ namespace OpenTabletDriver.Web.Controllers
             this.releaseService = releaseService;
         }
 
-        public const string REPOSITORY_URL = "https://www.github.com/OpenTabletDriver/OpenTabletDriver";
-        public const string DISCORD_INVITE_URL = "https://discord.gg/9bcMaPkVAR";
-
         [ResponseCache(Duration = 300)]
         public async Task<IActionResult> Index()
         {
