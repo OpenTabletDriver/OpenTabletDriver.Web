@@ -36,7 +36,7 @@ namespace OpenTabletDriver.Web.Core.GitHub.Services
         private const string REPOSITORY_OWNER = "OpenTabletDriver";
         private const string REPOSITORY_NAME = "OpenTabletDriver";
 
-        private static readonly TimeSpan Expiration = TimeSpan.FromMinutes(1);
+        private static readonly TimeSpan Expiration = TimeSpan.FromMinutes(10);
 
         public Task<Repository> GetRepository()
         {
