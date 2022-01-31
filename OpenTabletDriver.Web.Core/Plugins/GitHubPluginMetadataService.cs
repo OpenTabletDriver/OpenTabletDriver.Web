@@ -30,7 +30,7 @@ namespace OpenTabletDriver.Web.Core.Plugins
         private const string REPOSITORY_OWNER = "OpenTabletDriver";
         private const string REPOSITORY_NAME = "Plugin-Repository";
 
-        private static readonly TimeSpan Expiration = TimeSpan.FromMinutes(1);
+        private static readonly TimeSpan Expiration = TimeSpan.FromMinutes(10);
 
         public Task<IReadOnlyList<PluginMetadata>> GetPlugins()
         {

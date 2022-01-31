@@ -29,7 +29,7 @@ namespace OpenTabletDriver.Web.Core.GitHub.Services
             this.cache = cache;
         }
 
-        private static readonly TimeSpan Expiration = TimeSpan.FromMinutes(1);
+        private static readonly TimeSpan Expiration = TimeSpan.FromMinutes(10);
 
         public Task<IReadOnlyList<IRelease>> GetAllReleases()
         {
