@@ -16,7 +16,7 @@
   (fetchNuGet { pname = "Microsoft.NETCore.Platforms"; version = "2.1.2"; sha256 = "1507hnpr9my3z4w1r6xk5n0s1j3y6a2c2cnynj76za7cphxi1141"; })
   (fetchNuGet { pname = "Newtonsoft.Json"; version = "13.0.1"; sha256 = "0fijg0w6iwap8gvzyjnndds0q4b8anwxxvik7y8vgq97dram4srb"; })
   (fetchNuGet { pname = "Octokit"; version = "0.50.0"; sha256 = "1ignj5i6a1c19qqrw00wlr9fdjmwrxkxz7gdxj0x653w84gbv7qq"; })
-  (fetchNuGet { pname = "SharpZipLib"; version = "1.3.2"; sha256 = "0zrgnsivpazpf1jn6scxm61v00wc90kbw5p1ad579ja0wm8afd4f"; })
+  (fetchNuGet { pname = "SharpZipLib"; version = "1.3.3"; sha256 = "1gij11wfj1mqm10631cjpnhzw882bnzx699jzwhdqakxm1610q8x"; })
   (fetchNuGet { pname = "System.Collections.Immutable"; version = "5.0.0"; sha256 = "1kvcllagxz2q92g81zkz81djkn2lid25ayjfgjalncyc68i15p0r"; })
   (fetchNuGet { pname = "System.Memory"; version = "4.5.4"; sha256 = "14gbbs22mcxwggn0fcfs1b062521azb9fbb7c113x0mq6dzq9h6y"; })
   (fetchNuGet { pname = "System.Reflection.Metadata"; version = "5.0.0"; sha256 = "17qsl5nanlqk9iz0l5wijdn6ka632fs1m1fvx18dfgswm258r3ss"; })
