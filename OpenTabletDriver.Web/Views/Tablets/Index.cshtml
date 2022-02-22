@@ -5,6 +5,13 @@
 @model ContentSearchViewModel
 
 <div class="container">
+    <div class="card mb-4">
+        <div class="card-body d-flex flex-sm-row flex-column">
+            As there are many different revisions of tablets out there, you will need its model identifier to check compatibility with OpenTabletDriver.
+            <br/>
+            Usually, this value can be found either below the tablet itself or on the box it came in.
+        </div>
+    </div>
     <div class="form-floating mb-3">
         <input id="searchInput" type="text" class="form-control" onkeyup="searchInput()" placeholder="Search"
                value="@Model.Search"/>
