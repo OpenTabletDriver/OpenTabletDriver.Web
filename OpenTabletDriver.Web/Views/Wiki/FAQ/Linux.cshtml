@@ -226,7 +226,8 @@
                 Add this block below the first 2 lines of the file, then save and exit
                 <codeblock class="mt-2" language="ini">
                     [Service]
-                    Environment=WAYLAND_DISPLAY=:0
+                    ExecStart=
+                    ExecStart=/bin/bash -c "WAYLAND_DISPLAY=$WAYLAND_DISPLAY /usr/bin/otd"
                 </codeblock>
             </li>
             <li>
