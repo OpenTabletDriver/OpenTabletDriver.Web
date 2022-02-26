@@ -227,7 +227,7 @@
                 <codeblock class="mt-2" language="ini">
                     [Service]
                     ExecStart=
-                    ExecStart=/bin/bash -c "WAYLAND_DISPLAY=$WAYLAND_DISPLAY /usr/bin/otd"
+                    ExecStart=/usr/bin/env sh -c otd
                 </codeblock>
             </li>
             <li>
