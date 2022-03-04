@@ -5,14 +5,10 @@
 <div class="container">
     <section class="py-5 text-center">
         <h1 class="col-lg-6 col-md-8 mx-auto">OpenTabletDriver</h1>
+        <h5 class="my-2 text-center">@Model.Tag</h5>
         <p class="lead text-muted">
             OpenTabletDriver is an open source, cross-platform, low latency, user-mode tablet driver.
         </p>
     </section>
-    <div class="row row-cols-sm-1 row-cols-lg-3">
-        <div class="col d-none d-sm-block"></div>
-        <div class="col">
-            <partial name="Release/_ReleaseCard" model="@Model"/>
-        </div>
-    </div>
+    <partial name="_PlatformCards"/>
 </div>
