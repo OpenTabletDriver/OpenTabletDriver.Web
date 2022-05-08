@@ -56,11 +56,33 @@
 </h3>
 <ol>
     <li>
-        Use an AUR helper to install the <code>opentabletdriver</code> AUR package.
+        Use an <a href="https://wiki.archlinux.org/title/AUR_helpers">AUR helper</a> to install the <code>opentabletdriver</code> AUR package.
     </li>
     <li>
         Run the following commands in a terminal
         <codeblock class="mt-2" language="sh">
+            # Reload the systemd user unit daemon
+            systemctl --user daemon-reload
+            # Enable and start the user service
+            systemctl --user enable opentabletdriver --now
+        </codeblock>
+    </li>
+</ol>
+
+<ol>
+    <p>
+        Alternatively, you can install <code>opentabletdriver</code> without an AUR helper.
+    </p>
+        <li>
+        Run the following commands in a terminal to install and enable the OpenTabletDriver service.
+        <codeblock class="mt-2" language="sh">
+            # Downloads the pkgbuild from the AUR.
+            git clone https://aur.archlinux.org/opentabletdriver.git
+            # Changes into the correct directory and installs OpenTabletDriver
+            cd opentabletdriver && makepkg -si
+            # Clean up leftovers
+            cd ..
+            rm -rf opentabletdriver
             # Reload the systemd user unit daemon
             systemctl --user daemon-reload
             # Enable and start the user service
