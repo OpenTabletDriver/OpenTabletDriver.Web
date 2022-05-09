@@ -36,16 +36,36 @@
 
 <hr/>
 
-<h3 class="wiki-nav-item pb-2" id="map-raw-input">
-    Input does not work in osu!
+<h3 class="wiki-nav-item pb-2" id="win-ink">
+    Windows Ink pressure support
 </h3>
 <div class="ms-3">
     <p>
-        OpenTabletDriver uses the Windows SendInput API to position the cursor from user level permissions.<br/>
-        It does not move the cursor in a method that raw input accepts as standard cursor movement.
+        OpenTabletDriver has many plugins that implement different features. WindowsInk is
+        one of these plugins, as given in the plugins name, it allows for use of the Windows Ink pressure api.
+        To use it, follow below.
     </p>
     <ol>
-        <li>Disable <code>Map raw input to osu! window</code> in the ingame settings.</li>
+        <li>Install <a href="https://github.com/X9VoiD/vmulti-bin/releases/latest">VMulti Driver</a> (This is NOT VMultiMode) </li>
+        <li>Follow the instructions from the <a href="https://github.com/X9VoiD/VoiDPlugins/wiki/WindowsInk">WindowsInk wiki</a></li>
+        <li>Make sure that the application you are trying drawing in is set to WindowsInk/Windows 8+ Mode and the brush you are using has pressure support!</li>
+    </ol>
+</div>
+
+<hr/>
+
+<h3 class="wiki-nav-item pb-2" id="connecting-to-daemon">
+    Stuck at connecting to Daemon
+</h3>
+<div class="ms-3">
+    <p>
+        This is usually caused by one of two things. Either you didn't follow the <a href="/Wiki/Install/Windows">installation guide</a> correctly
+        or the settings file is corrupted. To remedy this case follow this below.
+    </p>
+    <ol>
+        <li>Press <kbd>Win</kbd> + <kbd>R</kbd> and type in <code>%localappdata%\OpenTabletDriver</code></li>
+        <li>Delete or move the <code>settings.json</code> file from inside this folder.</li>
+        <li>If this persists after also remove the <code>Plugins</code> folder.</li>
     </ol>
 </div>
 
@@ -104,4 +124,34 @@
         <li>Locate OpenTabletDriver.UX.Wpf.exe on your computer then select it. Refer <a href="/Wiki/FAQ/General#appdata">here</a> for more information.</li>
         <li>Click on Application Detection Level then select "None".</li>
     </ol>
+</div>
+
+<h3 class="wiki-nav-item pb-2" id="vmulti">
+    Using VMulti to play Valorant
+</h3>
+<div class="ms-3">
+    <p>
+    Vanguard (Valorants anticheat) requires a workaround to play Valorant with a tablet. As it requires Kernel level input
+    you can use VMulti to mitigate some of the restrictions that Vanguard uses to stop tablet use. However, there will still be some restrcitions due
+    to you not playing with a physical mouse.
+    </p>
+    <ol>
+        <li>Install <a href="https://github.com/X9VoiD/vmulti-bin/releases/latest">VMulti Driver</a></li>
+        <li>Install and setup the <a href="https://github.com/X9VoiD/VoiDPlugins/wiki/VMultiMode">VMultiMode</a> plugin.</li>
+        <li>Run Valorant by <b>tapping with your tablet</b> (Important due to Valorant only using the first "mouse" input)</li>
+        <li><b>Do not</b> move your mouse while valorant is still loading (this will make valorant use the mouse over the tablet.)</li>
+    </ol>
+    <p>
+        <u>Vanguard Quirks:</u>
+        As VMulti is considered a separate input source from an actual physical mouse, Vanguard imposes several limitations to it.
+    </p>
+    <ol>
+        <li>You won't be able to press left click while pressing a non-modifier keyboard key (for ex. WASD) and shift, we will call these keys from here onward as <i>protected keys.</i></li>
+        <li>Every time you press a protected key, the next two left clicks will <i>always</i> be dropped.</li>
+        <li>If left click is held first and then a protected key is pressed, the left click will <i>sometimes</i> be dropped.</li>
+    </ol>
+    <p>
+        There is <b>no</b> fix this, as even Logitech G Hub, Razer Synapse, HawkuTD, DevocubTD, and even XP-Pen, Huion, Gaomon, Veikk drivers are affected without exceptions.
+        <b>As long as the input source is not a real physical mouse, Vanguard will impose such quirks <u>intentionally.</u></b>
+    </p>
 </div>
