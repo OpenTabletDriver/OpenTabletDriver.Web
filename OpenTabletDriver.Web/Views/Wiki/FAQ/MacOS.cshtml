@@ -2,4 +2,13 @@
     ViewBag.Title = "MacOS FAQ";
 }
 
-<h3>Nothing yet!</h3>
+<h3 class="wiki-nav-item pb-2" id="cursor-not-moving">
+    Cursor doesn't respond to tablet input
+</h3>
+<div class="ms-3">
+    <p>
+        This is because OpenTabletDriver doesn't have permissions in "Accessability" or "Input Monitoring". To change this
+        Go to <code>Settings -> System Preferences -> Security and Privacy -> Privacy</code>, check both Input Monitoring and Accessability.
+        If they are already on, turn them off then back on and it should resolve this.
+    </p>
+</div>
