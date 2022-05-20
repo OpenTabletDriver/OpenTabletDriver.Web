@@ -106,15 +106,16 @@
 </h3>
 <div class="ms-3">
     <h4>EACCESS</h4>
-    <p>This occurs usually when the udev rules are not correct, or haven't been reloaded.
-    Make sure your rules are correct by heading <a href="#fail-device-streams">here</a>.
+    <p>
+        This occurs usually when the udev rules are not correct, or haven't been reloaded.
+        Make sure your rules are correct by heading <a href="#fail-device-streams">here</a>.
     </p>
     <codeblock class="mt-2" language="sh">
-    sudo udevadm control --reload-rules
-    # Skips the step requiring a replug of the tablet.
-    udevadm trigger
-    # Helps ensure that OpenTabletDriver uses the tablet correctly.
-    systemctl --user restart opentabletdriver
+        sudo udevadm control --reload-rules
+        # Skips the step requiring a replug of the tablet.
+        udevadm trigger
+        # Helps ensure that OpenTabletDriver uses the tablet correctly.
+        systemctl --user restart opentabletdriver
     </codeblock>
     <p>If the commands above do not resolve your issue, reboot.</p>
 
