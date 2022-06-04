@@ -24,3 +24,6 @@ function ajaxGet(url, data, callback) {
     xhr.open('GET', url);
     xhr.send(data);
 }
+
+// highlight.js - do syntax highlighting on all elements with selector `pre code`
+hljs.highlightAll();
