@@ -14,7 +14,7 @@
         <ol>
             <li>
                 Perform the following commands in a terminal
-                <codeblock class="mt-2">
+                <codeblock class="mt-2" language="sh">
                     echo "blacklist wacom" | sudo tee -a /etc/modprobe.d/blacklist.conf
                     sudo rmmod wacom
                 </codeblock>
@@ -77,7 +77,7 @@
         <br/>
         If you installed OpenTabletDriver via your package manager,
         you may need to run the following command then replug your tablet.
-        <codeblock class="mt-2">
+        <codeblock class="mt-2" language="sh">
             sudo udevadm control --reload-rules
         </codeblock>
     </p>
@@ -154,7 +154,7 @@
     <ol>
         <li>Make sure you set the <code>SDL_VIDEODRIVER</code> to <code>wayland</code>.</li>
     </ol>
-    <codeblock language="sh">
+    <codeblock class="mt-2" language="sh">
         # Export the environment variable
         export SDL_VIDEODRIVER=wayland
         # Start osu! lazer via the AppImage assuming its in the working directory
