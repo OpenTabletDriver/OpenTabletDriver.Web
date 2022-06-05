@@ -14,7 +14,7 @@
         <ol>
             <li>
                 Perform the following commands in a terminal
-                <codeblock class="mt-2">
+                <codeblock class="mt-2" language="bash">
                     echo "blacklist wacom" | sudo tee -a /etc/modprobe.d/blacklist.conf
                     sudo rmmod wacom
                 </codeblock>
@@ -35,7 +35,7 @@
     <ol>
         <li>
             Run the following commands, then replug your tablet
-            <codeblock class="mt-2" language="sh">
+            <codeblock class="mt-2" language="bash">
                 echo "blacklist hid_uclogic" | sudo tee -a /etc/modprobe.d/blacklist.conf
                 sudo rmmod hid_uclogic
             </codeblock>
@@ -53,7 +53,7 @@
         Arch
     </h3>
         <ol>
-            <codeblock class="mt-2" language="sh">
+            <codeblock class="mt-2" language="bash">
                 sudo mkinitcpio -P
             </codeblock>
         </ol>
@@ -61,7 +61,7 @@
         Debian / Ubuntu
     </h3>
     <ol>
-        <codeblock class="mt-2" language="sh">
+        <codeblock class="mt-2" language="bash">
             sudo update-initramfs -u
         </codeblock>
     </ol>
@@ -84,7 +84,7 @@
     <p>
         If this does not work, run the following commands
     </p>
-    <codeblock class="mt-2" language="sh">
+    <codeblock class="mt-2" language="bash">
         # Clone the repository, change current directory to the repository
         git clone https://github.com/OpenTabletDriver/OpenTabletDriver.git
         cd ./OpenTabletDriver
@@ -110,7 +110,7 @@
         This occurs usually when the udev rules are not correct, or haven't been reloaded.
         Make sure your rules are correct by heading <a href="#fail-device-streams">here</a>.
     </p>
-    <codeblock class="mt-2" language="sh">
+    <codeblock class="mt-2" language="bash">
         sudo udevadm control --reload-rules
         # Skips the step requiring a replug of the tablet.
         udevadm trigger
@@ -154,7 +154,7 @@
     <ol>
         <li>Make sure you set the <code>SDL_VIDEODRIVER</code> to <code>wayland</code>.</li>
     </ol>
-    <codeblock language="sh">
+    <codeblock language="bash">
         # Export the environment variable
         export SDL_VIDEODRIVER=wayland
         # Start osu! lazer via the AppImage assuming its in the working directory
@@ -197,7 +197,7 @@
         <ol>
             <li>
                 Create an override file
-                <codeblock class="mt-2" language="sh">
+                <codeblock class="mt-2" language="bash">
                     # Opens with whatever program is set to $EDITOR
                     systemctl --user edit opentabletdriver.service
                 </codeblock>
@@ -211,7 +211,7 @@
             </li>
             <li>
                 Finally, run the following commands
-                <codeblock class="mt-2" language="sh">
+                <codeblock class="mt-2" language="bash">
                     # Reload the systemd user daemon
                     systemctl --user daemon-reload
                     # Start the OpenTabletDriver daemon service (restarts if already running)
@@ -226,7 +226,7 @@
         <ol>
             <li>
                 Create an override file
-                <codeblock class="mt-2" language="sh">
+                <codeblock class="mt-2" language="bash">
                     # Opens with whatever program is set to $EDITOR
                     systemctl --user edit opentabletdriver.service
                 </codeblock>
@@ -240,7 +240,7 @@
             </li>
             <li>
                 Finally, run the following commands
-                <codeblock class="mt-2" language="sh">
+                <codeblock class="mt-2" language="bash">
                     # Reload the systemd user daemon
                     systemctl --user daemon-reload
                     # Start the OpenTabletDriver daemon service (restarts if already running)

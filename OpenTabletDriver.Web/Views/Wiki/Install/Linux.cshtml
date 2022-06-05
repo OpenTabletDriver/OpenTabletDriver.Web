@@ -27,7 +27,7 @@
         <small class="ms-3 text-muted">
             This assumes that you are in the directory in which you download these files to.
         </small>
-        <codeblock class="mt-2" language="sh">
+        <codeblock class="mt-2" language="bash">
             # Add the Microsoft Packages repository, use the URL related to your distribution
             sudo dpkg -i packages-microsoft-prod.deb
 
@@ -60,7 +60,7 @@
     </li>
     <li>
         Run the following commands in a terminal
-        <codeblock class="mt-2" language="sh">
+        <codeblock class="mt-2" language="bash">
             # Reload the systemd user unit daemon
             systemctl --user daemon-reload
             # Enable and start the user service
@@ -75,7 +75,7 @@
     </p>
         <li>
         Run the following commands in a terminal to install and enable the OpenTabletDriver service.
-        <codeblock class="mt-2" language="sh">
+        <codeblock class="mt-2" language="bash">
             # Downloads the pkgbuild from the AUR.
             git clone https://aur.archlinux.org/opentabletdriver.git
             # Changes into the correct directory and installs OpenTabletDriver
@@ -102,7 +102,7 @@
         <small class="ms-3 text-muted">
             This is only required if you don't already have the Guru overlay configured
         </small>
-        <codeblock class="mt-2" language="sh">
+        <codeblock class="mt-2" language="bash">
             # Add guru repository
             sudo layman -L
             sudo layman -a guru
@@ -121,7 +121,7 @@
     </li>
     <li>
         Run the following command
-        <codeblock class="mt-2" language="sh">
+        <codeblock class="mt-2" language="bash">
             # Install the OpenTabletDriver package
             sudo emerge OpenTabletDriver-bin
         </codeblock>
