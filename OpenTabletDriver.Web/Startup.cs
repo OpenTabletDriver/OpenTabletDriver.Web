@@ -1,7 +1,7 @@
 using System;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -9,14 +9,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Octokit;
-using OpenTabletDriver.Web.Controllers;
-using OpenTabletDriver.Web.Core;
-using OpenTabletDriver.Web.Core.Contracts;
 using OpenTabletDriver.Web.Core.Framework;
 using OpenTabletDriver.Web.Core.GitHub.Services;
 using OpenTabletDriver.Web.Core.Plugins;
+using OpenTabletDriver.Web.Core.Reflection;
 using OpenTabletDriver.Web.Core.Services;
-using ProductHeaderValue = Octokit.ProductHeaderValue;
 
 namespace OpenTabletDriver.Web
 {
@@ -39,7 +36,8 @@ namespace OpenTabletDriver.Web
                 .AddSingleton<IGitHubClient, GitHubClient>(AuthenticateGitHub)
                 .AddSingleton<ITabletService, GitHubTabletService>()
                 .AddSingleton<IPluginMetadataService, GitHubPluginMetadataService>()
-                .AddSingleton<IFrameworkService, DotnetCoreService>();
+                .AddSingleton<IFrameworkService, DotnetCoreService>()
+                .AddSingleton<IMarkdownSource, ReflectionMarkdownSource>(GetMarkdownSource);
 
             services.AddHttpClient<IRepositoryService, GitHubRepositoryService>(SetupHttpClient);
 
@@ -90,14 +88,18 @@ namespace OpenTabletDriver.Web
 
         private GitHubClient AuthenticateGitHub(IServiceProvider serviceProvider)
         {
-            const string productHeader = "OpenTabletDriver-Web";
-            string apiKey = Environment.GetEnvironmentVariable("GITHUB_TOKEN");
+            var apiKey = Environment.GetEnvironmentVariable("GITHUB_TOKEN");
 
-            var clientHeader = ProductHeaderValue.Parse(productHeader);
+            var clientHeader = ProductHeaderValue.Parse("OpenTabletDriver-Web");
             return new GitHubClient(clientHeader)
             {
                 Credentials = string.IsNullOrWhiteSpace(apiKey) ? Credentials.Anonymous : new Credentials(apiKey)
             };
+        }
+
+        private ReflectionMarkdownSource GetMarkdownSource(IServiceProvider serviceProvider)
+        {
+            return new ReflectionMarkdownSource(Assembly.GetEntryAssembly()!);
         }
 
         private void SetupHttpClient(HttpClient client)

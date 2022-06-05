@@ -1,9 +1,7 @@
-using System.Reflection.Metadata;
 using Markdig;
 using Microsoft.AspNetCore.Html;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace OpenTabletDriver.Web
+namespace OpenTabletDriver.Web.Utilities
 {
     public class Markdown
     {

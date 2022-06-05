@@ -1,0 +1,7 @@
+@model MarkdownViewModel
+
+@{
+    ViewBag.Title = Model!.Metadata["title"];
+}
+
+@Model.Content
