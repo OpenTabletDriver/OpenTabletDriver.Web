@@ -1,11 +1,9 @@
-using System.IO;
-using System.Net.Http;
-using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc;
 using OpenTabletDriver.Web.Core.Services;
 using OpenTabletDriver.Web.Models;
+using OpenTabletDriver.Web.Utilities;
 
 namespace OpenTabletDriver.Web.Controllers
 {
@@ -22,8 +20,8 @@ namespace OpenTabletDriver.Web.Controllers
         public async Task<IActionResult> Index(string search = null)
         {
             var markdown = await tabletService.GetMarkdownRaw();
-            string html = Markdown.ToHtml(markdown);
-            string patchedHtml = html.Replace(
+            var html = Markdown.ToHtml(markdown);
+            var patchedHtml = html.Replace(
                 "<table>",
                 "<table id=\"tablets\" class=\"table table-hover\">"
             );

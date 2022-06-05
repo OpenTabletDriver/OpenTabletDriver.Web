@@ -1,7 +1,7 @@
-@model Microsoft.AspNetCore.Html.IHtmlContent
+@model MarkdownViewModel
 
 @{
-    ViewBag.Title = "Wiki";
+    ViewBag.Title = Model!.Metadata["title"];
 }
 
-@Model
+@Model.Content

@@ -1,8 +1,9 @@
-using System.Text.RegularExpressions;
+using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using OpenTabletDriver.Web.Core.Services;
+using OpenTabletDriver.Web.Models;
 
 #nullable enable
 
@@ -11,10 +12,12 @@ namespace OpenTabletDriver.Web.Controllers
     public class WikiController : Controller
     {
         private readonly IMarkdownSource _markdownSource;
+        private readonly IMemoryCache _memoryCache;
 
-        public WikiController(IMarkdownSource markdownSource)
+        public WikiController(IMarkdownSource markdownSource, IMemoryCache memoryCache)
         {
             _markdownSource = markdownSource;
+            _memoryCache = memoryCache;
         }
 
         [ResponseCache(Duration = 300)]
@@ -27,22 +30,17 @@ namespace OpenTabletDriver.Web.Controllers
         [Route("/Wiki/{category}/{page}")]
         public async Task<IActionResult> Wiki(string category, string page)
         {
-            var markdown = await _markdownSource.GetPage(category, page);
-            return markdown == null ? View($"{category}/{page}") : View("WikiMarkdownPage", Format(markdown));
+            var route = $"{category}/{page}";
+            var model = await _memoryCache.GetOrCreateAsync(route, entry => GenerateMarkdownWikiPage(entry, category, page));
+
+            return model == null ? View(route) : View("WikiMarkdownPage", model);
         }
 
-        private static readonly Regex HeaderRegex = new Regex("(?<=.?\n)<h3", RegexOptions.Compiled);
-
-        private IHtmlContent Format(string markdown)
+        private async Task<MarkdownViewModel?> GenerateMarkdownWikiPage(ICacheEntry entry, string category, string page)
         {
-            var html = Markdown.ToHtml(markdown);
-
-            var formatted = HeaderRegex.Replace(html, "<hr><h3")
-                .Replace("<h3", "<h3 class=\"wiki-nav-item pb-2\"")
-                .Replace("<table>", "<table class=\"table table-hover ms-3\">")
-                .Replace("<p>", "<p class=\"ms-3\">");
-
-            return new HtmlString(formatted);
+            entry.AbsoluteExpiration = DateTimeOffset.MaxValue;
+            var markdown = await _markdownSource.GetPage(category, page);
+            return markdown != null ? new MarkdownViewModel(markdown) : null;
         }
     }
 }
