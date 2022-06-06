@@ -11,7 +11,7 @@ namespace OpenTabletDriver.Web.TagHelpers
     [HtmlTargetElement("codeblock")]
     public class CodeBlockTagHelper : TagHelper
     {
-        public string Language { set; get; }
+        public string Language { set; get; } = "plaintext";
 
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
@@ -22,7 +22,6 @@ namespace OpenTabletDriver.Web.TagHelpers
             var body = TrimPreceding(innerHtml, ' ');
 
             var code = new TagBuilder("code");
-            code.AddCssClass("hljs");
             code.AddCssClass($"language-{Language}");
             code.InnerHtml.SetHtmlContent(body);
 
