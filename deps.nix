@@ -24,4 +24,5 @@
   (fetchNuGet { pname = "System.Runtime.CompilerServices.Unsafe"; version = "6.0.0"; sha256 = "0qm741kh4rh57wky16sq4m0v05fxmkjjr87krycf5vp9f0zbahbc"; })
   (fetchNuGet { pname = "System.Text.Encoding.CodePages"; version = "4.5.1"; sha256 = "1z21qyfs6sg76rp68qdx0c9iy57naan89pg7p6i3qpj8kyzn921w"; })
   (fetchNuGet { pname = "System.Threading.Tasks.Extensions"; version = "4.5.4"; sha256 = "0y6ncasgfcgnjrhynaf0lwpkpkmv4a07sswwkwbwb5h7riisj153"; })
+  (fetchNuGet { pname = "YamlDotNet"; version = "11.2.1"; sha256 = "0acd7k97nqzisyqql71m6l0b0lvkr612zaav42hw0y1qnp06jdi4"; })
 ]
