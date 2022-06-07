@@ -76,7 +76,9 @@ pinpoint devices.
 | Feature Initialization Report |       `List<byte[]>`       | A list of feature reports to be sent to the device to perform the device's initialization sequence.                                                                                                                                                                                                                                         |
 | Output Initialization Report  |       `List<byte[]>`       | A list of output reports to be sent to the device to perform the device's initialization sequence.                                                                                                                                                                                                                                          |
 |        Device Strings         | `Dictionary<byte, string>` | A list of regular expressions to be matched against specific indexes of strings contained within the device's firmware. They can be retrieved via the device string reader. This is optional, however it is commonly used to improve detection precision.                                                                                   |
-| Initialization String Indexes |          `byte[]`          | A list of indexes to be retrieved from the device as part of the device's initialization sequence. This is optional, and very infrequently used. Note: Byte arrays (`byte[]`) are serialized as Base64 in JSON.NET, the library that serializes and deserializes configurations.                                                            |
+| Initialization String Indexes |          `byte[]`          | A list of indexes to be retrieved from the device as part of the device's initialization sequence. This is optional, and very infrequently used. |
+
+> Note: Byte arrays (`byte[]`) are serialized as Base64 in JSON.NET, the library that serializes and deserializes configurations.
 
 ### Attributes
 

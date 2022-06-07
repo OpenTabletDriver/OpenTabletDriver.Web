@@ -53,9 +53,8 @@ namespace OpenTabletDriver.Web.Models
             var html = sw.ToString()!;
 
             var formattedHtml = HeaderRegex.Replace(html, "<hr><h3")
-                .Replace("<h3", "<h3 class=\"wiki-nav-item pb-2\"")
-                .Replace("<table>", "<table class=\"table table-hover ms-3\">")
-                .Replace("<p>", "<p class=\"ms-3\">");
+                .Replace("<h3", "<h3 class=\"wiki-nav-item\"")
+                .Replace("<table>", "<table class=\"table table-hover\">");
 
             return new HtmlString(formattedHtml);
         }
