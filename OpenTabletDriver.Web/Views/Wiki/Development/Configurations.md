@@ -38,7 +38,7 @@ data. This is almost always required.
 |  Max Pressure   |   `uint`   | The maximum pressure reported by the pen in device pressure units. This is used to calculate a percentage of pressure. If there are more than pens supported by this tablet, the pen with the highest pressure value is used. |
 |  Button Count   |   `uint`   | The amount of buttons on the pen. This does not include the eraser, if applicable. If there are more than one pens supported by this tablet, use the number of buttons on the pen with the most.                              |
 
-#### Auxilary Buttons
+#### Auxiliary Buttons
 
 This refers to any buttons located on the graphics tablet pad. This should only be enabled if there are any auxililary
 buttons.
@@ -59,7 +59,7 @@ This has the same properties as the [digitizer](#digitizer)
 
 This refers to an absolute positioning mouse tool. This should only be enabled if the graphics tablet supports a mouse.
 
-This has the same properties as the [auxiliary buttons](#auxilary-buttons)
+This has the same properties as the [auxiliary buttons](#auxiliary-buttons)
 
 ### Identifiers
 
