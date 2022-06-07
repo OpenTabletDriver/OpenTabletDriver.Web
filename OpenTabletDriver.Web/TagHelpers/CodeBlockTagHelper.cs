@@ -34,7 +34,7 @@ namespace OpenTabletDriver.Web.TagHelpers
             var lines = value.Split(Environment.NewLine);
             var preceding = CountPreceding(lines, character);
             var trimmedLines = from line in lines
-                select TrimPrecedingLine(line, character, preceding);
+                               select TrimPrecedingLine(line, character, preceding);
 
             return string.Join(Environment.NewLine, trimmedLines);
         }
