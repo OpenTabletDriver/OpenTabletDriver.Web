@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -29,42 +27,36 @@ namespace OpenTabletDriver.Web.TagHelpers
             output.Content.SetHtmlContent(code);
         }
 
-        private string TrimPreceding(string value, char character)
+        private static string TrimPreceding(string value, char character)
         {
             var lines = value.Split(Environment.NewLine);
             var preceding = CountPreceding(lines, character);
-            var trimmedLines = from line in lines
-                               select TrimPrecedingLine(line, character, preceding);
-
-            return string.Join(Environment.NewLine, trimmedLines);
-        }
-
-        private int CountPreceding(IEnumerable<string> lines, char leadingCharacter)
-        {
-            foreach (var line in lines)
+            for (var i = 0; i < lines.Length; ++i)
             {
-                // Make sure that the line actually starts with the leading character
-                if (line.StartsWith(leadingCharacter) == false)
-                    continue;
-
-                // Determine last index of leading character, return if something else is found
-                for (var i = 0; i < line.Length; i++)
-                {
-                    var character = line[i];
-                    if (character != leadingCharacter)
-                        return i;
-                }
-
-                // Assume that this line is the template for trimming
-                return line.Length;
+                var line = lines[i];
+                lines[i] = line.Length >= preceding ? line[preceding..] : string.Empty;
             }
 
-            throw new ArgumentException("No lines match the target leading character.", nameof(lines));
+            return string.Join(Environment.NewLine, lines);
         }
 
-        private string TrimPrecedingLine(string line, char character, int amount)
+        private static int CountPreceding(string[] lines, char leadingCharacter)
         {
-            return line.StartsWith(character) ? new string(line.Skip(amount).ToArray()) : line;
+            var min = int.MaxValue;
+            foreach (var line in lines)
+            {
+                var lineSpan = line.AsSpan();
+                for (var i = 0; i < lineSpan.Length; ++i)
+                {
+                    if (lineSpan[i] != leadingCharacter)
+                    {
+                        min = i < min ? i : min;
+                        break;
+                    }
+                }
+            }
+
+            return min;
         }
     }
 }
