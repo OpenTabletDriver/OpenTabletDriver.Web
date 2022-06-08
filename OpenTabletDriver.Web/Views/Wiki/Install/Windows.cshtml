@@ -1,12 +1,5 @@
-@using OpenTabletDriver.Web.Core.Services
-
-@inject IReleaseService releaseService
-
 @{
     ViewBag.Title = "Windows Installation Guide";
-    var release = await releaseService.GetLatestRelease();
-    var assets = await release.GetReleaseAssets();
-    var winzip = assets.FirstOrDefault(a => a.FileName == "OpenTabletDriver.win-x64.zip")!;
 }
 
 <h3 class="wiki-nav-item" id="dependencies">
@@ -39,7 +32,7 @@
     <ol>
         <li>
             Download the
-            <a href="@(winzip.Url)">latest release</a>
+            <a href="/Release/Download/OpenTabletDriver.win-x64.zip">latest release</a>
             <small class="text-muted">(OpenTabletDriver-win-x64.zip)</small>
         </li>
         <li>
@@ -72,7 +65,10 @@
         requires WinUSB, and if it does, what interface. Check the <a href="/Tablets">supported list of tablets here</a>.
     </p>
     <ol>
-        <li>If your tablet <b>does</b> require WinUSB download it from <a href="https://github.com/pbatard/libwdi/releases/download/b755/zadig-2.6.exe">here</a>.</li>
+        <li>
+            If your tablet <b>does</b> require WinUSB download it from
+            <a href="https://github.com/pbatard/libwdi/releases/download/b755/zadig-2.6.exe">here</a>.
+        </li>
         <li>Start Zadig.</li>
         <li>Go to <code>Options > show all devices</code></li>
         <li>Find your tablet on the device list and the interface.</li>

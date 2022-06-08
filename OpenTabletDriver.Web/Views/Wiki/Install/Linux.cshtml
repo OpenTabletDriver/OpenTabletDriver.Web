@@ -1,12 +1,5 @@
-@using OpenTabletDriver.Web.Core.Services
-
-@inject IReleaseService releaseService
-
 @{
     ViewBag.Title = "Linux Installation Guide";
-    var release = await releaseService.GetLatestRelease();
-    var assets = await release.GetReleaseAssets();
-    var deb = assets.FirstOrDefault(a => a.FileName == "OpenTabletDriver.deb")!;
 }
 
 <h3 class="wiki-nav-item" id="debian">
@@ -14,7 +7,8 @@
 </h3>
 <ol>
     <li>
-        Download the <a href="@deb.Url">latest release</a>
+        Download the
+        <a href="/Release/Download/OpenTabletDriver.deb">latest release</a>
         <small class="text-muted">(OpenTabletDriver.deb)</small>
     </li>
     <li>
@@ -73,7 +67,7 @@
     <p>
         Alternatively, you can install <code>opentabletdriver</code> without an AUR helper.
     </p>
-        <li>
+    <li>
         Run the following commands in a terminal to install and enable the OpenTabletDriver service.
         <codeblock class="mt-2" language="bash">
             # Downloads the pkgbuild from the AUR.
