@@ -118,7 +118,7 @@
     <codeblock class="mt-2" language="bash">
         sudo udevadm control --reload-rules
         # Skips the step requiring a replug of the tablet.
-        udevadm trigger
+        sudo udevadm trigger
         # Helps ensure that OpenTabletDriver uses the tablet correctly.
         systemctl --user restart opentabletdriver
     </codeblock>
