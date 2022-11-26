@@ -97,11 +97,6 @@
             This is only required if you don't already have the Guru overlay configured
         </small>
         <codeblock class="mt-2" language="bash">
-            # Add guru repository
-            sudo layman -L
-            sudo layman -a guru
-            sudo layman -s guru
-
             # Enable guru repository
             sudo eselect repository enable guru
             sudo emerge --sync guru
