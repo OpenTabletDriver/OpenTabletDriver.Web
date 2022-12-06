@@ -9,10 +9,10 @@ buildDotnetModule rec {
 
   src = ./.;
 
-  dotnet-sdk = dotnetCorePackages.sdk_6_0;
-  dotnet-runtime = dotnetCorePackages.aspnetcore_6_0;
+  dotnet-sdk = dotnetCorePackages.sdk_7;
+  dotnet-runtime = dotnetCorePackages.aspnetcore_7;
 
-  dotnetInstallFlags = [ "--framework=net6.0" ];
+  dotnetInstallFlags = [ "--framework=net7.0" ];
 
   nugetDeps = ./deps.nix;
 
