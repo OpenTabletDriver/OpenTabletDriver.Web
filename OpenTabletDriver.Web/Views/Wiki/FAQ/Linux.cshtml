@@ -129,6 +129,22 @@
         Rebooting is the only option here. Your kernel was very likely updated, or some component of
         uinput was modified which requires a reboot to resolve.
     </p>
+
+    <h4>ENOENT</h4>
+    <p>
+        This error occurs when the CONFIG_INPUT_UINPUT kernel option is disabled. Make sure it is activated in
+        /usr/src/linux/.config.<br/>
+        To activate it, run the following commands
+    </p>
+    <codeblock class="mt-2" language="bash">
+        cd /usr/src/linux
+        sudo make menuconfig
+    </codeblock>
+    <p>
+        Having done that, select y (for always active) or m (for building as a module) for the option in "Device Drivers
+        --->
+        Input Device Support ---> Miscellaneous devices ---> User level driver support" and rebuild the kernel.
+    </p>
 </div>
 
 <hr/>
