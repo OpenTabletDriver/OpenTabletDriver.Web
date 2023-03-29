@@ -1,6 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,60 +11,58 @@ namespace OpenTabletDriver.Web.TagHelpers
     [HtmlTargetElement("codeblock")]
     public class CodeBlockTagHelper : TagHelper
     {
-        public string Language { set; get; }
+        public string Language { set; get; } = "plaintext";
 
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
             output.TagName = "pre";
 
-            var content = await output.GetChildContentAsync();
-            var innerHtml = content.GetContent().Trim('\n');
-            var body = TrimPreceding(innerHtml, ' ');
+            var rawContent = (await output.GetChildContentAsync()).GetContent();
+            var body = TrimBaseIndentation(rawContent);
 
             var code = new TagBuilder("code");
-            code.AddCssClass("hljs");
             code.AddCssClass($"language-{Language}");
-            code.InnerHtml.SetHtmlContent(body);
+            code.InnerHtml.SetHtmlContent($"{body}\n");
 
             output.Content.SetHtmlContent(code);
         }
 
-        private string TrimPreceding(string value, char character)
+        private string TrimBaseIndentation(string content)
         {
-            var lines = value.Split(Environment.NewLine);
-            var preceding = CountPreceding(lines, character);
-            var trimmedLines = from line in lines
-                               select TrimPrecedingLine(line, character, preceding);
+            var endsTrimmedContent = TrimStartRegex.Replace(content.TrimEnd(), "$1", 1);
+            var lines = endsTrimmedContent.Split(Environment.NewLine);
+            var baseIndentationLength = CountIndentation(lines[0]);
 
-            return string.Join(Environment.NewLine, trimmedLines);
-        }
-
-        private int CountPreceding(IEnumerable<string> lines, char leadingCharacter)
-        {
-            foreach (var line in lines)
+            for (int i = 0; i != lines.Length; i++)
             {
-                // Make sure that the line actually starts with the leading character
-                if (line.StartsWith(leadingCharacter) == false)
-                    continue;
+                var line = lines[i];
 
-                // Determine last index of leading character, return if something else is found
-                for (var i = 0; i < line.Length; i++)
+                var indentationLength = CountIndentation(line);
+                if (indentationLength < baseIndentationLength)
                 {
-                    var character = line[i];
-                    if (character != leadingCharacter)
-                        return i;
+                    if (indentationLength == line.Length)
+                    {
+                        lines[i] = "";
+                        continue;
+                    }
+
+                    return endsTrimmedContent;
                 }
 
-                // Assume that this line is the template for trimming
-                return line.Length;
+                lines[i] = line.Substring(Math.Min(baseIndentationLength, line.Length)).TrimEnd();
             }
 
-            throw new ArgumentException("No lines match the target leading character.", nameof(lines));
+            return String.Join(Environment.NewLine, lines);
         }
 
-        private string TrimPrecedingLine(string line, char character, int amount)
+        private static Regex TrimStartRegex = new Regex("^\\s*\n(\\s*)(?=\\S*)", RegexOptions.Compiled);
+
+        private int CountIndentation(string line)
         {
-            return line.StartsWith(character) ? new string(line.Skip(amount).ToArray()) : line;
+            for (var i = 0; i < line.Length; i++)
+                if (!char.IsWhiteSpace(line[i]))
+                    return i;
+            return int.MaxValue;
         }
     }
 }
