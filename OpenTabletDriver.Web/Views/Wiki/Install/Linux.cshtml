@@ -45,6 +45,27 @@
 
 <hr/>
 
+<h3 class="wiki-nav-item" id="fedora">
+    Fedora / CentOS / RHEL
+</h3>
+<ol>
+    <li>
+        Run the following commands in a terminal to install and enable the OpenTabletDriver service.
+        <codeblock class="mt-2" language="bash">
+            # This will download and install the package
+            sudo dnf install -y https://opentabletdriver.net/Release/Download/OpenTabletDriver.rpm
+
+            # Reload the systemd user unit daemon
+            systemctl --user daemon-reload
+
+            # Enable and start the user service
+            systemctl --user enable opentabletdriver --now
+        </codeblock>
+    </li>
+</ol>
+
+<hr/>
+
 <h3 class="wiki-nav-item" id="arch">
     Arch Linux
 </h3>
