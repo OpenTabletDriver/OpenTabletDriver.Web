@@ -1,0 +1,45 @@
+name: .NET CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+  pull_request:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0'
+          include-prerelease: True
+
+      - name: Build
+        run: dotnet build
+
+  linter:
+    name: dotnet format
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          # Full git history is needed to get a proper list of changed files
+          fetch-depth: 0
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0'
+          include-prerelease: True
+
+      - name: Lint Changed Files
+        run: |
+          mapfile -t files < <(git diff --name-only --diff-filter=AM HEAD^ HEAD | grep '.*\.cs$')
+          if [ ${#files[@]} -ne 0 ]; then dotnet format --verify-no-changes --include "${files[@]}"; fi
