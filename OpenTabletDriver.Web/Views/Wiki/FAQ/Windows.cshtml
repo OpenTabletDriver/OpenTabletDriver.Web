@@ -57,18 +57,37 @@
     My tablet is detected, but my settings don't work.
 </h3>
 <div class="ms-3">
-    <p>cursor teleporting and stuck on full area</p>
+    <p>
+        If your area/bindings not working correctly, try following our troubleshooting steps below.<br/><br/>
+
+        Make sure that you have saved your settings by pressing the save button in the bottom right of the OpenTabletDriver interface.<br/><br/>
+
+        If you have done the above and your settings still do not apply then make sure that you don't have other drivers installed on your computer,
+        you can remove these by running and following the instructions for <a href="https://github.com/X9VoiD/TabletDriverCleanup/releases/latest">TabletDriverCleanup</a>,
+        come back here.<br/><br/>
+
+        If your cursor is teleporting you usually have another driver installed or you have broken settings, you can resolve the former by following the former with
+        <a href="https://github.com/X9VoiD/TabletDriverCleanup/releases/latest">TabletDriverCleanup</a> and you can solve the latter with
+        <code>file &gt; reset to defaults</code> and clicking save.<br/><br/>
+
+        If you still can't get your issue resolves with the instructions above please join our <a href="/Discord">Discord</a> for extra assistance.
+    </p>
 </div>
 
 <hr/>
 
-
-
-
 <h3 class="wiki-nav-item pb-2" id="osu-broken-input">
-    my cursor doesn't function correctly in osu!
+    My cursor doesn't function correctly in osu!
 </h3>
 <div class="ms-3">
+    <p>
+        Either disable <code>Raw Input</code> in the game settings entirely or disable <code>Map raw input to osu! window</code>
+        in the ingame settings and make sure that sensitivity is set to 1x.<br/>
+        <small class="text-muted">
+            Note: OpenTabletDriver has since v0.4.0 supported Raw Input as it uses the Windows SendInput API to position the cursor.
+            Therefore, it is not necessary to disable raw input itself, but it provides no merit on tablets to have it enabled.
+        </small>
+    </p>
 </div>
 
 <hr/>
