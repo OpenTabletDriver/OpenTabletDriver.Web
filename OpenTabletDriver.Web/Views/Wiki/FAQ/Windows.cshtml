@@ -68,7 +68,7 @@
 
         If your cursor is teleporting you usually have another driver installed or you have broken settings, you can resolve the former by following the former with
         <a href="https://github.com/X9VoiD/TabletDriverCleanup/releases/latest">TabletDriverCleanup</a> and you can solve the latter with
-        <code>file &gt; reset to defaults</code> and clicking save.<br/><br/>
+        <code>file > reset to defaults</code> and clicking save.<br/><br/>
 
         If you still can't get your issue resolves with the instructions above please join our <a href="/Discord">Discord</a> for extra assistance.
     </p>
@@ -83,10 +83,10 @@
     <p>
         Either disable <code>Raw Input</code> in the game settings entirely or disable <code>Map raw input to osu! window</code>
         in the ingame settings and make sure that sensitivity is set to 1x.<br/>
-        <small class="text-muted">
+        <p class="text-muted">
             Note: OpenTabletDriver has since v0.4.0 supported Raw Input as it uses the Windows SendInput API to position the cursor.
             Therefore, it is not necessary to disable raw input itself, but it provides no merit on tablets to have it enabled.
-        </small>
+        </p>
     </p>
 </div>
 
@@ -96,14 +96,48 @@
     How do I get pressure support?
 </h3>
 <div class="ms-3">
+    <p>
+        You can get Windows Ink pressure support with the Windows Ink plugin that is accessible through the Plugin Manager. To use it, follow the instructions below.
+    </p>
+        <ol>
+        <li>Install <a href="https://github.com/X9VoiD/vmulti-bin/releases/latest">VMulti Driver</a> (This is NOT VMultiMode) </li>
+        <li>Follow the instructions from the <a href="https://github.com/X9VoiD/VoiDPlugins/wiki/WindowsInk">WindowsInk wiki</a></li>
+        <li>Make sure that the application you are trying drawing in is set to WindowsInk/Windows 8+ Mode and the brush you are using has pressure support!</li>
+    </ol>
+    <p>
+        If you already have a different installation of VMulti it is recommended that you first run
+        <a href="https://github.com/X9VoiD/TabletDriverCleanup/releases/latest">TabletDriverCleanup</a> to avoid any potential conflicts.
+    </p>
+    <p class="text-muted">
+        Note: Recently, a change in Windows made it so Windows Ink's and normal Mouse's cursor position is handled separately.
+        This makes it so your cursor will appear to "jump" when switching from tablet to mouse while using Windows Ink output modes.
+         This is not a bug of OpenTabletDriver but rather one of Windows.
+    </p>
 </div>
 
 <hr/>
 
 <h3 class="wiki-nav-item pb-2" id="connecting-to-daemon">
-    The UX says it fails to connect to the daemon?
+    It says it fails to connect to the daemon?
 </h3>
 <div class="ms-3">
+    <p>
+        This can be caused by a few main problems. Primarily due to incorrectly following the <a href="/Wiki/Install/Windows">installation guide</a>.<br/><br/>
+
+        If you are sure that you have followed the installation guide, or have just completed an update and this occurs then it colud be possible that you have
+        broken settings or outdated plugins installed. You can remedy this with the below.
+    </p>
+    <ol>
+        <li>Press <kbd>Win</kbd> + <kbd>R</kbd> and type in <code>%localappdata%\OpenTabletDriver</code></li>
+        <li>Delete or move the <code>settings.json</code> file from inside this folder.</li>
+        <li>If this persists after also remove the <code>Plugins</code> folder.</li>
+    </ol>
+    <p>
+        If you have a <code>userdata</code> folder next to the binaries of OpenTabletDriver, you will need to remove the files above from that folder instead.<br><br>
+
+        If you still can't get it working after the solutions above please join our <a href="/Discord">Discord</a>.
+        It might be a completely different issue!
+    </p>
 </div>
 
 <hr/>
@@ -112,14 +146,40 @@
     How do I get it open at startup?
 </h3>
 <div class="ms-3">
+    <p>
+        Starting OpenTabletDriver at login can be performed quite easily. This can be done for nearly any
+        program, although there may be better ways to do it for those programs.
+    </p>
+    <ol>
+        <li>Right click <code>OpenTabletDriver.UX.Wpf.exe</code> and create a shortcut.</li>
+        <li>Press <kbd>Win</kbd> + <kbd>R</kbd> and type in <code>shell:startup</code></li>
+        <li>Move the shortcut into the folder that opened.</li>
+    </ol>
+    <p>
+       Starting OpenTabletDriver minimised can also be done by changing the properties of a shortcut.
+       To do this, right click the OpenTabletDriver shortcut, go to properties > run > minimised.
+    </p>
 </div>
 
 <hr/>
 
 <h3 class="wiki-nav-item pb-2" id="administrator">
-    Why do I get an Administrator warning?
+    Plugin Manager won't open/I get a warning on startup?
 </h3>
 <div class="ms-3">
+    <p>
+        When Starting OpenTabletDriver you may get an error warning you about Administrator Permissions. OpenTabletDriver
+        shouldn't be run as Administrator. This causes the plugin manager, FAQ page and Tablet debugger to not work along with
+        other features.<br/><br>
+
+        The following instructions should fix your issue under normal circumstances, but if you're using the disabled by default account called "Administrator",
+        usually because you're using a "custom" iso (unofficial version of Windows) these instructions will not work for you.
+    </p>
+    <ol>
+        <li>Press the Windows key and search<code> User Account Control</code>.</li>
+        <li>Move the slider to one of the top 2 options.</li>
+        <li>Click OK, then restart your computer.</li>
+    </ol>
 </div>
 
 <hr/>
@@ -128,6 +188,17 @@
     Why is my interface completely blank?
 </h3>
 <div class="ms-3">
+    <p>
+        If you are experiencing random crashes with no warning or the interface being completely blank or not accepting input and you have RiverTuner Statistics Server
+        installed, it may be hooking into OpenTabletDriver and preventing the UX from functioning correctly.
+        If you use this application, make sure it doesn't hook onto OpenTabletDriver.
+    </p>
+    <ol>
+        <li>Open RivaTuner Statistics Server.</li>
+        <li> Click on Add button found in the bottom left corner.</li>
+        <li>Locate OpenTabletDriver.UX.Wpf.exe on your computer then select it. Refer <a href="/Wiki/FAQ/General#appdata">here</a> for more information.</li>
+        <li>Click on Application Detection Level then select "None".</li>
+    </ol>
 </div>
 
 <hr/>
@@ -136,5 +207,30 @@
     Cursor doesn't move with Valorant open?
 </h3>
 <div class="ms-3">
+    <p>
+    Vanguard (Valorants anticheat) requires a workaround to play Valorant with a tablet. As it requires Kernel level input
+    you can use VMulti to mitigate some of the restrictions that Vanguard uses to stop tablet use. However, there will still be some restrcitions due
+    to you not playing with a physical mouse.
+    </p>
+    <ol>
+        <li>Install <a href="https://github.com/X9VoiD/vmulti-bin/releases/latest">VMulti Driver</a></li>
+        <li>Install and setup the <a href="https://github.com/X9VoiD/VoiDPlugins/wiki/VMultiMode">VMultiMode</a> plugin.</li>
+        <li>Run Valorant by <b>tapping with your tablet</b> (Important due to Valorant only using the first "mouse" input)</li>
+        <li><b>Do not</b> move your mouse while valorant is still loading (this will make valorant use the mouse over the tablet.)</li>
+    </ol>
+    <p>
+        <u>Vanguard Quirks:</u>
+        <br>
+        As VMulti is considered a separate input source from an actual physical mouse, Vanguard imposes several limitations to it.
+    </p>
+    <ol>
+        <li>You won't be able to press left click while pressing a non-modifier keyboard key (for ex. WASD) and shift, we will call these keys from here onward as <i>protected keys.</i></li>
+        <li>Every time you press a protected key, the next two left clicks will <i>always</i> be dropped.</li>
+        <li>If left click is held first and then a protected key is pressed, the left click will <i>sometimes</i> be dropped.</li>
+    </ol>
+    <p>
+        There is <b>no</b> fix this, as even Logitech G Hub, Razer Synapse, HawkuTD, DevocubTD, and even XP-Pen, Huion, Gaomon, Veikk drivers are affected without exceptions.
+        <b>As long as the input source is not a real physical mouse, Vanguard will impose such quirks <u>intentionally.</u></b>
+    </p>
 </div>
 
