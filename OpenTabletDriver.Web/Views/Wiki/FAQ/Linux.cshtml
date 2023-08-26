@@ -2,24 +2,84 @@
     ViewBag.Title = "Linux FAQ";
 }
 
-<h3 class="wiki-nav-item pb-2" id="ghost-cursor">
-    Teleporting cursor position
+<h3 class="wiki-nav-item pb-2" id="tablet-not-detected">
+    My tablet is not detected?
 </h3>
 <div class="ms-3">
     <p>
-        This occurs because another program is reading the tablet at the same time as OpenTabletDriver.
-        <small>
-            <a class="link-light" href="https://github.com/OpenTabletDriver/OpenTabletDriver/issues/68">#68</a>
-        </small>
-        <ol>
-            <li>
-                Perform the following commands in a terminal
-                <codeblock class="mt-2" language="bash">
-                    echo "blacklist wacom" | sudo tee -a /etc/modprobe.d/blacklist.conf
-                    sudo rmmod wacom
-                </codeblock>
-            </li>
-        </ol>
+        This can be caused by lots of things on Linux, for sanity reasons make sure that your tablet is actually plugged in to your computer,
+        you can usually check this with a gui utility or with an application like <code>lsusb</code>,
+        once you are 100% sure your tablet is connected to your computer, ensure that your specific tablet make and model is supported by checking our list of supported tablets
+        <a href="/Tablets">here</a>.<br/><br/>
+
+        We currently do not support tablets that connect directly to a computer via bluetooth, and have limited support for ones that use wireless USB receivers,
+        so please make sure your tablet is connected via cable.<br/>
+        If your tablet is supported and this is a fresh install of OpenTabletDriver, try restarting your computer.
+    </p>
+    <h4>It is a supported tablet, but still doesn't detect after a reboot?</h4>
+    <p>
+        If you are running OpenTabletDriver.UX, navigate from the top to the Console tab, if you are running the daemon standalone, look for a log that resembles the following:<br/>
+
+    <h5>hid_uclogic kernel module interefence</h5>
+        <codeblock>
+        Another tablet driver found: UC Logic
+        ArgumentOutOfRangeException Value range is [0, 15]. (Parameter 'value')
+        </codeblock>
+        These errors may happen if the <code>hid_uclogic</code> kernel module is loaded at the same time as OpenTabletdriver, you can remove
+        and blacklist this module to stop it from loading in the future by running the following commands:
+        <codeblock class="mt-2", language="bash">
+            echo "blacklist hid_uclogic" | sudo tee -a /etc/modprobe.d/blacklist.conf
+            sudo rmmod hid_uclogic
+        </codeblock>
+
+    <h5>Missing udev rules</h5>
+        <codeblock>
+            placeholder
+        </codeblock>
+        If you have followed the previous instructions, usually this is the only reason OTD will fail to detect your tablet when its supported.
+        The issue is resolved my making sure that you have proper udev rules set up. If you installed OpenTabletDriver via your package manager,
+        you may just need to reload and trigger the rules. You can make sure of this by following the instructions below.
+
+        <codeblock class="mt-2" language="bash">
+            sudo udevadm control --reload-rules
+            sudo udevadm trigger
+        </codeblock>
+
+        If you installed OTD without using a package manager, its very likely  you don't have the required udev rules at all, and must build your own.
+        This process requires the dotnet 7 sdk to do, but here is a set of instructions below to complete this.
+        <codeblock class="mt-2" language="bash">
+            # Clone the repository, change current directory to the repository
+            git clone https://github.com/OpenTabletDriver/OpenTabletDriver.git
+            cd ./OpenTabletDriver
+            # Generate rules, moves them to the udev rules directory
+            ./generate-rules.sh
+            sudo mv ./bin/99-opentabletdriver.rules /etc/udev/rules.d/99-opentabletdriver.rules
+            # Reload udev rules
+            sudo udevadm control --reload-rules
+            # Clean up leftovers
+            cd ..
+            rm -rf OpenTabletDriver
+        </codeblock>
+    </p>
+    <h4>It is not a supported tablet, what can I do about that?</h4>
+    <p>
+        If you want to add support for your tablet on your own, feel free to look at a similar configuration on our GitHub and our configuration documentation.<br/>
+        If you would like help with supporting your tablet, or would prefer us to do it join our <a href="/Discord">Discord</a> and toss a message in <code>#configs</code> or a support channel.
+    </p>
+</div>
+
+<hr/>
+
+<h3 class="wiki-nav-item pb-2" id="ghost-cursor">
+    My cursor is teleporting?
+</h3>
+<div class="ms-3">
+    <p>
+        This occurs when another program is reading the tablet at the same time as OpenTabletDriver. The solution to this is usually very simple:
+        <codeblock class="mt-2" language="bash">
+            echo "blacklist wacom" | sudo tee -a /etc/modprobe.d/blacklist.conf
+            sudo rmmod wacom
+        </codeblock>
     </p>
 </div>
 
@@ -45,12 +105,17 @@
 
 <hr/>
 
+
+<h3 class="wiki-nav-item pb-2" id="blacklisted-modules-loading">
+    I blacklisted the modules, but they load on startup?
+</h3>
 <div class="ms-3">
-    <h3>
-        The modules reload after rebooting?
-    </h3>
     <p>
-        The solution to this is to rebuild the initramfs. This process varies distro to distro.
+        This issue can be caused by either your initramfs not containing the instructions to not load the modules
+        or another crucial service loading the module despite it being blacklisted. You will have to find that service
+        yourself if the solution below does not solve your issue.
+
+        Rebuilding the initramfs is an easy process, but the commands to do this vary between distro.
     </p>
     <h3>
         Arch
