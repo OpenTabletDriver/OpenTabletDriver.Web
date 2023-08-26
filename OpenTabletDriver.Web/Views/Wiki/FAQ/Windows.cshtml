@@ -11,13 +11,12 @@
         with a sound.<br/> If you do not get this sound consider replacing the cable (make sure the cable supports both power and data
         transfer).<br/><br/>
 
-        Once you are sure that your tablet is connected to your computer, consider checking if your tablet is supported <a href="/Tablets">here</a>.<br/>
-        In most cases we do not support wireless, so please make sure your tablet is connected via its cable.
+        Once you are sure that your tablet is connected to your computer, ensure that your specific tablet make and model is supported by checking our list of supported tablets <a href="/Tablets">here</a>.<br/>
+        We currently do not support tablets that connect directly to a computer via bluetooth, and have limited support for ones that use wireless USB receivers, so please make sure your tablet is connected via cable.
     </p>
     <h4>It is a supported tablet, but still doesn't detect?</h4>
     <p>
-        Please make sure that you have no other tablet drivers on the system. Follow the instructions for
-        <a href="https://github.com/X9VoiD/TabletDriverCleanup/releases/latest">TabletDriverCleanup</a> and resume here.<br><br>
+        Please make sure that you have no other tablet drivers on the system. To ensure your system is clean, follow the instructions for our <a href="https://github.com/X9VoiD/TabletDriverCleanup/releases/latest">Tablet Driver Cleanup Utility</a>, then resume here.<br><br>
 
         Please check if your tablet requires WinUSB <a href="/Tablets">here</a> (it will say in the notes). If it does, follow the<br>
         <a href="/Wiki/Install/Windows#winusb">instructions</a> and return here. Continue below for troubleshooting instructions if your tablet still isn't detected.<br/><br/>
@@ -47,7 +46,7 @@
     <h4>It is not a supported tablet, what can I do about that?</h4>
     <p>
         If you want to add support for your tablet on your own, feel free to look at a similar configuration on our GitHub and our configuration documentation.<br/>
-        If you would like help with supporting your tablet, or would prefer us to do it join our <a href="/Discord">Discord</a> and toss a message in <code>#configs</code> or a support channel.
+        If you would like help with supporting your tablet, or would prefer us to do it, join our <a href="/Discord">Discord</a> and toss a message in <code>#configs</code> or a support channel.
     </p>
 </div>
 
@@ -58,7 +57,7 @@
 </h3>
 <div class="ms-3">
     <p>
-        If your area/bindings not working correctly, try following our troubleshooting steps below.<br/><br/>
+        If your area/bindings are not working correctly despite detection, try following our troubleshooting steps below.<br/><br/>
 
         Make sure that you have saved your settings by pressing the save button in the bottom right of the OpenTabletDriver interface.<br/><br/>
 
@@ -70,7 +69,7 @@
         <a href="https://github.com/X9VoiD/TabletDriverCleanup/releases/latest">TabletDriverCleanup</a> and you can solve the latter with
         <code>file > reset to defaults</code> and clicking save.<br/><br/>
 
-        If you still can't get your issue resolves with the instructions above please join our <a href="/Discord">Discord</a> for extra assistance.
+        If the issue is still unresolved after trying the instructions above, please join our <a href="/Discord">Discord</a> for extra assistance.
     </p>
 </div>
 
@@ -122,7 +121,7 @@
 </h3>
 <div class="ms-3">
     <p>
-        This can be caused by a few main problems. Primarily due to incorrectly following the <a href="/Wiki/Install/Windows">installation guide</a>.<br/><br/>
+        This can be caused by a few different problems. Primarily, this will result from incorrectly following the <a href="/Wiki/Install/Windows">installation guide</a> on installation.<br/><br/>
 
         If you are sure that you have followed the installation guide, or have just completed an update and this occurs then it colud be possible that you have
         broken settings or outdated plugins installed. You can remedy this with the below.
@@ -143,7 +142,7 @@
 <hr/>
 
 <h3 class="wiki-nav-item pb-2" id="startup">
-    How do I get it open at startup?
+    How do I make OTD start automatically when I boot my PC?
 </h3>
 <div class="ms-3">
     <p>
@@ -169,11 +168,11 @@
 <div class="ms-3">
     <p>
         When Starting OpenTabletDriver you may get an error warning you about Administrator Permissions. OpenTabletDriver
-        shouldn't be run as Administrator. This causes the plugin manager, FAQ page and Tablet debugger to not work along with
+        should NEVER be run as Administrator or with Administrator permissions. This causes the plugin manager, FAQ page, and Tablet debugger to not work, and can interfere with several
         other features.<br/><br>
 
-        The following instructions should fix your issue under normal circumstances, but if you're using the disabled by default account called "Administrator",
-        usually because you're using a "custom" iso (unofficial version of Windows) these instructions will not work for you.
+        The following instructions should fix your issue under normal circumstances, but if you're using the (disabled in a fresh windows install by default) account called "Administrator",
+        usually because you're using a "custom" iso (unofficial version of Windows, also sometimes referred to as a "debloated windows") install, these instructions will not work for you. We generally recommend against using altered or 3rd party versions of windows, as OTD is likely to not be the only software adversely affected by the changes these custom ISOs make.
     </p>
     <ol>
         <li>Press the Windows key and search<code> User Account Control</code>.</li>
@@ -189,9 +188,9 @@
 </h3>
 <div class="ms-3">
     <p>
-        If you are experiencing random crashes with no warning or the interface being completely blank or not accepting input and you have RiverTuner Statistics Server
+        If you are experiencing random crashes with no warning, or the interface is completely blank and/or not accepting input, and you have RiverTuner Statistics Server
         installed, it may be hooking into OpenTabletDriver and preventing the UX from functioning correctly.
-        If you use this application, make sure it doesn't hook onto OpenTabletDriver.
+        If you use this application, make sure it doesn't hook onto OpenTabletDriver by blacklisting it in RiverTuner's settings.
     </p>
     <ol>
         <li>Open RivaTuner Statistics Server.</li>
