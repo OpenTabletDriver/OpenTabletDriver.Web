@@ -14,13 +14,18 @@
 
         We currently do not support tablets that connect directly to a computer via bluetooth, and have limited support for ones that use wireless USB receivers,
         so please make sure your tablet is connected via cable.<br/>
-        If your tablet is supported and this is a fresh install of OpenTabletDriver, try restarting your computer.
+
+        @*This currently does not line up, and I do not know why.*@
+        <small class="ms-3 text-muted">
+            Note: If you installed OpenTabletDriver with a package manager, you usually just need to reboot,
+            as the driver may not work out of the box on some configurations.
+        </small>
     </p>
     <h4>It is a supported tablet, but still doesn't detect after a reboot?</h4>
     <p>
         If you are running OpenTabletDriver.UX, navigate from the top to the Console tab, if you are running the daemon standalone, look for a log that resembles the following:<br/>
 
-    <h5>hid_uclogic kernel module interefence</h5>
+    <h5 class="wiki-nav-item pb-2" id="hid_uclogic">hid_uclogic kernel module interefence</h5>
         <codeblock>
         Another tablet driver found: UC Logic
         ArgumentOutOfRangeException Value range is [0, 15]. (Parameter 'value')
@@ -32,9 +37,9 @@
             sudo rmmod hid_uclogic
         </codeblock>
 
-    <h5>Missing udev rules</h5>
+    <h5 class="wiki-nav-item pb-2" id="udev">Missing udev rules</h5>
         <codeblock>
-            placeholder
+            Not permitted to open HID class device at /dev/hidrawX
         </codeblock>
         If you have followed the previous instructions, usually this is the only reason OTD will fail to detect your tablet when its supported.
         The issue is resolved my making sure that you have proper udev rules set up. If you installed OpenTabletDriver via your package manager,
@@ -42,11 +47,14 @@
 
         <codeblock class="mt-2" language="bash">
             sudo udevadm control --reload-rules
-            sudo udevadm trigger
+            sudo udevadm trigger # Or replug your tablet.
         </codeblock>
 
-        If you installed OTD without using a package manager, its very likely  you don't have the required udev rules at all, and must build your own.
-        This process requires the dotnet 7 sdk to do, but here is a set of instructions below to complete this.
+        If it still doesn't work after this point, but you installed OpenTabletDriver by a package manager,
+        please reboot, some systems may require this.<br/>
+
+        If you installed OTD without using a package manager (we <b>highly</b> recommend you use a packaged build if available),
+        you will not have proper udev rules set up and must build your own. This process will require you to have the dotnet 7 SDK:
         <codeblock class="mt-2" language="bash">
             # Clone the repository, change current directory to the repository
             git clone https://github.com/OpenTabletDriver/OpenTabletDriver.git
@@ -64,7 +72,7 @@
     <h4>It is not a supported tablet, what can I do about that?</h4>
     <p>
         If you want to add support for your tablet on your own, feel free to look at a similar configuration on our GitHub and our configuration documentation.<br/>
-        If you would like help with supporting your tablet, or would prefer us to do it join our <a href="/Discord">Discord</a> and toss a message in <code>#configs</code> or a support channel.
+        If you would like help with supporting your tablet, or would prefer us to do it, join our <a href="/Discord">Discord</a> and create a post in <code>#config-creation</code> or a support channel.
     </p>
 </div>
 
@@ -85,29 +93,8 @@
 
 <hr/>
 
-<h3 class="wiki-nav-item pb-2" id="argumentoutofrangeexception">
-    Device is currently in use
-</h3>
-<div class="ms-3">
-    <p>
-        This occurs typically due to the <code>hid_uclogic</code> kernel module taking priority over OpenTabletDriver.
-    </p>
-    <ol>
-        <li>
-            Run the following commands, then replug your tablet
-            <codeblock class="mt-2" language="bash">
-                echo "blacklist hid_uclogic" | sudo tee -a /etc/modprobe.d/blacklist.conf
-                sudo rmmod hid_uclogic
-            </codeblock>
-        </li>
-    </ol>
-</div>
-
-<hr/>
-
-
 <h3 class="wiki-nav-item pb-2" id="blacklisted-modules-loading">
-    I blacklisted the modules, but they load on startup?
+    I blacklisted kernel modules, but they load on startup?
 </h3>
 <div class="ms-3">
     <p>
@@ -115,58 +102,24 @@
         or another crucial service loading the module despite it being blacklisted. You will have to find that service
         yourself if the solution below does not solve your issue.
 
-        Rebuilding the initramfs is an easy process, but the commands to do this vary between distro.
+        Rebuilding the initramfs is an easy process, but the commands to do this vary between the distro.
     </p>
-    <h3>
+    <h4>
         Arch
-    </h3>
+    </h4>
         <ol>
             <codeblock class="mt-2" language="bash">
                 sudo mkinitcpio -P
             </codeblock>
         </ol>
-    <h3>
+    <h4>
         Debian / Ubuntu
-    </h3>
+    </h4>
     <ol>
         <codeblock class="mt-2" language="bash">
             sudo update-initramfs -u
         </codeblock>
     </ol>
-</div>
-
-<hr/>
-
-<h3 class="wiki-nav-item pb-2" id="fail-device-streams">
-    Failed to open device streams
-</h3>
-<div class="ms-3">
-    <p>
-        This occurs due to a lack of permissions to open a device stream.
-        It is resolved by creating udev rules that give these permissions.
-        <br/>
-        If you installed OpenTabletDriver via your package manager,
-        you may need to run the following command then replug your tablet.
-        <codeblock class="mt-2">
-            sudo udevadm control --reload-rules
-        </codeblock>
-    </p>
-    <p>
-        If this does not work, run the following commands
-    </p>
-    <codeblock class="mt-2" language="bash">
-        # Clone the repository, change current directory to the repository
-        git clone https://github.com/OpenTabletDriver/OpenTabletDriver.git
-        cd ./OpenTabletDriver
-        # Generate rules, moves them to the udev rules directory
-        ./generate-rules.sh
-        sudo mv ./bin/99-opentabletdriver.rules /etc/udev/rules.d/99-opentabletdriver.rules
-        # Reload udev rules
-        sudo udevadm control --reload-rules
-        # Clean up leftovers
-        cd ..
-        rm -rf OpenTabletDriver
-    </codeblock>
 </div>
 
 <hr/>
@@ -219,13 +172,11 @@
     </p>
 </div>
 
-<hr/>
-
 <h3>This doesn't work after rebooting?</h3>
 <div class="ms-3">
     <p>
-        This is probably due to your kernel not having uinput built in, either build your kernel with uinput
-        support or use a different kernel.
+        This is probably due to your kernel not having uinput built in, if <code>stat /dev/uinput</code> doesn't return a file and you are using a custom kernel,
+        compile your kernel with support for uinput or use a different kernel.
     </p>
 </div>
 
@@ -361,4 +312,8 @@
             <li>Remove the Tip Binding in the Pen Settings panel by clicking the 3 dots, then pressing clear.</li>
             <li>Save your settings and try drawing in an applicantion that supports pressure.</li>
         </ol>
+    <p>
+        You will also need to use artist mode mouse bindings in the advanced binding editor (press '...' next to the binding)
+        instead of regular mouse buttons. Regular mouse buttons will be ignored.
+    </p>
 </div>
