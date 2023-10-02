@@ -223,7 +223,7 @@
 <hr/>
 
 <h3 class="wiki-nav-item pb-2" id="display-session-not-detected">
-    X11/Wayland Session not detected
+    The systemd user service doesn't start correctly?
 </h3>
 <div class="ms-3">
     <h4>X11 <small class="text-muted">(systemd)</small></h4>
@@ -293,6 +293,21 @@
             </li>
         </ol>
     </div>
+</div>
+
+<hr/>
+
+<h3 class="wiki-nav-item pb-2" id="non-systemd">
+    How do I start the driver when I'm not using systemd?
+</h3>
+<div class="ms-3">
+    <p>
+        On non-systemd distros you do have not have a specified way to automatically start the daemon.
+        Instead, if you have installed a packaged build you can run <code>otd-daemon</code> in a terminal.<br/><br/>
+
+        If you are not using a packaged build and instead compiled from source,
+        you will need to run <code>./OpenTabletDriver.Daemon</code> in your terminal from the build directory instead.
+    </p>
 </div>
 
 <hr/>
