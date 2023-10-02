@@ -14,11 +14,10 @@
 
         We currently do not support tablets that connect directly to a computer via bluetooth, and have limited support for ones that use wireless USB receivers,
         so please make sure your tablet is connected via cable.<br/>
-
-        @*This currently does not line up, and I do not know why.*@
-        <small class="ms-3 text-muted">
+        <small class="text-muted">
             Note: If you installed OpenTabletDriver with a package manager, you usually just need to reboot,
             as the driver may not work out of the box on some configurations.
+            Please reboot before attempting the solutions below to avoid misconfiguration.
         </small>
     </p>
     <h4>It is a supported tablet, but still doesn't detect after a reboot?</h4>
@@ -26,7 +25,7 @@
         If you are running OpenTabletDriver.UX, navigate from the top to the Console tab, if you are running the daemon standalone, look for a log that resembles the following:<br/>
 
     <h5 class="wiki-nav-item pb-2" id="hid_uclogic">hid_uclogic kernel module interefence</h5>
-        <codeblock>
+        <codeblock language="bash">
         Another tablet driver found: UC Logic
         ArgumentOutOfRangeException Value range is [0, 15]. (Parameter 'value')
         </codeblock>
@@ -38,7 +37,7 @@
         </codeblock>
 
     <h5 class="wiki-nav-item pb-2" id="udev">Missing udev rules</h5>
-        <codeblock>
+        <codeblock language="bash">
             Not permitted to open HID class device at /dev/hidrawX
         </codeblock>
         If you have followed the previous instructions, usually this is the only reason OTD will fail to detect your tablet when its supported.
@@ -83,11 +82,15 @@
 </h3>
 <div class="ms-3">
     <p>
-        This occurs when another program is reading the tablet at the same time as OpenTabletDriver. The solution to this is usually very simple:
+        This occurs when another program is reading the tablet at the same time as OpenTabletDriver, if this is happening everywhere on the system,
+        the solution to this is very simple:
         <codeblock class="mt-2" language="bash">
             echo "blacklist wacom" | sudo tee -a /etc/modprobe.d/blacklist.conf
             sudo rmmod wacom
         </codeblock>
+        If you are using a Wayland compositor, it may be required for you use artist mode to pass the tablet as a virtual tablet
+        rather than an absolute mouse because certain applications like SDL and XWayland may incorrectly handle the cursor otherwise.
+        This is a rather simple setup which you can find <a href="#artist-mode">here</a>.
     </p>
 </div>
 
@@ -168,12 +171,7 @@
     </p>
     <h4>Other Distros</h4>
     <p>
-        Refer to your distribution's documentation regarding kernel configuration to enable this option.
-    </p>
-</div>
-
-<h3>This doesn't work after rebooting?</h3>
-<div class="ms-3">
+        Refer to your distribution's documentation regardi> Security and Privacy -> P
     <p>
         This is probably due to your kernel not having uinput built in, if <code>stat /dev/uinput</code> doesn't return a file and you are using a custom kernel,
         compile your kernel with support for uinput or use a different kernel.
@@ -211,11 +209,11 @@
 <hr/>
 
 <h3 class="wiki-nav-item pb-2" id="CTL-x100-android-mode">
-    CTL-x100 is not detected
+    My CTL-x100 is not detected?
 </h3>
 <div class="ms-3">
 <p>
-    CTL-x100 tablets boots in Android mode instead of PC mode in some rare cases. To fix this, press
+    It is possible for CTL-x100 tablets boots in Android mode instead of PC mode in some rare cases. To fix this, press
     the outer 2 express keys for 3-4 seconds until the LEDs change brightness. This toggles the tablet's operating mode
     between PC (high LED brightness) and Android mode (low LED brightness).
 </p>
@@ -314,6 +312,15 @@
         </ol>
     <p>
         You will also need to use artist mode mouse bindings in the advanced binding editor (press '...' next to the binding)
-        instead of regular mouse buttons. Regular mouse buttons will be ignored.
+        instead of regular mouse buttons. Regular mouse buttons will be ignored.<br/><br/>
+
+        Using artist mode will result in some minor smoothing, this is usually undiserable for users as OTD already gives you
+        fine control over the smoothing you are using. To disable this add the contents below to <code>/etc/libinput/local-overrides.quirks</code>:<br/>
+        <codeblock>
+            [OpenTabletDriver Virtual Tablets]
+            MatchName=OpenTabletDriver*
+            AttrTabletSmoothing=0
+        </codeblock>
+        You shouldn't need to reboot after saving the file, but to make sure the changes apply you should replug your tablet.
     </p>
 </div>
