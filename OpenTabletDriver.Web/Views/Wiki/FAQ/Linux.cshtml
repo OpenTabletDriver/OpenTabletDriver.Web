@@ -128,35 +128,40 @@
 <hr/>
 
 <h3 class="wiki-nav-item pb-2" id="fail-virtual-device">
-    Failed to initialize virtual device
+    My tablet detects, but it isn't working?
 </h3>
 <div class="ms-3">
+    <p>
+        If this is on a fresh install of OpenTabletDriver, usually problems like this can be solved
+        simply by restarting your computer. If it isn't resolved you may try resetting your OpenTabletDriver
+        settings to the defaults with <code>file > reset to defaults</code>, then pressing save.<br/><br/>
+
+        If your issue is still not resolved, and you are using OpenTabletDriver.UX, navigate to the console tab
+        at the top of the main interface, if you are using the daemon directly you may simply just look for a log
+        that resembles the following:
+    </p>
     <h4>EACCESS</h4>
     <p>
-        This occurs usually when the udev rules are not correct, or haven't been reloaded.
-        Make sure your rules are correct by heading <a href="#fail-device-streams">here</a>.
+         <codeblock class="mt-2" language="bash">
+            Failed to initialize virtual tablet. (error code EACCES)
+        </codeblock>
+        This usually occurs when udev is improperly set up or hasn't explictly been reloaded.
+        Make sure your rules are correct by heading <a href="#udev">here</a>.
     </p>
-    <codeblock class="mt-2" language="bash">
-        sudo udevadm control --reload-rules
-        # Skips the step requiring a replug of the tablet.
-        sudo udevadm trigger
-        # Helps ensure that OpenTabletDriver uses the tablet correctly.
-        systemctl --user restart opentabletdriver
-    </codeblock>
-    <p>If the commands above do not resolve your issue, reboot.</p>
-
     <h4>ENODEV</h4>
     <p>
-        Rebooting is the only option here. Your kernel was very likely updated, or some component of
-        uinput was modified which requires a reboot to resolve.
+        <codeblock class="mt-2" language="bash">
+            Failed to initialize virtual tablet. (error code ENODEV)
+        </codeblock>
+        This error occurs after updating the kernel but without rebooting, you should reboot your computer
+        and check if the problem is resolved.
     </p>
-
     <h4>ENOENT</h4>
     <p>
-        This error occurs when the CONFIG_INPUT_UINPUT kernel option is disabled. Make sure it is activated in
+        This error occurs when the CONFIG_INPUT_UINPUT kernel option is disabled. Make sure it is enabled in
         your kernel config.<br/>
     </p>
-    <h4>Gentoo</h4>
+    <h5>Gentoo</h5>
     <p>
         Check the option CONFIG_INPUT_UINPUT in /usr/src/linux.config. If it is not enabled, use the following steps
     </p>
@@ -165,13 +170,13 @@
         sudo make menuconfig
     </codeblock>
     <p>
-        Having done that, select y (for always active) or m (for building as a module) for the option in "Device Drivers
+        Having done that, select y (for always active) or m (for building as a module) for the option in <i>"Device Drivers
         --->
-        Input Device Support ---> Miscellaneous devices ---> User level driver support" and rebuild the kernel.
+        Input Device Support ---> Miscellaneous devices ---> User level driver support"</i> and rebuild the kernel.
     </p>
     <h4>Other Distros</h4>
     <p>
-        Refer to your distribution's documentation regardi> Security and Privacy -> P
+        Refer to your distribution's documentation regarding kernel configuration to enable this option.
     <p>
         This is probably due to your kernel not having uinput built in, if <code>stat /dev/uinput</code> doesn't return a file and you are using a custom kernel,
         compile your kernel with support for uinput or use a different kernel.
@@ -216,6 +221,10 @@
     It is possible for CTL-x100 tablets boots in Android mode instead of PC mode in some rare cases. To fix this, press
     the outer 2 express keys for 3-4 seconds until the LEDs change brightness. This toggles the tablet's operating mode
     between PC (high LED brightness) and Android mode (low LED brightness).
+    <small class="ms-3 text-muted">
+        Note: If you are sure your tablet is in PC mode, please follow our generalised instructions <a href="#tablet-not-detected">here</a>.
+    </small>
+
 </p>
 
 </div>
@@ -339,3 +348,15 @@
         You shouldn't need to reboot after saving the file, but to make sure the changes apply you should replug your tablet.
     </p>
 </div>
+
+<h3 class="wiki-nav-item pb-2" id="discord">
+    I have tried these solutions, but my problem still persists!
+</h3>
+<div class="ms-3">
+    <p>
+        If you are still encountering problems with OpenTabletDriver, it will be easier to help you
+        over in our<a href="/Discord">Discord</a> server where we may ask you to do certain debugging steps
+        and give you different instructions to help resolve your problem.
+    </p>
+</div>
+
