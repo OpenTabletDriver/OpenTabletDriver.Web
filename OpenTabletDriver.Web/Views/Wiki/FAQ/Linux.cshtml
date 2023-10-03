@@ -231,77 +231,15 @@
 
 <hr/>
 
-<h3 class="wiki-nav-item pb-2" id="display-session-not-detected">
-    The systemd user service doesn't start correctly?
+<h3 class="wiki-nav-item pb-2" id="systemd-autostart">
+    The systemd user service doesn't automatically start?
 </h3>
 <div class="ms-3">
-    <h4>X11 <small class="text-muted">(systemd)</small></h4>
-    <div class="mx-3">
-        <p>
-            Your <code>.xinitrc</code> is likely configured improperly and the <code>DISPLAY</code> environment
-            variable isn't set for systemd.<br/>
-            Proper configuration for the <code>.xinitrc</code> file can be found
-            <a href="https://wiki.archlinux.org/index.php/Xinit#Configuration">here</a>.<br/>
-            <small class="ms-3 text-muted">
-                Note: The fix below is just a quick and dirty fix to get OpenTabletDriver running and should
-                instead be resolved as above.
-            </small>
-        </p>
-        <ol>
-            <li>
-                Create an override file
-                <codeblock class="mt-2" language="bash">
-                    # Opens with whatever program is set to $EDITOR
-                    systemctl --user edit opentabletdriver.service
-                </codeblock>
-            </li>
-            <li>
-                Add this block below the first 2 lines of the file, then save and exit
-                <codeblock class="mt-2" language="ini">
-                    [Service]
-                    Environment=DISPLAY=:0
-                </codeblock>
-            </li>
-            <li>
-                Finally, run the following commands
-                <codeblock class="mt-2" language="bash">
-                    # Reload the systemd user daemon
-                    systemctl --user daemon-reload
-                    # Start the OpenTabletDriver daemon service (restarts if already running)
-                    systemctl --user restart opentabletdriver.service
-                </codeblock>
-            </li>
-        </ol>
-    </div>
-
-    <h4>Wayland <small class="text-muted">(systemd)</small></h4>
-    <div class="mx-3">
-        <ol>
-            <li>
-                Create an override file
-                <codeblock class="mt-2" language="bash">
-                    # Opens with whatever program is set to $EDITOR
-                    systemctl --user edit opentabletdriver.service
-                </codeblock>
-            </li>
-            <li>
-                Add this block below the first 2 lines of the file, then save and exit
-                <codeblock class="mt-2" language="ini">
-                    [Service]
-                    Environment=WAYLAND_DISPLAY=:0
-                </codeblock>
-            </li>
-            <li>
-                Finally, run the following commands
-                <codeblock class="mt-2" language="bash">
-                    # Reload the systemd user daemon
-                    systemctl --user daemon-reload
-                    # Start the OpenTabletDriver daemon service (restarts if already running)
-                    systemctl --user restart opentabletdriver.service
-                </codeblock>
-            </li>
-        </ol>
-    </div>
+    <p>
+        If you have enabled the systemd user service and this happens, your window manager isn't properly setting up
+        <code>graphical-session.target</code> before OpenTabletDriver starts, If you are experiencing this, add
+        <code>otd-daemon</code> to the autostart of your window manager for OpenTabletDriver to work on startup.
+    </p>
 </div>
 
 <hr/>
@@ -316,6 +254,8 @@
 
         If you are not using a packaged build and instead compiled from source,
         you will need to run <code>./OpenTabletDriver.Daemon</code> in your terminal from the build directory instead.
+
+        You may place this in your Window Managers startup for it to automatically start.
     </p>
 </div>
 
@@ -348,6 +288,8 @@
         You shouldn't need to reboot after saving the file, but to make sure the changes apply you should replug your tablet.
     </p>
 </div>
+
+<hr/>
 
 <h3 class="wiki-nav-item pb-2" id="discord">
     I have tried these solutions, but my problem still persists!
