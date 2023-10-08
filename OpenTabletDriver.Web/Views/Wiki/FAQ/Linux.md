@@ -28,8 +28,7 @@ Look for a log that resembles the following:
 
 ##### hid_uclogic kernel module interference {#hid_uclogic}
 
-> Another tablet driver found: UC Logic
-
+> Another tablet driver found: UC Logic\
 > ArgumentOutOfRangeException Value range is [0, 15]. (Parameter 'value')
 
 These errors may happen if the `hid_uclogic` kernel module is loaded at the same time as OpenTabletDriver.
