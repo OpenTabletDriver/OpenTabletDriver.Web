@@ -195,7 +195,7 @@ Note: If you are sure your tablet is in PC mode, please follow our generalised i
 If you have enabled the systemd user service and this happens,
 your distro isn't properly activating `graphical-session.target` to ensure OpenTabletDriver starts cleanly.
 
-If you are experiencing this, add `otd-daemon` to the autostart of your window manager for OpenTabletDriver to work on startup.
+If you are experiencing this, add `otd-daemon` to the autostart of your desktop environment for OpenTabletDriver to work on startup.
 
 ### How do I start the driver when I'm not using systemd? {#non-systemd}
 
@@ -205,7 +205,7 @@ Instead, if you have installed a packaged build you can run `otd-daemon` in a te
 If you are not using a packaged build and instead compiled from source,
 you will need to run `./OpenTabletDriver.Daemon` in your terminal from the build directory instead.
 
-You may place this in your window managers startup for it to automatically start.
+You may place this in your desktop environment startup for it to automatically start.
 
 ### Enabling pressure using Artist Mode {#artist-mode}
 
