@@ -24,7 +24,7 @@ Please reboot before attempting the solutions below to avoid misconfiguration.
 
 Look for a log that resembles the following:
 
-<small>Hint: You can see the console log under the "Console" tab in OpenTabletDriver.UX</small>
+<small class="text-muted">Hint: You can see the console log under the "Console" tab in OpenTabletDriver.UX</small>
 
 ##### hid_uclogic kernel module interference {#hid_uclogic}
 
