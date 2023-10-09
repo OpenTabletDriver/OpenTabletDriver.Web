@@ -24,7 +24,9 @@ Please reboot before attempting the solutions below to avoid misconfiguration.
 
 Look for a log that resembles the following:
 
-<small class="text-muted">Hint: You can see the console log under the "Console" tab in OpenTabletDriver.UX</small>
+<small class="text-muted">Hint: You can see the console log under the "Console" tab in OpenTabletDriver.UX. You will better find problems when you
+Switch from `Info` to `Debug` mode in the bottom left of the Console panel.
+</small>
 
 ##### hid_uclogic kernel module interference {#hid_uclogic}
 
@@ -124,8 +126,9 @@ If this is on a fresh install of OpenTabletDriver, usually problems like this ca
 simply by restarting your computer. If it isn't resolved you may try resetting your OpenTabletDriver
 settings to the defaults with `File > Reset to defaults`, then pressing save.
 
-If your issue is still not resolved, and you are using OpenTabletDriver.UX, navigate to the console tab
-at the top of the main interface, if you are using the daemon directly you may simply just look for a log
+If your issue is still not resolved, and you are using OpenTabletDriver.UX, navigate to the "Console" tab
+at the top of the main interface, switch from `Info` to `Debug` in the bottom left of that window and you will be see every log message.
+If you are using the daemon directly you may simply just look for a log
 that resembles the following:
 
 #### EACCESS
