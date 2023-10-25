@@ -47,7 +47,7 @@ sudo rmmod hid_uclogic
 
 If you have followed the previous instructions, usually this is the only reason OpenTabletDriver will fail to detect your tablet when it's supported.
 
-The issue is resolved by making sure that you have proper udev rules set up.
+This issue can be resolved by ensuring that you have proper udev rules configured.
 
 ###### From Package Manager
 
@@ -83,7 +83,7 @@ rm -rf OpenTabletDriver
 ```
 Then restart OpenTabletDriver and replug your tablet.
 
-#### It is not a supported tablet, what can I do about that?
+#### My tablet is not supported, what can I do about that?
 
 If you want to add support for your tablet on your own, feel free to look at a similar configuration on our GitHub and our configuration documentation.
 
@@ -97,9 +97,8 @@ the solution to this is very simple:
 echo "blacklist wacom" | sudo tee -a /etc/modprobe.d/blacklist.conf
 sudo rmmod wacom
 ```
-If you are using a Wayland compositor, it may be required for you use artist mode to pass the tablet as a virtual tablet
-rather than an absolute mouse because certain applications like SDL and XWayland may incorrectly handle the cursor otherwise.
-This is a rather simple setup which you can find <a href="#artist-mode">here</a>.
+If you are using a Wayland compositor, it may be required for you to use artist mode to pass the tablet to the driver as a virtual tablet, rather than an absolute mouse - certain applications like SDL and XWayland may incorrectly handle the cursor otherwise.
+This is a rather simple config change, which can be found <a href="#artist-mode">here</a>.
 
 ### I blacklisted kernel modules, but they load on startup? {#blacklisted-modules-loading}
 
@@ -107,7 +106,7 @@ This issue can be caused by either your initramfs not containing the instruction
 or another crucial service loading the module despite it being blacklisted. You will have to find that service
 yourself if the solution below does not solve your issue.
 
-Rebuilding the initramfs is an easy process, but the commands to do this vary between the distro.
+Rebuilding the initramfs is an easy process, but the commands to do this can vary between distributions of linux.
 
 #### Arch
 
@@ -128,7 +127,7 @@ settings to the defaults with `File > Reset to defaults`, then pressing save.
 
 If your issue is still not resolved, and you are using OpenTabletDriver.UX, navigate to the "Console" tab
 at the top of the main interface, switch from `Info` to `Debug` in the bottom left of that window and you will be see every log message.
-If you are using the daemon directly you may simply just look for a log
+If you are using the daemon directly, simply look for a log entry
 that resembles the following:
 
 #### EACCESS
@@ -185,7 +184,7 @@ env SDL_VIDEODRIVER=wayland osu-lazer
 ```
 
 ### My CTL-x100 is not detected? {#CTL-x100-android-mode}
-It is possible for CTL-x100 tablets boots in Android mode instead of PC mode in some rare cases. To fix this, press
+It is possible for CTL-x100 tablets to boot in Android mode (the mode they use when interfacing with android devices like phones) instead of PC mode in some rare cases. To fix this, press
 the outer 2 express keys for 3-4 seconds until the LEDs change brightness. This toggles the tablet's operating mode
 between PC (high LED brightness) and Android mode (low LED brightness).
 
@@ -225,7 +224,7 @@ instead of regular mouse buttons. Regular mouse buttons are not currently suppor
 
 Using artist mode will result in some minor smoothing due to libinput's tablet handling.
 
-To disable this smoothing add the contents below to `/etc/libinput/local-overrides.quirks`:
+To disable this smoothing, add the contents below to `/etc/libinput/local-overrides.quirks`:
 ```ini
 [OpenTabletDriver Virtual Tablets]
 MatchName=OpenTabletDriver*
