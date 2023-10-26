@@ -12,22 +12,12 @@
         <small class="text-muted">(OpenTabletDriver.deb)</small>
     </li>
     <li>
-        Download the <a href="https://packages.microsoft.com/config/">Microsoft repository package</a>
-        <small class="text-muted">(packages-microsoft-prod.deb)</small>
-        for your distribution
-    </li>
-    <li>
         Run the following commands in a terminal<br/>
         <small class="ms-3 text-muted">
-            This assumes that you are in the directory in which you download these files to.
+            This assumes that you are in the directory in which you downloaded OpenTabletDriver to.
         </small>
         <codeblock class="mt-2" language="bash">
-            # Add the Microsoft Packages repository, use the URL related to your distribution
-            sudo dpkg -i packages-microsoft-prod.deb
-
             # Install the .NET runtime
-            sudo apt update
-            sudo apt install -y apt-transport-https
             sudo apt update
             sudo apt install -y dotnet-sdk-6.0
 
@@ -41,6 +31,14 @@
             systemctl --user enable opentabletdriver --now
         </codeblock>
     </li>
+    <small class="text-muted">
+        Note: If you have the microsoft dotnet repository installed you will have to either make sure you are
+        not using any packages from that repository or use everything dotnet based off that. Mixing packages
+        from different repositories will cause libhostfxr issues.<br/>
+        If you are experiencing these see these solutions from microsoft
+        <a href="https://learn.microsoft.com/en-us/dotnet/core/install/linux-package-mixup#solutions">here</a>.
+    </small>
+
 </ol>
 
 <hr/>
