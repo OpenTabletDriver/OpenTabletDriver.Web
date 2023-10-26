@@ -12,12 +12,12 @@ Sometimes OpenTabletDriver crashes hard. This is usually caused by a bug in Open
 
 | OS | Location |
 | --- | --- |
-| Windows | `%appdata%\OpenTabletDriver\daemon.txt` |
-| Linux | `~/.local/share/OpenTabletDriver/daemon.txt` |
-| macOS | `~/Library/Application Support/OpenTabletDriver/daemon.txt` |
+| Windows | `%appdata%\OpenTabletDriver\daemon.log` |
+| Linux | `~/.local/share/OpenTabletDriver/daemon.log` |
+| macOS | `~/Library/Application Support/OpenTabletDriver/daemon.log` |
 
 ### Daemon
 
 The output from daemon is the log.
 
-On Linux when running daemon via systemd service, the log for daemon is recorded by systemd. To view the log, run `journalctl -u opentabletdriver.service`.
+On Linux when running daemon via systemd service, the log for daemon is recorded by systemd. To view the log, run `journalctl --user-unit opentabletdriver.service`.
