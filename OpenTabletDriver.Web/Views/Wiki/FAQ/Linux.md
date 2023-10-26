@@ -2,229 +2,156 @@
 title: "Linux FAQ"
 ---
 
-### My tablet is not detected? {#tablet-not-detected}
+### My tablet is not detected?
 
-For sanity reasons, make sure that your tablet is actually plugged in to your computer, and is detected by your OS.
+#### Tablet Connection
 
-You can check this with `lsusb` or a GUI utility. `dmesg` may also be handy to inspect USB plug or unplug events
+Make sure that the tablet is actually plugged in to your computer properly. Check this by running `lsusb` in a terminal or by watching the output of `dmesg` or `udevadm monitor` when plugging in the tablet.
 
-Once you are 100% sure your tablet is connected to your computer, and your kernel is seeing it,
-ensure that your specific tablet make and model is supported by checking our list of supported tablets [here](/Tablets).
+OpenTabletDriver currently has _no support_ for tablets connected via Bluetooth. Make sure that your tablet is connected via USB. There is partial support for tablets connected via wireless dongle.
 
-If you plugged in your tablet _before_ installing OpenTabletDriver, please replug your tablet, otherwise detection might be impaired.
+Once the tablet is connected properly, verify if your tablet is in the list of supported tablets [here](/Tablets). If it is not, you may do one of the following:
 
-We currently do not support tablets that connect directly to a computer via Bluetooth,
-and there is only limited support for tablets that use wireless USB receivers, so please make sure your tablet is connected via cable.
+- [Create a tablet support request in Github.](https://github.com/OpenTabletDriver/OpenTabletDriver/issues/new?assignees=&labels=configuration&projects=&template=tablet_configuration.yml&title=Add+support+for+)
+- [Create a tablet support thread in #config-creation channel of the Discord server.](/Discord)
+- [Make your own tablet configuration.](/Wiki/Development/AddingTabletSupport)
 
-If you installed OpenTabletDriver with a package manager, and replugging the tablet does not help, you might need to reboot your computer.
+#### Troubleshooting
 
-Please reboot before attempting the solutions below to avoid misconfiguration.
+If your tablet is connected properly and is supported, but is still not detected, [check logs](/Wiki/Documentation/Logs) for any errors or warnings. If you find any, try finding for a match and its accompanying solution below:
 
-#### It is a supported tablet, but still doesn't detect after a reboot?
+##### UCLogic kernel module is loaded {#hid_uclogic}
 
-Look for a log that resembles the following:
+_Symptoms_
 
-<small class="text-muted">Hint: You can see the console log under the "Console" tab in OpenTabletDriver.UX. You will better find problems when you
-Switch from `Info` to `Debug` mode in the bottom left of the Console panel.
-</small>
-
-##### hid_uclogic kernel module interference {#hid_uclogic}
-
-> Another tablet driver found: UC Logic\
-> ArgumentOutOfRangeException Value range is [0, 15]. (Parameter 'value')
-
-These errors may happen if the `hid_uclogic` kernel module is loaded at the same time as OpenTabletDriver.
-
-You can remove and blacklist this module to stop it from loading in the future by running the following commands:
-```bash
-echo "blacklist hid_uclogic" | sudo tee -a /etc/modprobe.d/blacklist.conf
-sudo rmmod hid_uclogic
+```
+Another tablet driver found: UC Logic
 ```
 
-##### Missing udev rules {#udev}
-
-> Not permitted to open HID class device at /dev/hidrawX
-
-If you have followed the previous instructions, usually this is the only reason OpenTabletDriver will fail to detect your tablet when it's supported.
-
-This issue can be resolved by ensuring that you have proper udev rules configured.
-
-###### From Package Manager
-
-If you installed OpenTabletDriver via your package manager, you may just need to reload and trigger the rules:
-```bash
-sudo udevadm control --reload-rules
-sudo udevadm trigger
+```
+ArgumentOutOfRangeException: Value range is [0, 15]. (Parameter 'value)
 ```
 
-If it still doesn't work after this point, and you installed OpenTabletDriver with a package manager, please reboot, some systems may require this.
+[_Solution_](/Wiki/Documentation/UdevRules)
 
-###### Portable install
+##### Insufficient permissions {#udev}
 
-If you installed OpenTabletDriver without using a package manager you will not have proper udev rules set up and must build your own.
-It is highly recommended that you use your package manager where available.
+_Symptoms_
 
-This process will require you to have the dotnet 7 SDK installed before proceeding:
-```bash
-# Clone the repository, change current directory to the repository
-git clone https://github.com/OpenTabletDriver/OpenTabletDriver.git
-cd ./OpenTabletDriver
-
-# Generate rules, moves them to the udev rules directory
-./generate-rules.sh
-sudo mv ./bin/99-opentabletdriver.rules /etc/udev/rules.d/99-opentabletdriver.rules
-
-# Reload udev rules
-sudo udevadm control --reload-rules
-
-# Clean up leftovers
-cd ..
-rm -rf OpenTabletDriver
 ```
-Then restart OpenTabletDriver and replug your tablet.
-
-#### My tablet is not supported, what can I do about that?
-
-If you want to add support for your tablet on your own, feel free to look at a similar configuration on our GitHub and our configuration documentation.
-
-If you would like help with supporting your tablet, or would prefer us to do it, join our [Discord](/Discord) and create a post in `#config-creation` or a support channel.
-
-### My cursor is teleporting? {#ghost-cursor}
-
-This occurs when another program is reading the tablet at the same time as OpenTabletDriver, if this is happening everywhere on the system,
-the solution to this is very simple:
-```bash
-echo "blacklist wacom" | sudo tee -a /etc/modprobe.d/blacklist.conf
-sudo rmmod wacom
-```
-If you are using a Wayland compositor, it may be required for you to use artist mode to pass the tablet to the driver as a virtual tablet, rather than an absolute mouse - certain applications like SDL and XWayland may incorrectly handle the cursor otherwise.
-This is a rather simple config change, which can be found <a href="#artist-mode">here</a>.
-
-### I blacklisted kernel modules, but they load on startup? {#blacklisted-modules-loading}
-
-This issue can be caused by either your initramfs not containing the instructions to not load the modules
-or another crucial service loading the module despite it being blacklisted. You will have to find that service
-yourself if the solution below does not solve your issue.
-
-Rebuilding the initramfs is an easy process, but the commands to do this can vary between distributions of linux.
-
-#### Arch
-
-```bash
-sudo mkinitcpio -P
+Not permitted to open HID class device at /dev/hidrawX
 ```
 
-#### Debian / Ubuntu
-```bash
-sudo update-initramfs -u
-```
+[_Solution_](/Wiki/Documentation/UdevRules)
 
-### My tablet detects, but it isn't working? {#fail-virtual-device}
+#### Tablet-specific Troubleshooting
 
-If this is on a fresh install of OpenTabletDriver, usually problems like this can be solved
-simply by restarting your computer. If it isn't resolved you may try resetting your OpenTabletDriver
-settings to the defaults with `File > Reset to defaults`, then pressing save.
+##### CTL-x100
 
-If your issue is still not resolved, and you are using OpenTabletDriver.UX, navigate to the "Console" tab
-at the top of the main interface, switch from `Info` to `Debug` in the bottom left of that window and you will be see every log message.
-If you are using the daemon directly, simply look for a log entry
-that resembles the following:
-
-#### EACCESS
-
-> Failed to initialize virtual tablet. (error code EACCES)
-
-This usually occurs when udev is improperly set up or hasn't explictly been reloaded.
-
-Make sure your rules are correct by heading [here](#udev).
-
-#### ENODEV
-
-> Failed to initialize virtual tablet. (error code ENODEV)
-
-This error occurs after updating the kernel but without rebooting, you should reboot your computer
-and check if the problem is resolved.
-
-#### ENOENT
-This error occurs when the `CONFIG_INPUT_UINPUT` kernel option is disabled. Make sure it is enabled in
-your kernel config.
-
-##### Gentoo
-Check the option `CONFIG_INPUT_UINPUT` in /usr/src/linux.config. If it is not enabled, use the following steps
-
-```bash
-cd /usr/src/linux
-sudo make menuconfig
-```
-
-Having done that, select y (for always active) or m (for building as a module) for the option in
-*Device Drivers ---> Input Device Support ---> Miscellaneous devices ---> User level driver support* and rebuild the kernel.
-
-##### Other Distros
-
-Refer to your distribution's documentation regarding kernel configuration to enable this option.
-
-This is probably due to your kernel not having uinput built in, if `stat /dev/uinput` doesn't return a file and you are using a custom kernel,
-compile your kernel with support for uinput or use a different kernel.
-
-### Poor performance with NVIDIA {#performance-nvidia}
-
-Disable "Force full composition pipeline" in the NVIDIA settings panel.
-
-### Stuck cursor in osu!lazer (Wayland) {#osu-lazer-broken-input-wayland}
-
-Make sure you set the `SDL_VIDEODRIVER` to `wayland`:
-
-```bash
-env SDL_VIDEODRIVER=wayland ./osu.AppImage
-```
-or
-```bash
-env SDL_VIDEODRIVER=wayland osu-lazer
-```
-
-### My CTL-x100 is not detected? {#CTL-x100-android-mode}
 It is possible for CTL-x100 tablets to boot in Android mode (the mode they use when interfacing with android devices like phones) instead of PC mode in some rare cases. To fix this, press
 the outer 2 express keys for 3-4 seconds until the LEDs change brightness. This toggles the tablet's operating mode
 between PC (high LED brightness) and Android mode (low LED brightness).
 
-<small class="text-muted">
-Note: If you are sure your tablet is in PC mode, please follow our generalised instructions [here](#tablet-not-detected)
-</small>
+> Note: If you are sure your tablet is in PC mode, please follow the general instructions [here](#my-tablet-is-not-detected).
 
-### The systemd user service doesn't automatically start? {#systemd-autostart}
+### Tablet is detected but not working?
 
-If you have enabled the systemd user service and this happens,
-your distro isn't properly activating `graphical-session.target` to ensure OpenTabletDriver starts cleanly.
+#### Fresh Install {#fail-virtual-device}
 
-If you are experiencing this, add `otd-daemon` to the autostart of your desktop environment for OpenTabletDriver to work on startup.
+If this is a fresh install and you have not configured your tablet yet, [check logs](/Wiki/Documentation/Logs) for any errors or warnings. If you find any, try finding for a match and its accompanying solution below:
 
-### How do I start the driver when I'm not using systemd? {#non-systemd}
+##### Missing uinput device
 
-On non-systemd distros you do have not have a specified way to automatically start the daemon.
-Instead, if you have installed a packaged build you can run `otd-daemon` in a terminal
+_Symptoms_
 
-If you are not using a packaged build and instead compiled from source,
-you will need to run `./OpenTabletDriver.Daemon` in your terminal from the build directory instead.
+```
+Failed to initialize virtual tablet. (error code ENODEV)
+```
 
-You may place this in your desktop environment startup for it to automatically start.
+_Solution_
 
-### Enabling pressure using Artist Mode {#artist-mode}
+Reboot your computer.
+
+##### Missing uinput device support
+
+_Symptoms_
+
+```
+Failed to initialize virtual tablet. (error code ENOENT)
+```
+
+_Solution_
+
+Make sure that your kernel has uinput support. If you are using a custom kernel or builds kernel from source, make sure that you have enabled `CONFIG_INPUT_UINPUT` in your kernel configuration. Refer to your distro's documentation regarding kernel configuration.
+
+##### Missing uinput device permissions
+
+_Symptoms_
+
+```
+Failed to initialize virtual tablet. (error code EACCES)
+```
+
+[_Solution_](/Wiki/Documentation/UdevRules)
+
+#### Non-fresh Install
+
+Try disabling your filters one-by-one and see if input finally works.
+
+### My cursor is stuck in osu!lazer (Wayland) {#osu-lazer-broken-input-wayland}
+
+Make sure you set the `SDL_VIDEODRIVER` to `wayland`. Some examples:
+
+```bash
+env SDL_VIDEODRIVER=wayland ./osu.AppImage
+```
+
+```bash
+env SDL_VIDEODRIVER=wayland osu-lazer
+```
+
+### Tablet is working but there is no pressure {#artist-mode}
 
 Pressure support is available by changing the output mode of OpenTabletDriver to Artist Mode:
 
 - Change output mode (at the bottom left of OpenTabletDriver) to Artist Mode.
-- Remove the Tip Binding in the Pen Settings panel by clicking the 3 dots, then pressing clear.
-- Save your settings and try drawing in an applicantion that supports pressure.
+- Remove Tip Binding in the Pen Settings panel by opening advanced binding editor (press '...' next to the binding), then press "Clear".
+- Save your settings and then try drawing in an application that supports pressure.
 
-You will also need to use artist mode mouse bindings in the advanced binding editor (press '...' next to the binding)
-instead of regular mouse buttons. Regular mouse buttons are not currently supported in artist mode.
+You will also need to use artist mode mouse bindings in the advanced binding editor instead of regular mouse buttons. Regular mouse buttons are _not_ supported in artist mode.
 
-### Disabling libinput's tablet device smooething
+### The daemon does not start on boot
+
+#### systemd {#systemd-autostart}
+
+Make sure that you have enabled the systemd service:
+
+```bash
+systemctl user enable opentabletdriver.service --now
+```
+
+If this does not work, this means that the desktop environment is not configured correctly to integrate with systemd. In such case, refer to your desktop environment's documentation on how to autostart processes on login. The command to execute on login is:
+
+```bash
+otd-daemon
+```
+
+#### Other init systems
+
+OpenTabletDriver offers no official support for other init systems. Refer to your init system's documentation on how to autostart processes on login. The command to execute on login is:
+
+```bash
+otd-daemon
+```
+
+> This command should be run as user, not root.
+
+### The cursor feels slow on Artist Mode
 
 Using artist mode will result in some minor smoothing due to libinput's tablet handling.
 
 To disable this smoothing, add the contents below to `/etc/libinput/local-overrides.quirks`:
+
 ```ini
 [OpenTabletDriver Virtual Tablets]
 MatchName=OpenTabletDriver*
@@ -236,5 +163,4 @@ You should restart the OpenTabletDriver daemon after updating this file.
 ### I have tried these solutions, but my problem still persists! {#discord}
 
 If you are still encountering problems with OpenTabletDriver,
-it will be easier to help you over in our [Discord](/Discord) server,
-where we may ask you to do certain debugging steps and give you different instructions to help resolve your problem.
+it will be easier to help you over in our [Discord](/Discord) server. We will guide you in doing certain debugging steps and will give you different instructions to help resolve your problem.
