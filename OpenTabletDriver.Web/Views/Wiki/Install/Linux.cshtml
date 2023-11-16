@@ -135,6 +135,35 @@
         </codeblock>
     </li>
 </ol>
+
+<hr/>
+
+<h3 class="wiki-nav-item" id="fedora">
+    Fedora
+</h3>
+<ol>
+    <li>
+        Download the
+        <a href="/Release/Download/OpenTabletDriver.rpm">latest release</a>
+        <small class="text-muted">(OpenTabletDriver.rpm)</small>
+    </li>
+    <li>
+        Run the following commands in a terminal<br/>
+        <small class="ms-3 text-muted">
+            This assumes that you are in the directory in which you download these files to.
+        </small>
+        <codeblock class="mt-2" language="bash">
+            # This will install the package, assuming you are in the correct directory
+            sudo dnf install ./OpenTabletDriver.rpm
+
+            # Reload the systemd user unit daemon
+            systemctl --user daemon-reload
+
+            # Enable and start the user service
+            systemctl --user enable opentabletdriver --now
+        </codeblock>
+    </li>
+</ol>
 <hr/>
 
 <h3 class="wiki-nav-item" id="post-install">
