@@ -265,7 +265,8 @@
                 Add this block below the first 2 lines of the file, then save and exit
                 <codeblock class="mt-2" language="ini">
                     [Service]
-                    Environment=WAYLAND_DISPLAY=:0
+                    ExecStart=
+                    ExecStart=/usr/bin/env sh -c otd
                 </codeblock>
             </li>
             <li>
